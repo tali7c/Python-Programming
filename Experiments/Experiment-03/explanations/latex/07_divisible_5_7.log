@@ -1,12 +1,12 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.2.2)  2 FEB 2026 23:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2026.2.3)  5 FEB 2026 21:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **D:/InSync-tofik/Work/UPES/Python-Programming/Experiments/Experiment-03/explan
-ations/latex/ex03_07_divisible_5_7.tex
+ations/latex/07_divisible_5_7.tex
 
 (d:/InSync-tofik/Work/UPES/Python-Programming/Experiments/Experiment-03/explana
-tions/latex/ex03_07_divisible_5_7.tex
+tions/latex/07_divisible_5_7.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
 (c:/Users/tofik.ali/texlive/2026/texmf-dist/tex/latex/base/article.cls
@@ -66,8 +66,8 @@ File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count286
 )
 (D:\InSync-tofik\Work\UPES\Python-Programming\Experiments\Experiment-03\explana
-tions/ex03_07_divisible_5_7.aux)
-\openout1 = `ex03_07_divisible_5_7.aux'.
+tions/07_divisible_5_7.aux)
+\openout1 = `07_divisible_5_7.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
 LaTeX Font Info:    ... okay on input line 9.
@@ -129,7 +129,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 {c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/Users/tofik.a
 li/texlive/2026/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
 (D:\InSync-tofik\Work\UPES\Python-Programming\Experiments\Experiment-03\explana
-tions/ex03_07_divisible_5_7.aux)
+tions/07_divisible_5_7.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
@@ -137,12 +137,12 @@ L3 programming layer <2026-01-19>
  ) 
 Here is how much of TeX's memory you used:
  1316 strings out of 467533
- 21499 string characters out of 5415333
+ 21439 string characters out of 5415333
  436759 words of memory out of 5000000
  30268 multiletter control sequences out of 15000+600000
  634915 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,6n,65p,260b,201s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,6n,65p,255b,201s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/Users/tofik.ali/texlive/2026/texmf-dist/fonts/type1/public/cm-super/sfbx1
 440.pfb><c:/Users/tofik.ali/texlive/2026/texmf-dist/fonts/type1/public/cm-super
 /sfrm1095.pfb><c:/Users/tofik.ali/texlive/2026/texmf-dist/fonts/type1/public/cm
@@ -150,7 +150,7 @@ Here is how much of TeX's memory you used:
 lic/cm-super/sfrm1728.pfb><c:/Users/tofik.ali/texlive/2026/texmf-dist/fonts/typ
 e1/public/cm-super/sftt1095.pfb>
 Output written on D:\InSync-tofik\Work\UPES\Python-Programming\Experiments\Expe
-riment-03\explanations/ex03_07_divisible_5_7.pdf (1 page, 89312 bytes).
+riment-03\explanations/07_divisible_5_7.pdf (1 page, 89547 bytes).
 PDF statistics:
  34 PDF objects out of 1000 (max. 8388607)
  20 compressed objects within 1 object stream

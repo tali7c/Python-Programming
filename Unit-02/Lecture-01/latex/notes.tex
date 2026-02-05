@@ -1,0 +1,141 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\geometry{margin=1in}
+
+\title{Python Programming\\Unit 02 -- Lecture 01 Notes}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Lecture Overview}
+This lecture introduces Python lists, including creation, access, mutation,
+common methods, and list comprehensions. Students see how nested lists model
+2D data and learn typical pitfalls such as indexing errors and unintended
+aliasing. The lecture includes a short demo that processes a list of student
+marks and uses comprehensions for filtering.
+
+\section*{Slide-by-slide Notes}
+
+\subsection*{Title Slide}
+Briefly introduce Unit 02 and explain that lists are the first major collection
+students use to store and manipulate sequences of values. Emphasize that lists
+are everywhere in Python and often used as building blocks for later topics.
+
+\subsection*{Quick Links}
+Explain the navigation: core concepts first, then a demo, then interactive
+questions, and finally a summary/exit question. Encourage students to take
+notes on list methods and slicing patterns.
+
+\subsection*{Agenda}
+Walk through the agenda and set expectations: students will learn both syntax
+and the reasoning behind choosing lists for mutable sequences.
+
+\subsection*{Learning Outcomes}
+Clarify that by the end of the lecture, students should be able to create lists,
+access elements, apply key methods, write comprehensions, and interpret nested
+list structures.
+
+\subsection*{What is a List?}
+Define a list as an ordered, mutable collection that can store duplicates and
+mixed types. Contrast with strings (immutable) and highlight typical use cases
+like storing student marks, names, or intermediate results.
+
+\subsection*{Creating Lists}
+Show multiple creation styles: literals, the \texttt{list()} constructor, and
+\texttt{range}. Mention that mixed types are allowed but should be used
+carefully to avoid confusion in larger programs.
+
+\subsection*{Indexing}
+Explain zero-based indexing and negative indexing. Demonstrate how to access
+first and last elements. Remind students that indexing outside the range
+raises an \texttt{IndexError}.
+
+\subsection*{Slicing}
+Introduce the \texttt{start:stop:step} syntax and emphasize that the stop index
+is excluded. Use slicing to create sublists and to sample with steps.
+
+\subsection*{Core List Methods}
+Discuss the most common mutating methods and their effects. Highlight that
+\texttt{append} adds one item, \texttt{extend} adds multiple items, and
+\texttt{insert} places an item at a specific index.
+
+\subsection*{Sorting and Reversing}
+Explain that \texttt{sort()} changes the list in place, while \texttt{sorted()}
+creates a new list. This difference is important when you need to preserve the
+original order.
+
+\subsection*{List Operations}
+Cover concatenation, repetition, membership tests, and length. Emphasize that
+these are quick tools for constructing or inspecting lists.
+
+\subsection*{List Comprehension}
+Introduce comprehensions as a compact syntax for building lists. Stress that
+clarity matters: if the comprehension becomes complex, a normal loop may be
+better.
+
+\subsection*{Comprehension Examples}
+Walk through the example step by step: filter even numbers and then square
+them. This illustrates the combined filter + transform pattern.
+
+\subsection*{Worked Example: Marks Analyzer (Core Steps)}
+Connect comprehensions to a realistic task: given a list of marks, extract the
+top three marks and filter the passing marks. Reinforce the difference between
+\texttt{sorted(marks)} (returns a new list) and \texttt{marks.sort()} (mutates
+the original list). This is a good moment to ask students to predict outputs
+before running code.
+
+\subsection*{Nested Lists}
+Explain nested lists as a way to represent tables or matrices. Show how to
+access row and column values using two indices.
+
+\subsection*{Common Pitfalls}
+Warn students about indexing errors and the difference between copying a list
+and assigning a reference. Briefly mention why modifying a list while iterating
+can lead to skipped elements.
+
+\subsection*{Pitfall: Aliasing vs Copy}
+Explain that assignment does not create a new list; it creates a new reference
+to the same list object. Demonstrate with a small example where appending to
+\texttt{b} also changes \texttt{a}. Show how to create an independent list using
+\texttt{a.copy()} or slicing \texttt{a[:]}.
+
+\subsection*{Demo: Student Marks Analyzer}
+Run \texttt{demo/list\_marks\_analyzer.py}. Explain the steps:
+\begin{enumerate}
+  \item Start with a list of marks.
+  \item Compute the average and find the top three scores.
+  \item Use a comprehension to filter passing marks.
+\end{enumerate}
+Encourage students to modify the passing threshold and re-run the script.
+Extension ideas: compute median, count pass/fail, and print the top 3 with
+their ranks.
+
+\subsection*{Checkpoint 1}
+Ask students to identify which operation returns a new list. Reinforce that
+\texttt{sorted} returns a new list while \texttt{append} and \texttt{sort}
+mutate the original list.
+
+\subsection*{Checkpoint 2}
+Have students write a comprehension that squares only even numbers. Check that
+they use a condition after the \texttt{for} clause.
+
+\subsection*{Think-Pair-Share}
+Let students discuss when a for-loop is clearer. Expected responses: multi-step
+logic, side effects, or when readability is more important than brevity.
+
+\subsection*{Summary}
+Revisit the main points: lists are mutable, slicing provides flexible access,
+methods mutate lists, and comprehensions provide concise transformations.
+
+\subsection*{Exit Question}
+Ask students to write the slice for the last three elements of a list. Expected
+answer: \texttt{data[-3:]}.
+
+\end{document}
