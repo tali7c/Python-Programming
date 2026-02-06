@@ -1,0 +1,241 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 02 -- Lecture 02 Notes\\Tuples and Immutability}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Tuples are Python's ``fixed'' (immutable) sequence type. They are used for
+records that should not change (coordinates, configuration values, keys, etc.).
+In this lecture we learn how to create tuples, access elements, unpack values,
+and choose tuples vs lists.
+
+\section{Core Concepts}
+
+\subsection{Why Tuples? (The Idea of Immutability)}
+A tuple is an \textbf{immutable sequence}. ``Immutable'' means:
+\begin{itemize}
+  \item you cannot change its length (no append/remove), and
+  \item you cannot replace an element (no \texttt{t[0] = ...}).
+\end{itemize}
+\textbf{Why is that useful?}
+\begin{itemize}
+  \item It prevents accidental changes to important values.
+  \item It communicates intent: ``this is a fixed record.''
+  \item Tuples can be used as dictionary keys \emph{if all their elements are
+  hashable}.
+\end{itemize}
+
+\subsection{Creating Tuples}
+\begin{lstlisting}[language=Python]
+point = (3, 4)          # parentheses
+packed = 1, 2, 3        # packing without parentheses
+single = (5,)           # singleton tuple needs a comma
+from_list = tuple([1, 2, 3])
+empty = ()
+\end{lstlisting}
+The comma is what makes a tuple. Parentheses mostly help with readability.
+
+\subsection{Indexing, Slicing, and Iteration}
+Tuples support most of the \emph{non-mutating} sequence operations:
+\begin{lstlisting}[language=Python]
+t = (10, 20, 30, 40)
+t[0]      # 10
+t[-1]     # 40
+t[1:3]    # (20, 30)
+\end{lstlisting}
+You can iterate normally:
+\begin{lstlisting}[language=Python]
+for value in t:
+    print(value)
+\end{lstlisting}
+
+\subsection{Packing and Unpacking}
+\textbf{Unpacking} assigns tuple positions to variables:
+\begin{lstlisting}[language=Python]
+point = (10, 20)
+x, y = point
+\end{lstlisting}
+\textbf{Star-unpacking} collects the remaining values into a list:
+\begin{lstlisting}[language=Python]
+values = (10, 20, 30, 40, 50)
+a, b, *rest = values
+# a = 10, b = 20, rest = [30, 40, 50]
+\end{lstlisting}
+Two high-frequency patterns:
+\begin{itemize}
+  \item swapping: \texttt{a, b = b, a}
+  \item multiple return values:
+\end{itemize}
+\begin{lstlisting}[language=Python]
+def min_max(nums):
+    return min(nums), max(nums)
+
+mn, mx = min_max([3, 1, 7, 2])
+\end{lstlisting}
+
+\subsection{Tuple Methods (Small but Useful)}
+Tuples have only two methods:
+\begin{itemize}
+  \item \texttt{count(x)}: how many times \texttt{x} appears
+  \item \texttt{index(x)}: position of the first occurrence of \texttt{x}
+\end{itemize}
+Most other operations (like sorting) are done by converting to a list or using
+\texttt{sorted}.
+
+\subsection{Tuples vs Lists (How to Choose)}
+\begin{center}
+\begin{tabular}{lll}
+  \toprule
+  Feature & List & Tuple \\
+  \midrule
+  Mutability & Mutable & Immutable \\
+  Syntax & \texttt{[]} & \texttt{()} \\
+  Best use & Changeable collection & Fixed record \\
+  As dict key & No & Yes (if hashable contents) \\
+  \bottomrule
+\end{tabular}
+\end{center}
+If you expect updates (append/remove/sort in place), use a list. If the values
+represent a fixed record, use a tuple.
+
+\section{Common Pitfalls}
+
+\subsection{Singleton Tuples}
+\texttt{(5)} is just the integer \texttt{5} in parentheses. The comma creates a
+singleton tuple:
+\begin{lstlisting}[language=Python]
+a = (5)      # int
+b = (5,)     # tuple
+\end{lstlisting}
+
+\subsection{``Tuples Are Immutable'' (But Inner Objects Can Mutate)}
+The tuple structure cannot change, but a tuple can contain a mutable object.
+Example:
+\begin{lstlisting}[language=Python]
+t = ([1, 2],)     # tuple containing a list
+# t[0] = [9]      # not allowed (would replace an element)
+t[0].append(3)    # allowed (mutates the inner list)
+\end{lstlisting}
+This surprises beginners. The rule is: \emph{the tuple does not change; the
+contained object can.}
+
+\section{Demo Walkthrough: Distance Between Two Points}
+\textbf{Script:} \texttt{demo/tuple\_distance.py}
+
+\subsection{Math Behind the Demo}
+For points $P_1=(x_1, y_1)$ and $P_2=(x_2, y_2)$, the Euclidean distance is:
+\[
+ d = \sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}
+\]
+Using tuples for points is natural because a coordinate pair is a fixed record.
+
+\subsection{Suggested Run Steps}
+\begin{lstlisting}
+python demo/tuple_distance.py
+\end{lstlisting}
+Suggested student activity: change input points and predict whether the
+distance increases or decreases before running.
+
+\section{Quiz and Solutions}
+
+\subsection{Checkpoint 1 (Why \texttt{(5)} Is Not a Tuple)}
+\textbf{Question.} Why does \texttt{(5)} not create a tuple?
+
+\textbf{Solution.} In Python, the \textbf{comma} makes the tuple. Parentheses
+are optional in many cases. \texttt{(5)} is just an integer in parentheses.
+To create a singleton tuple, write \texttt{(5,)}.
+
+\subsection{Checkpoint 2 (Unpacking with \texttt{*rest})}
+\textbf{Question.} Predict the result:
+\begin{lstlisting}[language=Python]
+values = (10, 20, 30, 40, 50)
+a, b, *rest = values
+\end{lstlisting}
+What are \texttt{a}, \texttt{b}, and \texttt{rest}?
+
+\textbf{Solution.}
+\texttt{a = 10}, \texttt{b = 20}, \texttt{rest = [30, 40, 50]}.
+
+\subsection{Think-Pair-Share (Where Immutability Helps)}
+\textbf{Prompt.} Where in programs should immutability be preferred?
+
+\textbf{Sample response.} Use immutable data for values that should never
+change during execution (e.g., a GPS coordinate in a log entry, a configuration
+setting, or a composite key in a dictionary). It reduces bugs because functions
+cannot accidentally modify those records.
+
+\subsection{Exit Question (Convert List $\leftrightarrow$ Tuple)}
+\textbf{Question.} Write one line to convert a list \texttt{L} to a tuple and
+back.
+
+\textbf{Solution.}
+\texttt{t = tuple(L)} converts list to tuple, and \texttt{L = list(t)} converts
+back.
+
+\section{Practice Exercises (With Solutions)}
+
+\subsection{Exercise 1: Use Tuples as Dictionary Keys}
+\textbf{Task.} Store distances between cities using a tuple key
+\texttt{("CityA", "CityB")}.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+dist = {}
+dist[("Dehradun", "Delhi")] = 245
+print(dist[("Dehradun", "Delhi")])
+\end{lstlisting}
+
+\subsection{Exercise 2: Swap and Return Multiple Values}
+\textbf{Task.} Write a function that returns both the sum and product of two
+numbers.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def sum_and_product(a, b):
+    return a + b, a * b
+
+s, p = sum_and_product(3, 4)
+\end{lstlisting}
+
+\subsection{Exercise 3: Safe Update Workflow (Tuple $\rightarrow$ List $\rightarrow$ Tuple)}
+\textbf{Task.} Given a tuple of coordinates, update the first coordinate by 1.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+coords = (10, 20)
+tmp = list(coords)
+tmp[0] += 1
+coords = tuple(tmp)
+\end{lstlisting}
+
+\section{Further Reading}
+\begin{itemize}
+  \item \url{https://docs.python.org/3/tutorial/datastructures.html#tuples-and-sequences}
+\end{itemize}
+
+\end{document}
