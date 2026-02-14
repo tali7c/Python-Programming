@@ -1,0 +1,207 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 03 -- Lecture 03 Notes\\Modules, Packages, and the Standard Library}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+As programs grow, keeping everything in one file becomes messy.
+Modules and packages help you:
+\begin{itemize}
+  \item reuse code (write once, import anywhere),
+  \item keep a clean structure,
+  \item and avoid ``copy-paste programming''.
+\end{itemize}
+This lecture also introduces useful standard library modules.
+
+\section{Core Concepts}
+
+\subsection{What is a Module?}
+A \textbf{module} is simply a \texttt{.py} file. When you import a module, Python
+executes that file (top to bottom) once, and then you can use its variables and functions.
+
+\subsection{Import Styles (and When to Use Them)}
+\textbf{Style 1: import module}
+\begin{lstlisting}[language=Python]
+import math
+print(math.sqrt(25))
+\end{lstlisting}
+Pros: clear namespace (\texttt{math.sqrt}). Less name collision.
+
+\textbf{Style 2: import module as alias}
+\begin{lstlisting}[language=Python]
+import math as m
+print(m.pi)
+\end{lstlisting}
+Pros: shorter, still keeps namespace.
+
+\textbf{Style 3: from module import name}
+\begin{lstlisting}[language=Python]
+from math import sqrt, pi
+print(sqrt(9), pi)
+\end{lstlisting}
+Pros: shorter calls. Cons: can shadow your own variable names.
+
+\subsection{\texttt{\_\_name\_\_} and the Script Entry Point}
+Python sets a special variable \texttt{\_\_name\_\_}:
+\begin{itemize}
+  \item If a file is executed directly, \texttt{\_\_name\_\_ == "\_\_main\_\_"}.
+  \item If a file is imported, \texttt{\_\_name\_\_} is the module name.
+\end{itemize}
+
+This is why many scripts use:
+\begin{lstlisting}[language=Python]
+def main():
+    print("Hello")
+
+if __name__ == "__main__":
+    main()
+\end{lstlisting}
+So that importing does not accidentally run the script logic.
+
+\subsection{What is a Package?}
+A \textbf{package} is a folder that groups related modules.
+Traditionally, it contains \texttt{\_\_init\_\_.py}.
+
+Example structure used in the demo:
+\begin{lstlisting}
+demo/
+  my_utils/
+    __init__.py
+    math_helpers.py
+    text_helpers.py
+  use_my_utils.py
+\end{lstlisting}
+
+\subsection{A Few Standard Modules You Should Know}
+\subsubsection*{\texttt{sys}}
+Common uses:
+\begin{itemize}
+  \item \texttt{sys.argv} to read command-line arguments
+  \item \texttt{sys.path} to see the module search paths
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+import sys
+print(sys.argv)
+\end{lstlisting}
+
+\subsubsection*{\texttt{math}}
+\begin{lstlisting}[language=Python]
+import math
+print(math.sqrt(16))
+print(math.pi)
+\end{lstlisting}
+
+\subsubsection*{\texttt{time}}
+\begin{lstlisting}[language=Python]
+import time
+start = time.time()
+time.sleep(1)
+print("Elapsed:", time.time() - start)
+\end{lstlisting}
+
+\subsubsection*{\texttt{os} and \texttt{pathlib}}
+\texttt{pathlib} is often nicer for paths:
+\begin{lstlisting}[language=Python]
+from pathlib import Path
+root = Path(".")
+print(root.resolve())
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{Package:} \texttt{demo/my\_utils/}\\
+\textbf{Script:} \texttt{demo/use\_my\_utils.py}
+
+\subsection*{How to run}
+From the lecture folder:
+\begin{lstlisting}
+python demo/use_my_utils.py "hello world"
+\end{lstlisting}
+
+\subsection*{What to observe}
+\begin{itemize}
+  \item How functions are imported from a local package.
+  \item How \texttt{sys.argv} can accept input from terminal.
+  \item How standard modules (\texttt{math}, \texttt{time}, \texttt{pathlib}) are used.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} value of \texttt{\_\_name\_\_} when run directly vs imported?
+
+\textbf{Answer:}
+\begin{itemize}
+  \item Run directly: \texttt{"\_\_main\_\_"}
+  \item Imported: module name (e.g., \texttt{"math\_helpers"})
+\end{itemize}
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} when prefer \texttt{import module} over \texttt{from module import name}?
+
+\textbf{Answer:}
+\begin{itemize}
+  \item When you want to avoid name conflicts and keep a clear namespace.
+  \item When importing many things; \texttt{module.name} stays readable.
+\end{itemize}
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Create a Module}
+\textbf{Task:} Create \texttt{calc.py} with function \texttt{add(a,b)} and import it in another file.
+
+\textbf{Solution (idea):}
+\begin{lstlisting}[language=Python]
+# calc.py
+def add(a, b):
+    return a + b
+\end{lstlisting}
+\begin{lstlisting}[language=Python]
+# main.py
+import calc
+print(calc.add(2, 3))
+\end{lstlisting}
+
+\subsection*{Exercise 2: Use \texttt{sys.argv}}
+\textbf{Task:} Print the first command-line argument (if provided).
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+import sys
+if len(sys.argv) >= 2:
+    print("Arg1:", sys.argv[1])
+else:
+    print("No argument provided.")
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} Which file makes a folder a package?
+
+\textbf{Answer:} \texttt{\_\_init\_\_.py}
+
+\end{document}
+

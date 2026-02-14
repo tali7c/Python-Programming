@@ -1,0 +1,155 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 05 -- Lecture 02: Members, Class Attributes, GC, Abstract Classes}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Use public/private naming conventions in Python classes
+    \item Inspect built-in class attributes like \texttt{\_\_dict\_\_} and \texttt{\_\_doc\_\_}
+    \item Explain garbage collection at a high level
+    \item Create abstract classes using the \texttt{abc} module
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Public vs Private in Python}
+  \begin{itemize}[<+->]
+    \item Python uses conventions (not strict access control)
+    \item \texttt{name}: public
+    \item \texttt{\_name}: internal (``protected'' by convention)
+    \item \texttt{\_\_name}: name-mangled (harder to access accidentally)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Built-in Class Attributes}
+  \begin{itemize}[<+->]
+    \item \texttt{\_\_dict\_\_}: attributes dictionary
+    \item \texttt{\_\_doc\_\_}: documentation string
+    \item \texttt{\_\_class\_\_}: object's class
+    \item \texttt{\_\_module\_\_}: module name where class is defined
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Garbage Collection (GC)}
+  \begin{itemize}[<+->]
+    \item Automatically frees memory of unreachable objects
+    \item Python uses reference counting + cycle detection
+    \item Usually you do not manually free memory
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Abstract Classes}
+  \begin{itemize}[<+->]
+    \item Abstract class defines an interface (methods to implement)
+    \item Prevents creating incomplete objects
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Abstract Shape}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/abstract\_shape\_demo.py}
+    \item Implements:
+      \begin{itemize}
+        \item abstract base class \texttt{Shape}
+        \item derived \texttt{Circle} and \texttt{Rectangle}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} What does name mangling mean for an attribute like \texttt{\_\_balance}?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} Why do we use abstract classes?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item Create an abstract class \texttt{Vehicle} with method \texttt{start()}.
+    \item What subclasses can implement it?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item ``Private'' in Python is mostly convention (\texttt{\_} and \texttt{\_\_})
+    \item Built-in attributes help introspection (\texttt{\_\_dict\_\_}, \texttt{\_\_doc\_\_})
+    \item GC manages memory automatically
+    \item Abstract classes define required methods for subclasses
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Which module is used for abstract base classes in Python?
+\end{frame}
+
+\end{document}
+

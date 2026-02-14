@@ -1,0 +1,197 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 01 -- Lecture 04 Notes\\Input/Output, Escape Sequences, Operators, Precedence}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+This lecture explains how to:
+\begin{itemize}
+  \item take input correctly (\texttt{input()} returns a string),
+  \item print clean output (escape sequences and \texttt{print} options),
+  \item use operators (arithmetic, logical, bitwise, membership, identity),
+  \item and avoid mistakes using precedence and parentheses.
+\end{itemize}
+
+\section{Core Concepts}
+
+\subsection{Input and Output}
+\texttt{input(prompt)} reads a line of text from the user and returns a string.
+So conversion is necessary when you expect numbers:
+\begin{lstlisting}[language=Python]
+a = int(input("Enter a: "))
+b = float(input("Enter b: "))
+print("a + b =", a + b)
+\end{lstlisting}
+
+\textbf{Useful \texttt{print} options:}
+\begin{itemize}
+  \item \texttt{sep}: separator between printed values
+  \item \texttt{end}: what to print at the end (default is newline)
+\end{itemize}
+\begin{lstlisting}[language=Python]
+print("A", "B", "C", sep=" | ")  # A | B | C
+print("Hello", end=" ")
+print("World")                   # Hello World
+\end{lstlisting}
+
+\subsection{Escape Sequences}
+Escape sequences start with a backslash \texttt{\textbackslash}:
+\begin{itemize}
+  \item \texttt{\textbackslash n}: new line
+  \item \texttt{\textbackslash t}: tab
+  \item \texttt{\textbackslash\textbackslash}: backslash character
+  \item \texttt{\textbackslash"}: double quote inside a double-quoted string
+\end{itemize}
+\begin{lstlisting}[language=Python]
+print("Line1\nLine2")
+print("A\tB\tC")
+print("C:\\\\Users\\\\tofik.ali")
+\end{lstlisting}
+
+\subsection{Operator Categories}
+\begin{center}
+\begin{tabular}{ll}
+  \toprule
+  Category & Examples \\
+  \midrule
+  Arithmetic & \texttt{+ - * / \% // **} \\
+  Relational & \texttt{< <= > >= == !=} \\
+  Logical & \texttt{and or not} \\
+  Bitwise & \texttt{\& | \string^ \string~ << >>} \\
+  Assignment & \texttt{= += -= *= /=} \\
+  Membership & \texttt{in}, \texttt{not in} \\
+  Identity & \texttt{is}, \texttt{is not} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Precedence and Parentheses}
+Precedence decides which operator is evaluated first.
+\begin{lstlisting}[language=Python]
+print(2 + 3 * 4)     # 14
+print((2 + 3) * 4)   # 20
+\end{lstlisting}
+
+\textbf{Best practice:} even if you know the precedence, use parentheses when
+it improves clarity.
+
+\subsection{Membership vs Identity}
+\textbf{Membership} checks if a value exists in a collection:
+\begin{lstlisting}[language=Python]
+nums = [10, 20, 30]
+print(20 in nums)      # True
+print(50 not in nums)  # True
+\end{lstlisting}
+
+\textbf{Identity} checks whether two variables refer to the same object:
+\begin{lstlisting}[language=Python]
+a = [1, 2]
+b = a
+c = [1, 2]
+print(a is b)  # True  (same object)
+print(a is c)  # False (different object)
+\end{lstlisting}
+
+\textbf{Important:} \texttt{==} compares values; \texttt{is} compares identity.
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/operator\_precedence\_playground.py}
+
+\subsection*{What this demo shows}
+\begin{itemize}
+  \item precedence examples (with and without parentheses),
+  \item a bitwise truth table for \texttt{\&}, \texttt{|}, and \texttt{\string^},
+  \item membership and identity checks.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} Evaluate:
+\texttt{2 + 3 * 4} and \texttt{(2 + 3) * 4}.
+
+\textbf{Answer:}
+\begin{itemize}
+  \item \texttt{2 + 3 * 4 = 14} because \texttt{*} happens before \texttt{+}.
+  \item \texttt{(2 + 3) * 4 = 20} because parentheses force addition first.
+\end{itemize}
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} difference between \texttt{==} and \texttt{is}?
+
+\textbf{Answer:}
+\begin{itemize}
+  \item \texttt{==} compares values (equality).
+  \item \texttt{is} compares identities (same object or not).
+\end{itemize}
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Safe Division}
+\textbf{Task:} Read two numbers and divide them. Print a message if divisor is 0.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+a = float(input("a: "))
+b = float(input("b: "))
+if b != 0:
+    print("a / b =", a / b)
+else:
+    print("Division by zero is not allowed.")
+\end{lstlisting}
+
+\subsection*{Exercise 2: Membership Check}
+\textbf{Task:} Check whether a number is in the sequence (10,20,56,78,89).
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+seq = (10, 20, 56, 78, 89)
+n = int(input("Enter n: "))
+print(n in seq)
+\end{lstlisting}
+
+\subsection*{Exercise 3: Escape Sequences}
+\textbf{Task:} Print the following in two lines:
+\texttt{Hello} on first line and \texttt{World} on second line.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+print("Hello\nWorld")
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} give one example each: membership operator, identity operator.
+
+\textbf{Answer (example):}
+\begin{itemize}
+  \item membership: \texttt{5 in [1,2,3,4,5]}
+  \item identity: \texttt{a is b}
+\end{itemize}
+
+\end{document}
+

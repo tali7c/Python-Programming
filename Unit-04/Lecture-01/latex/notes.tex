@@ -1,0 +1,167 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 04 -- Lecture 01 Notes\\Tkinter Introduction and Widgets}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Tkinter is Python's built-in GUI toolkit. In this unit we learn to build
+desktop applications such as:
+\begin{itemize}
+  \item calculators,
+  \item forms (registration, login),
+  \item and small utilities.
+\end{itemize}
+This lecture introduces the Tkinter window, the event loop, and commonly used widgets.
+
+\section{Core Concepts}
+
+\subsection{Basic Tkinter Program Structure}
+Every Tkinter app has:
+\begin{itemize}
+  \item a root window (\texttt{tk.Tk()}),
+  \item widgets attached to the window,
+  \item and an event loop (\texttt{mainloop()}).
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+import tkinter as tk
+
+root = tk.Tk()
+root.title("My App")
+root.geometry("400x200")
+root.mainloop()
+\end{lstlisting}
+
+\subsection{Widgets}
+Widgets are UI components. Examples:
+\begin{itemize}
+  \item \texttt{Label}: show text
+  \item \texttt{Button}: clickable action
+  \item \texttt{Entry}: single-line input
+  \item \texttt{Text}: multi-line input/output
+  \item \texttt{Listbox}: list selection
+  \item \texttt{Canvas}: drawing
+  \item \texttt{Checkbutton}, \texttt{Radiobutton}: choices
+\end{itemize}
+
+\subsection{Control Variables: \texttt{StringVar}, \texttt{IntVar}}
+Tkinter provides variables that connect widget values to your code:
+\begin{itemize}
+  \item \texttt{StringVar} for text
+  \item \texttt{IntVar} for integers (often used for check/radio)
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+name_var = tk.StringVar()
+entry = tk.Entry(root, textvariable=name_var)
+\end{lstlisting}
+Now you can read \texttt{name\_var.get()} and set \texttt{name\_var.set("...")}.
+
+\subsection{The Event Loop}
+\texttt{mainloop()} listens for events:
+\begin{itemize}
+  \item button clicks,
+  \item key presses,
+  \item window close,
+  \item etc.
+\end{itemize}
+Without \texttt{mainloop()}, your window appears briefly (or not at all) and the program ends.
+
+\subsection{ttk Widgets}
+\texttt{tkinter.ttk} provides themed widgets like \texttt{Combobox} (dropdown).
+They often look nicer and more modern.
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/widgets\_showcase.py}
+
+This demo shows multiple widgets in one window. Focus on:
+\begin{itemize}
+  \item how widget values are read (\texttt{StringVar.get()}),
+  \item how button callbacks work,
+  \item and how selection widgets (check/radio/combobox) store values.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} Why do we need \texttt{root.mainloop()}?
+
+\textbf{Answer:} It starts the Tkinter event loop, keeps the window alive, and processes user events.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} Benefit of using \texttt{StringVar} with \texttt{Entry}?
+
+\textbf{Answer:} It provides an easy way to get/set widget values and keeps the UI and code connected.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Simple Greeting GUI}
+\textbf{Task:} Create an Entry for name and a Button that prints \texttt{"Hello <name>"}.
+
+\textbf{Solution (idea):}
+\begin{lstlisting}[language=Python]
+import tkinter as tk
+
+root = tk.Tk()
+name = tk.StringVar()
+
+tk.Label(root, text="Name:").pack()
+tk.Entry(root, textvariable=name).pack()
+
+def greet():
+    print("Hello", name.get())
+
+tk.Button(root, text="Greet", command=greet).pack()
+root.mainloop()
+\end{lstlisting}
+
+\subsection*{Exercise 2: Checkbox + Radio}
+\textbf{Task:} Add one checkbox \texttt{"Agree"} and two radio options \texttt{"Male/Female"}.
+Print selected values when a button is clicked.
+
+\textbf{Solution (outline):}
+\begin{lstlisting}[language=Python]
+agree = tk.IntVar()
+gender = tk.StringVar(value="Male")
+
+tk.Checkbutton(root, text="Agree", variable=agree).pack()
+tk.Radiobutton(root, text="Male", variable=gender, value="Male").pack()
+tk.Radiobutton(root, text="Female", variable=gender, value="Female").pack()
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} 3 lines to create a window titled \texttt{"Hello GUI"} and keep it running.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+root = tk.Tk()
+root.title("Hello GUI")
+root.mainloop()
+\end{lstlisting}
+
+\end{document}
+

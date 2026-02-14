@@ -1,0 +1,161 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 04 -- Lecture 03 Notes\\Event Handling and Input Validation}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+GUIs are event-driven: the program waits for user actions (clicks, typing) and
+responds using callback functions. Good GUI programs also validate inputs so that:
+\begin{itemize}
+  \item the app does not crash,
+  \item stored data remains consistent,
+  \item and the user gets clear feedback.
+\end{itemize}
+
+\section{Core Concepts}
+
+\subsection{Callbacks with \texttt{command=}}
+The simplest event handling in Tkinter is attaching a callback to a Button:
+\begin{lstlisting}[language=Python]
+def submit():
+    print("Submitted")
+
+tk.Button(root, text="Submit", command=submit).pack()
+\end{lstlisting}
+
+\subsection{Binding Events with \texttt{bind}}
+\texttt{bind} attaches a function to a specific event sequence.
+
+\begin{lstlisting}[language=Python]
+def on_key_release(event):
+    print("Key:", event.keysym)
+
+entry.bind("<KeyRelease>", on_key_release)
+\end{lstlisting}
+
+Common event sequences:
+\begin{itemize}
+  \item \texttt{<Button-1>} left mouse click
+  \item \texttt{<Return>} Enter key
+  \item \texttt{<KeyRelease>} after a key is released
+  \item \texttt{<Control-s>} Ctrl+S shortcut
+\end{itemize}
+
+\subsection{Validation: What and When}
+\textbf{What to validate:}
+\begin{itemize}
+  \item required fields (must not be empty),
+  \item numeric fields (age must be a number),
+  \item ranges (age 0--120),
+  \item patterns (email).
+\end{itemize}
+
+\textbf{When to validate:}
+\begin{itemize}
+  \item on submit (simple and reliable),
+  \item while typing (better user experience, but more code).
+\end{itemize}
+
+\subsection{Email Validation (Simple Regex)}
+For beginner apps, a simple pattern is often enough.
+\begin{lstlisting}[language=Python]
+import re
+EMAIL = r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"
+\end{lstlisting}
+This checks format only. Real-world email validation is more complex.
+
+\subsection{User Feedback}
+Good feedback:
+\begin{itemize}
+  \item explains what is wrong,
+  \item tells the user how to fix it,
+  \item does not expose technical details.
+\end{itemize}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/event\_validation\_demo.py}
+
+What to observe:
+\begin{itemize}
+  \item Button callback used for submission.
+  \item Live validation using \texttt{bind} on input fields.
+  \item Message boxes for clear feedback.
+  \item Data is ``accepted'' only when all fields are valid.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} When use \texttt{command=} vs \texttt{bind()}?
+
+\textbf{Answer:}
+\begin{itemize}
+  \item \texttt{command=} is best for button clicks (no event object needed).
+  \item \texttt{bind()} is best for key/mouse events and shortcuts (event object needed).
+\end{itemize}
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} Why is validation important?
+
+\textbf{Answer:} It prevents wrong data, avoids crashes, and improves user experience.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Age Validation Rule}
+\textbf{Task:} Accept age only if it is an integer between 0 and 120.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+age_text = age_var.get().strip()
+if not age_text.isdigit():
+    error = "Age must be an integer."
+else:
+    age = int(age_text)
+    if not (0 <= age <= 120):
+        error = "Age must be between 0 and 120."
+\end{lstlisting}
+
+\subsection*{Exercise 2: Keyboard Shortcut}
+\textbf{Task:} Bind Ctrl+L to clear the form.
+
+\textbf{Solution (idea):}
+\begin{lstlisting}[language=Python]
+def clear(event=None):
+    name_var.set("")
+    email_var.set("")
+    age_var.set("")
+
+root.bind("<Control-l>", clear)
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} Write one validation rule for Age input.
+
+\textbf{Example answer:} Age must be a non-negative integer (or in a range 0--120).
+
+\end{document}
+

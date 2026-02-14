@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\title{Python Programming (B.Tech CSE - Sem 2)\\Experiment 06 -- Exercise Sheet\\Functions, Recursion, and Lambda}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\textbf{Repository:} \texttt{https://github.com/tali7c/Python-Programming}
+
+\textbf{Note:} This document contains only problem statements (no solutions).
+
+\section*{Instructions}
+\begin{itemize}[leftmargin=*]
+  \item Write a separate Python program for each exercise.
+  \item Use functions to structure your logic.
+  \item Add a base case for every recursive function.
+  \item Use lambda only where it improves clarity (short, one-line functions).
+\end{itemize}
+
+\section*{Exercises}
+
+\subsection*{Exercise 01: Max and Min Without Built-ins}
+Write a function that finds the maximum and minimum of a list \textbf{without}
+using built-in \texttt{max()} or \texttt{min()}.
+
+\textbf{Input:} a list of integers \\
+\textbf{Output:} maximum and minimum (handle empty list appropriately)
+
+\subsection*{Exercise 02: Sum of Cubes}
+Write a function \texttt{sum\_cubes(n)} that returns the sum of cubes of positive
+integers smaller than $n$:
+$$1^3 + 2^3 + \cdots + (n-1)^3$$
+
+\textbf{Input:} integer $n$ \\
+\textbf{Output:} sum of cubes
+
+\subsection*{Exercise 03: Recursive Print (1 to n)}
+Write a recursive function that prints integers from 1 to $n$ in increasing order.
+
+\textbf{Input:} integer $n$ \\
+\textbf{Output:} numbers 1 to $n$, one per line
+
+\subsection*{Exercise 04: Recursive Fibonacci Series}
+Write a recursive function \texttt{fib(n)} and use it to generate the first $n$
+terms of the Fibonacci series.
+
+\textbf{Input:} integer $n$ (number of terms) \\
+\textbf{Output:} the Fibonacci series (first $n$ terms)
+
+\subsection*{Exercise 05: Lambda for Volume of a Cone}
+Create a lambda function to compute the volume of a cone:
+$$V = \frac{1}{3}\pi r^2 h$$
+
+\textbf{Input:} radius $r$ and height $h$ \\
+\textbf{Output:} cone volume
+
+\subsection*{Exercise 06: Lambda for (max, min)}
+Write a lambda function that takes a list and returns a tuple \texttt{(max, min)}
+using built-in functions.
+
+\textbf{Input:} a list of integers \\
+\textbf{Output:} a tuple \texttt{(max, min)}
+
+\subsection*{Exercise 07: Function Arguments Demonstration}
+Write functions demonstrating:
+\begin{itemize}[leftmargin=*]
+  \item default argument (\texttt{msg="Hello"} in a greeting function),
+  \item variable-length positional arguments (\texttt{*args}),
+  \item variable-length keyword arguments (\texttt{**kwargs}).
+\end{itemize}
+
+\textbf{Input:} function calls of your choice \\
+\textbf{Output:} printed results showing that all cases work
+
+\subsection*{Exercise 08: Check All Dictionary Values Are Same}
+Given a dictionary, check whether all values are the same. Use a lambda function
+in your implementation.
+
+\textbf{Input:} a dictionary \\
+\textbf{Output:} \texttt{True} or \texttt{False}
+
+\subsection*{Exercise 09: Create Dictionary From Two Lists}
+Read two lists (keys and values) and create a dictionary by pairing them.
+
+\textbf{Input:} list of keys and list of values \\
+\textbf{Output:} constructed dictionary
+
+\end{document}
+

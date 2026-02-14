@@ -1,0 +1,168 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 06 -- Lecture 02 Notes\\NumPy Functions (Stats, Sorting, Searching)}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+This lecture introduces frequently used NumPy functions for:
+\begin{itemize}
+  \item array generation,
+  \item reshaping,
+  \item statistics,
+  \item sorting and searching,
+  \item and basic linear algebra.
+\end{itemize}
+
+\section{Core Concepts}
+
+\subsection{Generating Arrays}
+Useful functions:
+\begin{itemize}
+  \item \texttt{np.zeros}, \texttt{np.ones}
+  \item \texttt{np.empty} (uninitialized values)
+  \item \texttt{np.arange}, \texttt{np.linspace}
+  \item random arrays: \texttt{np.random.randint}, \texttt{np.random.random}
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+a = np.zeros((2, 2))
+b = np.ones((2, 2))
+c = np.arange(0, 10, 2)
+d = np.linspace(0, 1, 5)
+r = np.random.randint(1, 10, size=(3, 3))
+\end{lstlisting}
+
+\subsection{Reshape}
+\texttt{reshape} changes the array shape without changing data:
+\begin{lstlisting}[language=Python]
+x = np.arange(1, 10)          # size = 9
+m = x.reshape((3, 3))         # 3x3 matrix
+\end{lstlisting}
+
+\subsection{Statistics and Axis}
+Common statistics:
+\begin{itemize}
+  \item \texttt{sum}, \texttt{mean}, \texttt{std}, \texttt{min}, \texttt{max}
+\end{itemize}
+
+Axis meaning for 2D array:
+\begin{itemize}
+  \item \texttt{axis=0}: operate down the rows (column-wise result)
+  \item \texttt{axis=1}: operate across columns (row-wise result)
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+print(m.sum(axis=0))  # column sums
+print(m.sum(axis=1))  # row sums
+\end{lstlisting}
+
+\subsection{Sorting and Searching}
+Sorting:
+\begin{lstlisting}[language=Python]
+arr = np.array([3, 1, 2])
+print(np.sort(arr))  # returns new sorted array
+arr.sort()           # sorts in-place
+\end{lstlisting}
+
+Searching:
+\begin{lstlisting}[language=Python]
+arr = np.array([10, 50, 20, 80])
+idx = np.argmax(arr)
+print(idx, arr[idx])
+\end{lstlisting}
+
+\subsection{Dot Product and Matrix Multiplication}
+\begin{lstlisting}[language=Python]
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+print(a.dot(b))  # 1*4 + 2*5 + 3*6
+
+M = np.arange(1, 10).reshape((3, 3))
+print(M @ M)
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/numpy\_functions\_demo.py}
+
+Observe:
+\begin{itemize}
+  \item generating random arrays,
+  \item reshaping and computing stats along axes,
+  \item sorting and searching for max/2nd max,
+  \item dot product and matrix multiplication.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} meaning of \texttt{axis=0}?
+
+\textbf{Answer:} compute column-wise results (down the rows).
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} difference between \texttt{np.sort(a)} and \texttt{a.sort()}?
+
+\textbf{Answer:}
+\begin{itemize}
+  \item \texttt{np.sort(a)} returns a new sorted array.
+  \item \texttt{a.sort()} sorts the array in-place (mutates \texttt{a}).
+\end{itemize}
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Row and Column Sums}
+\textbf{Task:} Create a 3x3 array and compute row sums and column sums.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+import numpy as np
+m = np.arange(1, 10).reshape((3, 3))
+print("Row sums:", m.sum(axis=1))
+print("Col sums:", m.sum(axis=0))
+\end{lstlisting}
+
+\subsection*{Exercise 2: Find Second Maximum}
+\textbf{Task:} Find second maximum element of an array.
+
+\textbf{Solution (simple):}
+\begin{lstlisting}[language=Python]
+import numpy as np
+arr = np.array([10, 6, 8, 90, 12, 56])
+u = np.unique(arr)
+u.sort()
+print("Second max =", u[-2])
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} one function to generate sequence?
+
+\textbf{Answer:} \texttt{np.arange} (or \texttt{np.linspace})
+
+\end{document}
+

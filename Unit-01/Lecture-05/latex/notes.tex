@@ -1,0 +1,203 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 01 -- Lecture 05 Notes\\Decision Making and Looping Structures}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Programs make decisions and repeat work. This lecture covers:
+\begin{itemize}
+  \item decision statements: \texttt{if/elif/else}, nested \texttt{if},
+  \item \texttt{match-case} (Python 3.10+) for clean multi-way branching,
+  \item looping structures: \texttt{for} and \texttt{while},
+  \item loop control: \texttt{break}, \texttt{continue}, \texttt{pass}, and loop \texttt{else}.
+\end{itemize}
+
+\section{Core Concepts}
+
+\subsection{Decision Making with \texttt{if/elif/else}}
+Basic pattern:
+\begin{lstlisting}[language=Python]
+marks = int(input("Marks: "))
+if marks >= 90:
+    print("A+")
+elif marks >= 75:
+    print("A")
+else:
+    print("Needs improvement")
+\end{lstlisting}
+
+\textbf{Tips:}
+\begin{itemize}
+  \item Conditions are evaluated top to bottom.
+  \item Use \texttt{elif} to avoid deeply nested code.
+  \item Always think about boundary conditions (e.g., what about 89, 90?).
+\end{itemize}
+
+\subsection{Nested \texttt{if}}
+Nested \texttt{if} is valid, but can reduce readability if used too much.
+\begin{lstlisting}[language=Python]
+age = int(input("Age: "))
+if age >= 18:
+    if age >= 60:
+        print("Senior")
+    else:
+        print("Adult")
+else:
+    print("Minor")
+\end{lstlisting}
+
+\subsection{\texttt{match-case} (Python 3.10+)}
+\texttt{match-case} is useful for menu options and multi-way choices.
+\begin{lstlisting}[language=Python]
+option = input("Choose A/B/C: ").strip().upper()
+match option:
+    case "A":
+        print("You selected A")
+    case "B":
+        print("You selected B")
+    case "C":
+        print("You selected C")
+    case _:
+        print("Invalid option")
+\end{lstlisting}
+
+\subsection{Loops}
+
+\subsubsection{The \texttt{for} loop (with \texttt{range})}
+Use \texttt{for} when you know the count or you are iterating over items.
+\begin{lstlisting}[language=Python]
+for i in range(1, 6):
+    print(i)
+\end{lstlisting}
+
+\texttt{range(start, stop, step)} examples:
+\begin{lstlisting}[language=Python]
+range(5)        # 0..4
+range(1, 6)     # 1..5
+range(10, 0, -2)  # 10,8,6,4,2
+\end{lstlisting}
+
+\subsubsection{The \texttt{while} loop}
+Use \texttt{while} when repetition depends on a condition.
+\begin{lstlisting}[language=Python]
+count = 3
+while count > 0:
+    print(count)
+    count -= 1
+\end{lstlisting}
+
+\textbf{Warning:} if the condition never becomes false, you get an infinite loop.
+
+\subsection{Loop Control Statements}
+\begin{itemize}
+  \item \texttt{break}: exits the loop immediately.
+  \item \texttt{continue}: skips the rest of the current iteration.
+  \item \texttt{pass}: does nothing (placeholder).
+  \item Loop \texttt{else}: runs only if the loop completes without \texttt{break}.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+for i in range(1, 6):
+    if i == 3:
+        break
+else:
+    print("Runs only if there was no break")
+\end{lstlisting}
+
+\section{Demo Walkthrough: Menu-Driven Program}
+\textbf{File:} \texttt{demo/menu\_driven\_number\_analyzer.py}
+
+\subsection*{Idea}
+This demo uses a loop to keep showing a menu until the user chooses to exit.
+It uses \texttt{match-case} to handle choices cleanly.
+
+\subsection*{How to run}
+\begin{lstlisting}
+python demo/menu_driven_number_analyzer.py
+\end{lstlisting}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} When does the \texttt{else} part of a loop execute?
+
+\textbf{Answer:} The loop \texttt{else} executes only when the loop finishes
+normally (no \texttt{break}). If a \texttt{break} happens, \texttt{else} is skipped.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} difference between \texttt{break} and \texttt{continue}?
+
+\textbf{Answer:}
+\begin{itemize}
+  \item \texttt{break} ends the loop completely.
+  \item \texttt{continue} skips the current iteration and moves to the next one.
+\end{itemize}
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Even or Odd}
+\textbf{Task:} Input a number and print whether it is even or odd.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+n = int(input("Enter n: "))
+if n % 2 == 0:
+    print("Even")
+else:
+    print("Odd")
+\end{lstlisting}
+
+\subsection*{Exercise 2: Sum 1..n}
+\textbf{Task:} Input \texttt{n} and compute sum of first \texttt{n} natural numbers using a loop.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+n = int(input("Enter n: "))
+total = 0
+for i in range(1, n + 1):
+    total += i
+print("Sum =", total)
+\end{lstlisting}
+
+\subsection*{Exercise 3: Skip Multiples of 3}
+\textbf{Task:} Print numbers 1..10 but skip multiples of 3.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+for i in range(1, 11):
+    if i % 3 == 0:
+        continue
+    print(i)
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} Write a loop that prints 1..10 but skips multiples of 3.
+
+\textbf{Solution:} see Exercise 3 above.
+
+\end{document}
+

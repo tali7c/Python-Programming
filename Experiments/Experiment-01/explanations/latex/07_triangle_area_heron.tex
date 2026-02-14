@@ -1,0 +1,36 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\geometry{margin=1in}
+
+\title{Experiment 01 - Exercise 07: Triangle Area (Heron's Formula)}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Objective}
+Find the area of a triangle when the lengths of its sides are given.
+
+\section*{Input}
+Three positive side lengths $a$, $b$, $c$.
+
+\section*{Output}
+Area of the triangle (or an error message if the triangle is invalid).
+
+\section*{Approach}
+\begin{itemize}
+  \item Validate triangle inequality: $a+b>c$, $a+c>b$, $b+c>a$.
+  \item Compute semiperimeter: $s = \frac{a+b+c}{2}$.
+  \item Heron's formula:
+  $$\text{Area} = \sqrt{s(s-a)(s-b)(s-c)}$$
+\end{itemize}
+
+\section*{Time Complexity}
+\texttt{O(1)}.
+
+\end{document}
+

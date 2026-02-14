@@ -1,0 +1,165 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 06 -- Lecture 03: Pandas Basics (Series and DataFrame)}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Explain what Pandas is used for
+    \item Create and manipulate Series and DataFrames
+    \item Use \texttt{head()}, \texttt{tail()}, column selection, and basic iteration
+    \item Perform vectorized operations on columns
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Why Pandas?}
+  \begin{itemize}[<+->]
+    \item Works with tabular data (like Excel/CSV)
+    \item Powerful cleaning and transformation functions
+    \item Easy grouping/aggregation and missing value handling
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Series and DataFrame}
+  \begin{itemize}[<+->]
+    \item \textbf{Series}: 1D labeled array
+    \item \textbf{DataFrame}: 2D table with labeled columns
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Create a DataFrame}
+  \begin{lstlisting}[language=Python]
+import pandas as pd
+
+df = pd.DataFrame({
+    "name": ["Asha", "Bilal", "Charu"],
+    "marks": [88, 76, 91]
+})
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Useful Methods}
+  \begin{itemize}[<+->]
+    \item \texttt{df.head(n)}, \texttt{df.tail(n)}
+    \item \texttt{df.info()}, \texttt{df.describe()}
+    \item Select a column: \texttt{df["marks"]}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Add/Delete Columns}
+  \begin{lstlisting}[language=Python]
+df["cgpa"] = df["marks"] / 10
+del df["cgpa"]
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Vectorized Operations}
+  \begin{itemize}[<+->]
+    \item Column math applies element-wise (fast)
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+df["marks_plus_5"] = df["marks"] + 5
+df["passed"] = df["marks"] >= 50
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Series + DataFrame Operations}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/pandas\_basics\_demo.py}
+    \item Shows:
+      \begin{itemize}
+        \item creating Series/DataFrame
+        \item head/tail
+        \item selecting and adding columns
+        \item basic boolean filtering
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} What is the difference between Series and DataFrame?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} How do you select the \texttt{"marks"} column from a DataFrame?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item Why are vectorized operations preferred over loops in Pandas?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Pandas simplifies tabular data handling
+    \item Series is 1D; DataFrame is 2D
+    \item Column operations are vectorized and efficient
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write one line to create a new column \texttt{"cgpa"} from \texttt{"marks"}.
+\end{frame}
+
+\end{document}
+

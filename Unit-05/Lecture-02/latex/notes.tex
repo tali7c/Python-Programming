@@ -1,0 +1,166 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 05 -- Lecture 02 Notes\\Members, Class Attributes, GC, Abstract Classes}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+This lecture covers three practical topics used in real code:
+\begin{itemize}
+  \item how Python represents ``public/private'' members (mostly conventions),
+  \item how to inspect classes using built-in attributes,
+  \item and how to design abstract classes using \texttt{abc}.
+\end{itemize}
+
+\section{Core Concepts}
+
+\subsection{Public and Private Members (Python Style)}
+Python does not enforce strict access modifiers like some languages.
+Instead it uses naming conventions:
+\begin{itemize}
+  \item \texttt{value}: public
+  \item \texttt{\_value}: internal use (``protected'' by convention)
+  \item \texttt{\_\_value}: name mangling (reduces accidental access)
+\end{itemize}
+
+\subsubsection*{Name Mangling}
+If a class defines \texttt{\_\_balance}, Python internally renames it to include
+the class name. This helps prevent accidental access from subclasses.
+
+\begin{lstlisting}[language=Python]
+class Account:
+    def __init__(self):
+        self.__balance = 0
+\end{lstlisting}
+
+Access is still possible (not truly private), but it is discouraged:
+\begin{lstlisting}[language=Python]
+a = Account()
+print(a._Account__balance)
+\end{lstlisting}
+
+\subsection{Built-in Class Attributes}
+Some useful built-in attributes:
+\begin{itemize}
+  \item \texttt{\_\_dict\_\_}: attribute dictionary (what the object/class contains)
+  \item \texttt{\_\_doc\_\_}: documentation string (docstring)
+  \item \texttt{\_\_class\_\_}: class of an object
+  \item \texttt{\_\_module\_\_}: module name
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+class A:
+    """Example class"""
+    x = 10
+
+print(A.__doc__)
+print(A.__dict__)
+\end{lstlisting}
+
+\subsection{Garbage Collection (High-Level)}
+Python manages memory automatically:
+\begin{itemize}
+  \item reference counting frees objects when reference count becomes 0,
+  \item cycle detector handles circular references.
+\end{itemize}
+
+In most cases, you do not need to manually free memory.
+Avoid relying on \texttt{\_\_del\_\_} for critical logic, because its timing is not guaranteed.
+
+\subsection{Abstract Classes (ABC)}
+An abstract class defines an interface.
+Subclasses must implement abstract methods.
+
+\begin{lstlisting}[language=Python]
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self) -> float:
+        pass
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/abstract\_shape\_demo.py}
+
+The demo shows:
+\begin{itemize}
+  \item \texttt{Shape} cannot be instantiated (because \texttt{area} is abstract),
+  \item \texttt{Circle} and \texttt{Rectangle} implement \texttt{area()}.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} what does name mangling do?
+
+\textbf{Answer:} It renames \texttt{\_\_attr} internally to include the class name,
+reducing accidental access and collisions in subclasses.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} why use abstract classes?
+
+\textbf{Answer:} To enforce that subclasses implement required methods and to define a clean interface.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Private Balance}
+\textbf{Task:} Create an \texttt{Account} class with \texttt{\_\_balance} and methods \texttt{deposit} and \texttt{get\_balance}.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+class Account:
+    def __init__(self):
+        self.__balance = 0
+
+    def deposit(self, amount):
+        if amount > 0:
+            self.__balance += amount
+
+    def get_balance(self):
+        return self.__balance
+\end{lstlisting}
+
+\subsection*{Exercise 2: Abstract Class}
+\textbf{Task:} Create abstract class \texttt{Vehicle} with abstract method \texttt{start()}.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+from abc import ABC, abstractmethod
+
+class Vehicle(ABC):
+    @abstractmethod
+    def start(self):
+        pass
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} which module is used for abstract base classes?
+
+\textbf{Answer:} \texttt{abc}
+
+\end{document}
+

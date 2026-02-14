@@ -1,0 +1,121 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 05 -- Lecture 03 Notes\\Inheritance and Types of Inheritance}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Inheritance is a key OOP feature that allows one class (child) to reuse and extend
+another class (parent). It reduces duplication and models ``is-a'' relationships.
+
+\section{Core Concepts}
+
+\subsection{Basic Inheritance}
+\begin{lstlisting}[language=Python]
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+class Student(Person):
+    def __init__(self, name, sapid):
+        super().__init__(name)
+        self.sapid = sapid
+\end{lstlisting}
+
+\subsection{Types of Inheritance}
+\begin{itemize}
+  \item \textbf{Single:} one parent, one child.
+  \item \textbf{Multilevel:} child becomes parent for another class.
+  \item \textbf{Hierarchical:} one parent has multiple children.
+  \item \textbf{Multiple:} a class has more than one parent (use carefully).
+\end{itemize}
+
+\subsection{The Role of \texttt{super()}}
+\texttt{super()} calls parent class methods without writing the parent class name.
+It is especially useful for constructors and for multiple inheritance patterns.
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/inheritance\_demo.py}
+
+The demo shows:
+\begin{itemize}
+  \item \texttt{Person} base class,
+  \item \texttt{Student} subclass,
+  \item \texttt{PlacementStudent} as a multilevel subclass.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} What does \texttt{super()} do in a constructor?
+
+\textbf{Answer:} It calls the parent class constructor so parent attributes are initialized correctly.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} Give one real-world example.
+
+\textbf{Answer (examples):} Vehicle $\rightarrow$ Car, Person $\rightarrow$ Student, Shape $\rightarrow$ Circle.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Base + Child Class}
+\textbf{Task:} Create a base class \texttt{Vehicle} (brand) and subclass \texttt{Car} (brand, seats).
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+class Vehicle:
+    def __init__(self, brand):
+        self.brand = brand
+
+class Car(Vehicle):
+    def __init__(self, brand, seats):
+        super().__init__(brand)
+        self.seats = seats
+\end{lstlisting}
+
+\subsection*{Exercise 2: Hierarchical Inheritance}
+\textbf{Task:} Create \texttt{Employee} base class and subclasses \texttt{Teacher} and \texttt{Engineer}.
+
+\textbf{Solution (idea):}
+\begin{lstlisting}[language=Python]
+class Employee:
+    def __init__(self, name):
+        self.name = name
+
+class Teacher(Employee):
+    pass
+
+class Engineer(Employee):
+    pass
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} A $\rightarrow$ (B, C) is which type?
+
+\textbf{Answer:} Hierarchical inheritance.
+
+\end{document}
+

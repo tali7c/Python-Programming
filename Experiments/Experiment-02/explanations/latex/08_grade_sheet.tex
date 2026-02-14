@@ -1,0 +1,47 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\geometry{margin=1in}
+
+\title{Experiment 02 - Exercise 08: Grade Sheet (Percentage, CGPA, Grade)}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Objective}
+Scan marks of five subjects, calculate percentage, compute CGPA, and print a grade sheet.
+
+\section*{Input}
+\begin{itemize}
+  \item Student details (name, roll number, SAP ID, etc.)
+  \item Marks of 5 subjects (0 to 100)
+\end{itemize}
+
+\section*{Output}
+Formatted grade sheet including percentage, CGPA, and grade.
+
+\section*{Approach}
+\begin{itemize}
+  \item Percentage $= \dfrac{\text{sum of marks}}{5}$
+  \item CGPA $= \dfrac{\text{percentage}}{10}$
+  \item Assign grade based on CGPA range:
+  \begin{itemize}
+    \item 0.0 to 3.4: F
+    \item 3.5 to 5.0: C+
+    \item 5.1 to 6.0: B
+    \item 6.1 to 7.0: B+
+    \item 7.1 to 8.0: A
+    \item 8.1 to 9.0: A+
+    \item 9.1 to 10.0: O
+  \end{itemize}
+\end{itemize}
+
+\section*{Time Complexity}
+\texttt{O(1)} (fixed number of subjects).
+
+\end{document}
+

@@ -1,0 +1,222 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 01 -- Lecture 03 Notes\\Tokens, Naming, Strings, and Numeric Types}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+This lecture focuses on the \textbf{building blocks} of Python code:
+\begin{itemize}
+  \item tokens (keywords, identifiers, literals, operators),
+  \item naming conventions for readable programs,
+  \item strings (methods, operators, formatting),
+  \item and basic numeric data types (\texttt{int}, \texttt{float}, \texttt{complex}).
+\end{itemize}
+
+\section{Core Concepts}
+
+\subsection{Python Tokens}
+A \textbf{token} is a small unit of a program. Common token categories:
+\begin{itemize}
+  \item \textbf{Keywords:} reserved words such as \texttt{if}, \texttt{for}, \texttt{while}, \texttt{def}.
+  \item \textbf{Identifiers:} names you create (variables, functions, classes).
+  \item \textbf{Literals:} fixed values like \texttt{10}, \texttt{3.14}, \texttt{"hello"}.
+  \item \textbf{Operators:} symbols/words that perform operations: \texttt{+}, \texttt{-}, \texttt{*}, \texttt{and}, \texttt{==}.
+  \item \textbf{Delimiters:} punctuation used in syntax: \texttt{( ) [ ] \{ \} , :}.
+\end{itemize}
+
+\subsection{Identifiers and Naming Conventions}
+\textbf{Rules (practical):}
+\begin{itemize}
+  \item Start with a letter or underscore; remaining characters can include digits.
+  \item Identifiers are case-sensitive: \texttt{Name} and \texttt{name} are different.
+  \item Do not use keywords as identifiers.
+\end{itemize}
+
+\textbf{Conventions (recommended):}
+\begin{itemize}
+  \item Use \textbf{snake\_case} for variables and functions: \texttt{total\_marks}, \texttt{calculate\_cgpa}.
+  \item Choose meaningful names. Prefer \texttt{marks} over \texttt{m}.
+\end{itemize}
+
+\subsection{Strings: Values, Indexing, Slicing}
+A \textbf{string} is a sequence of characters, written with quotes.
+
+\begin{lstlisting}[language=Python]
+s1 = "Python"
+s2 = 'UPES'
+\end{lstlisting}
+
+Strings support indexing and slicing:
+\begin{lstlisting}[language=Python]
+s = "python"
+s[0]     # 'p'
+s[-1]    # 'n'
+s[1:4]   # 'yth'
+\end{lstlisting}
+
+\textbf{Note:} strings are \textbf{immutable}. Methods usually return a new string.
+
+\subsection{Common String Methods}
+Useful beginner methods:
+\begin{itemize}
+  \item \texttt{lower()}, \texttt{upper()}, \texttt{title()}
+  \item \texttt{strip()} removes leading/trailing whitespace
+  \item \texttt{split()} splits into a list (by spaces by default)
+  \item \texttt{replace(old, new)} replaces occurrences
+  \item \texttt{find(sub)}, \texttt{count(sub)}
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+text = "  UPES Dehradun  "
+clean = text.strip()
+print(clean)              # "UPES Dehradun"
+print(clean.lower())      # "upes dehradun"
+print(clean.split())      # ["UPES", "Dehradun"]
+\end{lstlisting}
+
+\subsection{String Operators}
+Strings support some operators:
+\begin{itemize}
+  \item \textbf{Concatenation} using \texttt{+}
+  \item \textbf{Repetition} using \texttt{*}
+  \item \textbf{Membership} using \texttt{in}
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+print("py" * 3)            # pypypy
+print("th" in "python")    # True
+\end{lstlisting}
+
+\subsection{Formatting Output: \texttt{format()} and f-strings}
+Formatting is important for readable output (grade sheets, reports, logs).
+
+\subsubsection*{\texttt{format()} method}
+\begin{lstlisting}[language=Python]
+name = "Rohit"
+cgpa = 7.0
+print("Name: {}, CGPA: {:.1f}".format(name, cgpa))
+\end{lstlisting}
+\texttt{:.1f} means ``one digit after the decimal point''.
+
+\subsubsection*{f-strings}
+f-strings are short and readable:
+\begin{lstlisting}[language=Python]
+print(f"Name: {name}, CGPA: {cgpa:.1f}")
+\end{lstlisting}
+
+\subsection{Numeric Data Types}
+Main numeric types in this unit:
+\begin{itemize}
+  \item \texttt{int}: integers (no decimals)
+  \item \texttt{float}: real numbers with decimals
+  \item \texttt{complex}: numbers like \texttt{2+3j}
+\end{itemize}
+
+Type conversions (very common):
+\begin{lstlisting}[language=Python]
+x = int("10")      # 10
+y = float("2.5")   # 2.5
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/string\_formatting\_demo.py}
+
+\subsection*{Goal}
+Read user text, clean extra spaces, compute a small summary, and print
+a nicely formatted line.
+
+\subsection*{Run}
+\begin{lstlisting}
+python demo/string_formatting_demo.py
+\end{lstlisting}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} output of \texttt{print("py" * 3)}?
+
+\textbf{Answer:} \texttt{pypypy}
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} difference between \texttt{split()} and \texttt{join()}?
+
+\textbf{Answer:}
+\begin{itemize}
+  \item \texttt{split()} breaks a string into a list.
+  \item \texttt{join()} joins a list of strings into a single string.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+sentence = "Python is fun"
+parts = sentence.split()          # ["Python", "is", "fun"]
+again = "-".join(parts)           # "Python-is-fun"
+\end{lstlisting}
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Clean a String}
+\textbf{Task:} Read a string and print it without leading/trailing spaces.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+s = input("Enter text: ")
+print(s.strip())
+\end{lstlisting}
+
+\subsection*{Exercise 2: Count Vowels}
+\textbf{Task:} Count vowels in an input string (a, e, i, o, u; case-insensitive).
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+s = input("Enter text: ").lower()
+vowels = "aeiou"
+count = 0
+for ch in s:
+    if ch in vowels:
+        count += 1
+print("Vowel count =", count)
+\end{lstlisting}
+
+\subsection*{Exercise 3: Format to Two Decimals}
+\textbf{Task:} Print a floating value with 2 decimal places.
+
+\textbf{Solution (f-string):}
+\begin{lstlisting}[language=Python]
+x = 3.14159
+print(f"{x:.2f}")
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} Format \texttt{3.14159} to 2 decimal places.
+
+\textbf{Answer:} \texttt{3.14}. One way:
+\begin{lstlisting}[language=Python]
+print(f"{3.14159:.2f}")
+\end{lstlisting}
+
+\end{document}
+

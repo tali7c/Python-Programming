@@ -1,0 +1,149 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 05 -- Lecture 04: Polymorphism (Overriding and Operator Overloading)}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Explain polymorphism in OOP
+    \item Implement method overriding in subclasses
+    \item Implement operator overloading using special methods
+    \item Use \texttt{\_\_str\_\_} for readable object printing
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Polymorphism (Idea)}
+  \begin{itemize}[<+->]
+    \item ``Same interface, different behavior''
+    \item Example: \texttt{area()} behaves differently for Circle and Rectangle
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Method Overriding}
+  \begin{itemize}[<+->]
+    \item A child class provides its own implementation of a parent method
+    \item Python chooses the method based on the object's actual class
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Operator Overloading}
+  \begin{itemize}[<+->]
+    \item Define how operators work for your objects
+    \item Examples:
+      \begin{itemize}
+        \item \texttt{+} uses \texttt{\_\_add\_\_}
+        \item \texttt{==} uses \texttt{\_\_eq\_\_}
+        \item \texttt{len(obj)} uses \texttt{\_\_len\_\_}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Example: Point Addition}
+  \begin{lstlisting}[language=Python]
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Overriding + Operator Overloading}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/polymorphism\_operator\_overloading\_demo.py}
+    \item Shows:
+      \begin{itemize}
+        \item polymorphic \texttt{area()} calls
+        \item \texttt{Point + Point} using \texttt{\_\_add\_\_}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} If a parent and child both define \texttt{describe()}, which one runs for a child object?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} Which special method is used for operator \texttt{+}?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item Should every class implement operator overloading? When is it helpful vs confusing?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Overriding enables polymorphism (same method name, different behavior)
+    \item Operator overloading uses special methods like \texttt{\_\_add\_\_}
+    \item Use overloading only when it improves readability and matches meaning
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Name the special method used to control printing of an object using \texttt{print(obj)}.
+\end{frame}
+
+\end{document}
+

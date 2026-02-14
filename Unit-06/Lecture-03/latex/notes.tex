@@ -1,0 +1,147 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 06 -- Lecture 03 Notes\\Pandas Basics (Series and DataFrame)}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Pandas is a powerful library for working with tabular data (CSV, Excel-like tables).
+It provides:
+\begin{itemize}
+  \item \textbf{Series} (1D labeled data),
+  \item \textbf{DataFrame} (2D table).
+\end{itemize}
+This lecture focuses on creating and manipulating these structures.
+
+\section{Setup (If Needed)}
+If Pandas is not installed:
+\begin{lstlisting}
+pip install pandas
+\end{lstlisting}
+
+\section{Core Concepts}
+
+\subsection{Series}
+A Series is like a column with an index.
+\begin{lstlisting}[language=Python]
+import pandas as pd
+
+s = pd.Series([10, 20, 30], index=["a", "b", "c"])
+print(s)
+\end{lstlisting}
+
+\subsection{DataFrame}
+A DataFrame is a table of columns (each column can be considered a Series).
+\begin{lstlisting}[language=Python]
+import pandas as pd
+
+df = pd.DataFrame({
+    "name": ["Asha", "Bilal", "Charu"],
+    "marks": [88, 76, 91]
+})
+\end{lstlisting}
+
+\subsection{Inspecting Data}
+\begin{itemize}
+  \item \texttt{df.head()} shows first rows
+  \item \texttt{df.tail()} shows last rows
+  \item \texttt{df.info()} shows dtypes and missing data summary
+  \item \texttt{df.describe()} gives statistics for numeric columns
+\end{itemize}
+
+\subsection{Column Selection}
+\begin{lstlisting}[language=Python]
+marks = df["marks"]
+\end{lstlisting}
+
+\subsection{Add/Delete Columns}
+\begin{lstlisting}[language=Python]
+df["cgpa"] = df["marks"] / 10
+del df["cgpa"]
+\end{lstlisting}
+
+\subsection{Boolean Filtering}
+\begin{lstlisting}[language=Python]
+passed = df[df["marks"] >= 50]
+\end{lstlisting}
+
+\subsection{Iteration (Use Carefully)}
+Pandas is designed for vectorized operations. Iteration is slower but sometimes necessary.
+Common ways:
+\begin{itemize}
+  \item \texttt{df.iterrows()}
+  \item \texttt{df.itertuples()}
+\end{itemize}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/pandas\_basics\_demo.py}
+
+Observe:
+\begin{itemize}
+  \item creating a DataFrame,
+  \item adding new derived columns,
+  \item filtering using boolean expressions.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} difference between Series and DataFrame?
+
+\textbf{Answer:} Series is 1D labeled data; DataFrame is 2D tabular data with columns.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} how to select \texttt{"marks"} column?
+
+\textbf{Answer:} \texttt{df["marks"]}
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Create a DataFrame}
+\textbf{Task:} Create a DataFrame with columns \texttt{name} and \texttt{age}.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+import pandas as pd
+df = pd.DataFrame({"name": ["A", "B"], "age": [18, 19]})
+print(df)
+\end{lstlisting}
+
+\subsection*{Exercise 2: Create \texttt{cgpa} Column}
+\textbf{Task:} Create \texttt{cgpa} from marks.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+df["cgpa"] = df["marks"] / 10
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} one line to create \texttt{cgpa} from marks?
+
+\textbf{Answer:} \texttt{df["cgpa"] = df["marks"] / 10}
+
+\end{document}
+

@@ -1,0 +1,197 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 01 -- Lecture 04: Input/Output, Escape Sequences, Operators, Precedence}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Read input and convert to correct types
+    \item Format output using \texttt{print()} options and escape sequences
+    \item Apply operators: arithmetic, relational, logical, bitwise, membership, identity
+    \item Evaluate expressions using precedence and parentheses
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Input and Output}
+  \begin{itemize}[<+->]
+    \item \texttt{input(prompt)} reads text from keyboard (returns \texttt{str})
+    \item \texttt{print(...)} displays output
+    \item Useful \texttt{print} options: \texttt{sep}, \texttt{end}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+a = int(input("Enter a: "))
+b = int(input("Enter b: "))
+print("a =", a, "b =", b, sep=" | ")
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Escape Sequences}
+  \begin{itemize}[<+->]
+    \item New line: \texttt{\textbackslash n}
+    \item Tab: \texttt{\textbackslash t}
+    \item Backslash: \texttt{\textbackslash\textbackslash}
+    \item Quotes inside strings: \texttt{\textbackslash"} or \texttt{\textbackslash'}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+print("Line1\nLine2")
+print("A\tB\tC")
+print("C:\\\\Users\\\\tofik.ali")
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Operator Categories}
+  \small
+  \begin{tabular}{ll}
+    \toprule
+    Category & Examples \\
+    \midrule
+    Arithmetic & \texttt{+ - * / \% // **} \\
+    Relational & \texttt{< <= > >= == !=} \\
+    Logical & \texttt{and or not} \\
+    Bitwise & \texttt{\& | \string^ \string~ << >>} \\
+    Membership & \texttt{in}, \texttt{not in} \\
+    Identity & \texttt{is}, \texttt{is not} \\
+    \bottomrule
+  \end{tabular}
+  \normalsize
+\end{frame}
+
+\begin{frame}[fragile]{Precedence (Why Parentheses Matter)}
+  \begin{itemize}[<+->]
+    \item Multiplication happens before addition
+    \item Use parentheses to make intention clear
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+print(2 + 3 * 4)     # 14
+print((2 + 3) * 4)   # 20
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Membership and Identity}
+  \begin{itemize}[<+->]
+    \item Membership: check presence in a sequence/collection
+    \item Identity: check if two names refer to the same object
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+nums = [10, 20, 30]
+print(20 in nums)  # True
+
+a = [1, 2]
+b = a
+c = [1, 2]
+print(a is b)      # True (same object)
+print(a is c)      # False (different objects)
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Operator Precedence + Truth Tables}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/operator\_precedence\_playground.py}
+    \item Prints examples for:
+      \begin{itemize}
+        \item precedence surprises
+        \item bitwise truth table (\&, |, \string^)
+        \item membership and identity checks
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} Evaluate and explain:
+  \begin{itemize}
+    \item \texttt{2 + 3 * 4}
+    \item \texttt{(2 + 3) * 4}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} What is the difference between \texttt{==} and \texttt{is}?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item Why can wrong input types break programs?
+    \item How would you validate \texttt{age} so that it is a non-negative integer?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Convert input strings to numbers using \texttt{int}/\texttt{float}
+    \item Escape sequences help print clean output
+    \item Know operator categories and choose the right one
+    \item Precedence matters; parentheses improve correctness and readability
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Give one example each:
+  \begin{itemize}
+    \item membership operator
+    \item identity operator
+  \end{itemize}
+\end{frame}
+
+\end{document}

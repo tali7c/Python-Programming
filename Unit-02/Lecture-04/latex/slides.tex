@@ -1,0 +1,226 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 02 -- Lecture 04: Functions Basics and Parameters}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Overview}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Define reusable functions with parameters and return values
+    \item Use keyword, default, and variable-length arguments
+    \item Write docstrings to document behavior
+    \item Explain local vs global scope
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Why Functions?}
+  \begin{itemize}[<+->]
+    \item Avoid repetition
+    \item Improve readability
+    \item Make code easier to test
+    \item Enable modular design
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Function Syntax}
+  \begin{lstlisting}[language=Python]
+def add(a, b):
+    return a + b
+
+result = add(3, 4)
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item \texttt{def} creates a function
+    \item \texttt{return} sends a value back
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Docstrings}
+  \begin{itemize}[<+->]
+    \item Triple-quoted string inside a function
+    \item Describe purpose, parameters, and return value
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def area(r):
+    """Return area of a circle."""
+    return 3.14 * r * r
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Parameters vs Arguments}
+  \begin{itemize}[<+->]
+    \item Parameters appear in function definition
+    \item Arguments are values passed in a call
+    \item Positional and keyword arguments both valid
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Default Arguments}
+  \begin{itemize}[<+->]
+    \item Provide a fallback value
+    \item Evaluated at function definition time
+    \item Avoid mutable defaults (like lists)
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def greet(name, msg="Hello"):
+    return f"{msg}, {name}"
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Pitfall: Mutable Default Arguments}
+  \begin{itemize}[<+->]
+    \item Default objects are created once and reused
+    \item A list default is shared across calls
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def add_item(x, items=[]):
+    items.append(x)
+    return items
+
+print(add_item(1))  # [1]
+print(add_item(2))  # [1, 2]  (surprise!)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Variable-Length Arguments}
+  \begin{itemize}[<+->]
+    \item \texttt{*args} collects extra positional arguments
+    \item \texttt{**kwargs} collects extra keyword arguments
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def total(*nums):
+    return sum(nums)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Worked Example: Average of Any Number of Scores}
+  \begin{lstlisting}[language=Python]
+def avg(*scores):
+    if not scores:
+        return 0.0
+    return sum(scores) / len(scores)
+
+print(avg(10, 20, 30))
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item Handle empty input to avoid division by zero
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Scope: Local vs Global}
+  \begin{itemize}[<+->]
+    \item Variables inside functions are local by default
+    \item Use \texttt{global} only when necessary
+    \item Prefer returning values instead of modifying globals
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Grade Calculator Function}
+  \begin{itemize}[<+->]
+    \item Compute average score
+    \item Return letter grade based on thresholds
+    \item Use default parameters for flexibility
+    \item Extension: allow custom boundaries for other grading schemes
+  \end{itemize}
+  \vspace{0.4em}
+  \textbf{Script:} \texttt{demo/grade\_calculator.py}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  What happens if you use a mutable default like \texttt{def f(items=[])}?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  Predict the output:
+  \begin{lstlisting}[language=Python]
+x = 5
+
+def foo():
+    x = 2
+    return x
+
+print(foo(), x)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  When do keyword arguments improve readability?
+  Give a short example.
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Summary}
+  \begin{itemize}[<+->]
+    \item Functions organize and reuse logic
+    \item Arguments can be positional, keyword, or variable-length
+    \item Docstrings document intent and usage
+    \item Scope rules help avoid bugs
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write a function signature that accepts any number of scores and returns their average.
+\end{frame}
+
+\end{document}

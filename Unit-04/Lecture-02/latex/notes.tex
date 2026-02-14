@@ -1,0 +1,177 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 04 -- Lecture 02 Notes\\Layout Managers, Menus, Dialogs, Message Boxes}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+After learning widgets, the next challenge is \textbf{layout}:
+placing widgets in a clean and consistent way. This lecture covers:
+\begin{itemize}
+  \item \texttt{pack} and \texttt{grid} layout managers,
+  \item using Frames to structure large GUIs,
+  \item building menus, and
+  \item dialogs and message boxes.
+\end{itemize}
+
+\section{Core Concepts}
+
+\subsection{\texttt{pack}}
+\texttt{pack} places widgets relative to each other (top/bottom/left/right).
+It is great for simple layouts.
+
+\begin{lstlisting}[language=Python]
+tk.Label(root, text="Title").pack(pady=10)
+tk.Button(root, text="OK").pack()
+\end{lstlisting}
+
+Common options:
+\begin{itemize}
+  \item \texttt{side}: \texttt{"top"}, \texttt{"bottom"}, \texttt{"left"}, \texttt{"right"}
+  \item \texttt{fill}: \texttt{"x"}, \texttt{"y"}, \texttt{"both"}
+  \item \texttt{expand}: allow expanding in extra space
+  \item \texttt{padx/pady}: spacing
+\end{itemize}
+
+\subsection{\texttt{grid}}
+\texttt{grid} places widgets in rows and columns. It is best for forms.
+
+\begin{lstlisting}[language=Python]
+tk.Label(root, text="Name").grid(row=0, column=0, sticky="w")
+tk.Entry(root).grid(row=0, column=1, padx=6)
+\end{lstlisting}
+
+Useful options:
+\begin{itemize}
+  \item \texttt{sticky}: alignment inside the cell (\texttt{"nsew"})
+  \item \texttt{padx/pady}: spacing
+  \item \texttt{columnspan/rowspan}: span multiple cells
+\end{itemize}
+
+\textbf{Rule:} Do not mix \texttt{pack} and \texttt{grid} in the same container widget.
+(You can use both if they are used in different Frames.)
+
+\subsection{Frames (Containers)}
+Frames are used to group widgets.
+A common pattern:
+\begin{itemize}
+  \item Header Frame (title)
+  \item Form Frame (input fields)
+  \item Buttons Frame (submit/cancel)
+\end{itemize}
+
+\subsection{Menus}
+Menus provide standard navigation.
+
+\begin{lstlisting}[language=Python]
+menubar = tk.Menu(root)
+file_menu = tk.Menu(menubar, tearoff=0)
+file_menu.add_command(label="Exit", command=root.destroy)
+menubar.add_cascade(label="File", menu=file_menu)
+root.config(menu=menubar)
+\end{lstlisting}
+
+\subsection{Message Boxes and File Dialogs}
+Message boxes provide feedback.
+File dialogs allow file selection.
+
+\begin{lstlisting}[language=Python]
+from tkinter import messagebox, filedialog
+
+messagebox.showinfo("Saved", "Done")
+path = filedialog.askopenfilename(title="Select a file")
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/layout\_menus\_dialogs\_demo.py}
+
+This demo illustrates:
+\begin{itemize}
+  \item grid-based layout for a small form,
+  \item a menu bar with File/Help,
+  \item a message box on submit,
+  \item and selecting a file using a file dialog.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} Why not mix \texttt{pack} and \texttt{grid} in the same container?
+
+\textbf{Answer:} Tkinter can raise errors and produce unpredictable layout behavior.
+Use one layout manager per container (Frame/root), but you can use different managers
+in different Frames.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} Purpose of Frame?
+
+\textbf{Answer:} A Frame groups widgets, improves structure, and allows using separate
+layout strategies inside different UI sections.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Create a Simple Form}
+\textbf{Task:} Create a GUI with two fields (Name, Age) using \texttt{grid} and a Submit button.
+
+\textbf{Solution (outline):}
+\begin{lstlisting}[language=Python]
+import tkinter as tk
+
+root = tk.Tk()
+
+tk.Label(root, text="Name").grid(row=0, column=0, sticky="w")
+tk.Entry(root).grid(row=0, column=1)
+
+tk.Label(root, text="Age").grid(row=1, column=0, sticky="w")
+tk.Entry(root).grid(row=1, column=1)
+
+tk.Button(root, text="Submit").grid(row=2, column=0, columnspan=2)
+root.mainloop()
+\end{lstlisting}
+
+\subsection*{Exercise 2: Add an Exit Menu}
+\textbf{Task:} Add a menu item \texttt{File -> Exit}.
+
+\textbf{Solution (idea):}
+\begin{lstlisting}[language=Python]
+menubar = tk.Menu(root)
+file_menu = tk.Menu(menubar, tearoff=0)
+file_menu.add_command(label="Exit", command=root.destroy)
+menubar.add_cascade(label="File", menu=file_menu)
+root.config(menu=menubar)
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} Show info message box titled \texttt{"Saved"} with message \texttt{"Done"}.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+from tkinter import messagebox
+messagebox.showinfo("Saved", "Done")
+\end{lstlisting}
+
+\end{document}
+

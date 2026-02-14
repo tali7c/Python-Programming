@@ -1,0 +1,275 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 02 -- Lecture 01 Notes\\Lists Fundamentals and Comprehensions}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Lists are the first \emph{workhorse} data structure most Python learners use for
+storing many values in one variable. This lecture focuses on:
+\begin{itemize}
+  \item how to create lists and access elements (indexing and slicing),
+  \item how mutation works (methods that change the list in place),
+  \item how to build new lists using list comprehensions, and
+  \item how to avoid common beginner bugs (aliasing and editing while iterating).
+\end{itemize}
+The demo script uses a list of marks to compute summary statistics and shows a
+realistic use of sorting and comprehensions.
+
+\section{Core Concepts}
+
+\subsection{What Is a List?}
+A \textbf{list} is an \textbf{ordered} and \textbf{mutable} collection:
+\begin{itemize}
+  \item \textbf{Ordered} means items have positions (index 0, 1, 2, \dots).
+  \item \textbf{Mutable} means the contents can change after creation (append,
+  insert, remove, sort, etc.).
+  \item Lists allow duplicates and can store mixed types. In practice, keep a
+  list \emph{conceptually uniform} (e.g., a list of marks is all integers).
+\end{itemize}
+
+\subsection{Creating Lists (Common Patterns)}
+\begin{lstlisting}[language=Python]
+numbers = [2, 4, 6]            # literal
+letters = list("python")       # from an iterable (string)
+nums = list(range(5))          # from a range
+items = ["A", 3.5, True]       # mixed types (allowed)
+empty = []                     # empty list
+\end{lstlisting}
+The constructor \texttt{list(...)} works with any iterable. For example,
+\texttt{list(range(5))} produces \texttt{[0, 1, 2, 3, 4]}.
+
+\subsection{Indexing and Negative Indexing}
+Python uses \textbf{zero-based indexing}:
+\begin{lstlisting}[language=Python]
+scores = [80, 92, 75, 88]
+first = scores[0]     # 80
+last  = scores[-1]    # 88 (negative index counts from the end)
+\end{lstlisting}
+If you try to access an index that does not exist, Python raises an
+\texttt{IndexError}. This is good: it prevents silent wrong answers.
+
+\subsection{Slicing (start:stop:step)}
+Slicing returns a \textbf{new list} (a copy of the selected region):
+\begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4, 5, 6]
+nums[1:4]    # [2, 3, 4]   (stop index 4 is excluded)
+nums[::2]    # [1, 3, 5]   (step = 2)
+nums[-3:]    # last three elements
+\end{lstlisting}
+Typical uses:
+\begin{itemize}
+  \item Take the first/last $k$ elements: \texttt{data[:3]}, \texttt{data[-3:]}.
+  \item Sample regularly (every second item): \texttt{data[::2]}.
+  \item Create a shallow copy: \texttt{copy = a[:]}.
+\end{itemize}
+
+\subsection{List Methods: Mutating vs Returning New}
+Many list methods \textbf{mutate} (modify) the same list object:
+\begin{center}
+\begin{tabular}{ll}
+  \toprule
+  Method & Effect \\
+  \midrule
+  \texttt{append(x)} & add one item at the end \\
+  \texttt{extend(iter)} & add many items from an iterable \\
+  \texttt{insert(i, x)} & insert at a position \\
+  \texttt{remove(x)} & remove first occurrence of a value \\
+  \texttt{pop(i)} & remove and return item at index \\
+  \texttt{sort()} & sort the list in place \\
+  \bottomrule
+\end{tabular}
+\end{center}
+In contrast, \texttt{sorted(...)} is a \textbf{function} that returns a
+\textbf{new list}:
+\begin{lstlisting}[language=Python]
+nums = [3, 1, 2]
+nums.sort()                     # nums becomes [1, 2, 3]
+new_nums = sorted(nums, reverse=True)  # returns a new list
+\end{lstlisting}
+\textbf{Rule of thumb:} if you need the original ordering later, prefer
+\texttt{sorted}. If you are done with the old order, \texttt{sort()} is fine.
+
+\subsection{List Comprehensions (Filter + Transform)}
+Comprehensions let you build a new list concisely:
+\begin{lstlisting}[language=Python]
+squares = [x*x for x in range(6)]
+even_squares = [n*n for n in nums if n % 2 == 0]
+\end{lstlisting}
+Reading tip: say it in English.
+\begin{quote}
+``Take $n*n$ for each $n$ in nums, if $n$ is even.''
+\end{quote}
+If a comprehension becomes hard to read (multiple conditions, nested loops),
+switch to a normal \texttt{for} loop for clarity.
+
+\subsection{Nested Lists (2D Data)}
+A nested list is a list that contains other lists. A common pattern is a 2D
+matrix or table:
+\begin{lstlisting}[language=Python]
+matrix = [[1, 2, 3], [4, 5, 6]]
+matrix[1][2]    # 6 (row 1, col 2)
+\end{lstlisting}
+\textbf{Important pitfall:} avoid creating a matrix with list multiplication
+like \texttt{[[0]*3]*2}. That creates aliases of the same inner list. Prefer:
+\begin{lstlisting}[language=Python]
+rows, cols = 2, 3
+matrix = [[0 for _ in range(cols)] for _ in range(rows)]
+\end{lstlisting}
+
+\section{Common Pitfalls (and How to Avoid Them)}
+
+\subsection{Aliasing vs Copy}
+Assignment does \textbf{not} copy a list; it creates a new name pointing to the
+same list object:
+\begin{lstlisting}[language=Python]
+a = [1, 2, 3]
+b = a          # alias (same object)
+b.append(99)
+a              # [1, 2, 3, 99]
+\end{lstlisting}
+To create an independent list:
+\begin{lstlisting}[language=Python]
+b = a.copy()   # or: b = a[:]
+\end{lstlisting}
+
+\subsection{Modifying While Iterating}
+Removing items while iterating can skip elements because indices shift.
+Two safe patterns are:
+\begin{itemize}
+  \item build a new list using a filter (comprehension), or
+  \item iterate over a copy (\texttt{for x in a[:]}) when appropriate.
+\end{itemize}
+
+\section{Demo Walkthrough: Student Marks Analyzer}
+\textbf{Script:} \texttt{demo/list\_marks\_analyzer.py}
+
+\subsection{What the Demo Is Teaching}
+The demo ties together list fundamentals in a realistic task:
+\begin{itemize}
+  \item compute summary values (average),
+  \item rank values (top-3 using sorting and slicing),
+  \item filter values (passing marks using a comprehension).
+\end{itemize}
+
+\subsection{Suggested Run Steps}
+\begin{lstlisting}
+python demo/list_marks_analyzer.py
+\end{lstlisting}
+Ask students to predict outputs \emph{before} running the script. Prediction
+forces them to reason about list operations, not just watch results.
+
+\subsection{Extensions (Optional)}
+\begin{itemize}
+  \item Compute the median mark (hint: sort a copy first).
+  \item Count pass/fail and print percentages.
+  \item Print the top-3 marks with ranks (1st, 2nd, 3rd).
+\end{itemize}
+
+\section{Quiz and Solutions}
+This section contains the interactive checkpoints from the lecture, plus clear
+solutions.
+
+\subsection{Checkpoint 1 (Mutating vs Returning New)}
+\textbf{Question.} Which of these returns a new list instead of mutating?
+\texttt{append}, \texttt{sort}, \texttt{sorted}.
+
+\textbf{Solution.} \texttt{sorted} returns a \emph{new} list. Both
+\texttt{append} and \texttt{sort} mutate the existing list.
+
+\subsection{Checkpoint 2 (Comprehension)}
+\textbf{Question.} Write a list comprehension to square only even numbers from
+\texttt{nums = [1,2,3,4,5,6]}
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4, 5, 6]
+result = [n*n for n in nums if n % 2 == 0]
+# result = [4, 16, 36]
+\end{lstlisting}
+
+\subsection{Think-Pair-Share (Readability)}
+\textbf{Prompt.} When is a \textbf{for-loop} clearer than a list comprehension?
+
+\textbf{Sample response.} A loop is clearer when the logic has multiple steps,
+needs debugging prints, or has side effects. For example, validating inputs and
+collecting errors is usually clearer as a loop than as a complex comprehension.
+
+\subsection{Exit Question (Slicing)}
+\textbf{Question.} What slice returns the last three items of a list
+\texttt{data}?
+
+\textbf{Solution.} \texttt{data[-3:]}.
+
+\section{Practice Exercises (With Solutions)}
+
+\subsection{Exercise 1: Remove Duplicates (Keep Order)}
+\textbf{Task.} Given \texttt{data}, create a new list that removes duplicates
+but keeps the first-occurrence order.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def unique_keep_order(data):
+    seen = set()
+    out = []
+    for x in data:
+        if x not in seen:
+            seen.add(x)
+            out.append(x)
+    return out
+\end{lstlisting}
+
+\subsection{Exercise 2: Top-3 Without Mutating the Input}
+\textbf{Task.} Write a function that returns the top-3 values of a list without
+changing the original list.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def top3(values):
+    return sorted(values, reverse=True)[:3]
+\end{lstlisting}
+
+\subsection{Exercise 3: 2D Sum}
+\textbf{Task.} Given a matrix (list of lists), compute the sum of all elements.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def sum_matrix(matrix):
+    total = 0
+    for row in matrix:
+        for x in row:
+            total += x
+    return total
+\end{lstlisting}
+
+\section{Further Reading}
+Official Python docs are short and practical:
+\begin{itemize}
+  \item \url{https://docs.python.org/3/tutorial/datastructures.html}
+\end{itemize}
+
+\end{document}

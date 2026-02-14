@@ -1,0 +1,149 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 05 -- Lecture 01 Notes\\OOP Basics, Classes, Objects, Constructors}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Object-Oriented Programming (OOP) helps you design programs by modeling entities
+as \textbf{objects} that combine:
+\begin{itemize}
+  \item \textbf{data} (attributes),
+  \item \textbf{behavior} (methods).
+\end{itemize}
+This lecture introduces classes, objects, constructors, and class vs instance variables.
+
+\section{Core Concepts}
+
+\subsection{Class and Object}
+\textbf{Class:} blueprint (definition).\\
+\textbf{Object:} instance created from the class.
+
+\subsection{Defining a Class}
+\begin{lstlisting}[language=Python]
+class Student:
+    def __init__(self, name, sapid):
+        self.name = name
+        self.sapid = sapid
+
+    def display(self):
+        print(self.name, self.sapid)
+\end{lstlisting}
+
+\subsection{What is \texttt{self}?}
+\texttt{self} refers to the current object.
+When you call \texttt{s.display()}, Python internally calls \texttt{Student.display(s)}.
+
+\subsection{Constructor: \texttt{\_\_init\_\_}}
+\texttt{\_\_init\_\_} initializes a new object.
+\begin{lstlisting}[language=Python]
+s1 = Student("Asha", "5001")
+\end{lstlisting}
+
+\subsection{Special Methods (Dunder Methods)}
+Special methods start and end with double underscores.
+Common examples:
+\begin{itemize}
+  \item \texttt{\_\_init\_\_}: constructor
+  \item \texttt{\_\_str\_\_}: string representation (used by \texttt{print})
+  \item \texttt{\_\_repr\_\_}: developer representation
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+class Student:
+    def __str__(self):
+        return f"{self.name} ({self.sapid})"
+\end{lstlisting}
+
+\subsection{Class Variables vs Instance Variables}
+Class variable is shared among all objects:
+\begin{lstlisting}[language=Python]
+class Student:
+    college = "UPES"
+\end{lstlisting}
+Instance variables belong to each object:
+\begin{lstlisting}[language=Python]
+def __init__(self, name):
+    self.name = name
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/student\_class\_demo.py}
+
+Observe:
+\begin{itemize}
+  \item multiple objects share the class variable \texttt{college},
+  \item each object has its own \texttt{name}, \texttt{sapid}, and marks list,
+  \item \texttt{\_\_str\_\_} makes printing objects easy.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} purpose of \texttt{self}?
+
+\textbf{Answer:} It refers to the current object and allows methods to access the object's data.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} how many copies of a class variable exist?
+
+\textbf{Answer:} One shared copy in the class (objects reference it).
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Rectangle Class}
+\textbf{Task:} Create a \texttt{Rectangle} class with \texttt{length}, \texttt{width} and a method \texttt{area()}.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+class Rectangle:
+    def __init__(self, length, width):
+        self.length = length
+        self.width = width
+
+    def area(self):
+        return self.length * self.width
+
+r = Rectangle(4, 3)
+print(r.area())
+\end{lstlisting}
+
+\subsection*{Exercise 2: Add \texttt{\_\_str\_\_}}
+\textbf{Task:} Add \texttt{\_\_str\_\_} to print \texttt{"Rectangle(4,3)"}.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+def __str__(self):
+    return f"Rectangle({self.length},{self.width})"
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} special method used as constructor?
+
+\textbf{Answer:} \texttt{\_\_init\_\_}
+
+\end{document}
+

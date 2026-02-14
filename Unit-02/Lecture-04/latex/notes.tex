@@ -1,0 +1,293 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 02 -- Lecture 04 Notes\\Functions Basics and Parameters}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Functions let you name a block of logic and reuse it. This is one of the most
+important habits for writing clean programs: instead of copying code, you call
+a function.
+
+This lecture covers:
+\begin{itemize}
+  \item function definition syntax (\texttt{def}, parameters, \texttt{return}),
+  \item docstrings and why documentation matters,
+  \item positional vs keyword arguments,
+  \item default arguments (and the common mutable-default trap),
+  \item variable-length arguments (\texttt{*args}, \texttt{**kwargs}), and
+  \item local vs global scope.
+\end{itemize}
+
+\section{Why Functions?}
+Functions improve code quality in multiple ways:
+\begin{itemize}
+  \item \textbf{Avoid repetition:} write logic once, reuse many times.
+  \item \textbf{Readability:} a good name summarizes the intent.
+  \item \textbf{Testing:} small functions are easier to test than long scripts.
+  \item \textbf{Abstraction:} callers do not need to know internal details.
+\end{itemize}
+
+\section{Function Syntax and Behavior}
+
+\subsection{Basic Definition}
+\begin{lstlisting}[language=Python]
+def add(a, b):
+    return a + b
+
+result = add(3, 4)
+\end{lstlisting}
+Key parts:
+\begin{itemize}
+  \item \texttt{def} starts a function definition.
+  \item Parameters (\texttt{a}, \texttt{b}) are inputs.
+  \item \texttt{return} sends a value back to the caller.
+\end{itemize}
+
+\subsection{\texttt{return} vs \texttt{print}}
+A common beginner confusion is mixing output with return values.
+\begin{itemize}
+  \item \texttt{return} gives a value back to the caller for further use.
+  \item \texttt{print} only displays text; it does not produce a reusable value.
+\end{itemize}
+
+\subsection{Docstrings}
+A docstring is the first string in a function body. It documents the purpose,
+inputs, and output.
+\begin{lstlisting}[language=Python]
+def area(r):
+    """Return the area of a circle with radius r."""
+    return 3.14 * r * r
+\end{lstlisting}
+Docstrings can be viewed with \texttt{help(area)} or via
+\texttt{area.\_\_doc\_\_}.
+
+\section{Parameters and Arguments}
+
+\subsection{Parameters vs Arguments}
+\begin{itemize}
+  \item \textbf{Parameters} appear in the function definition.
+  \item \textbf{Arguments} are the actual values passed during a call.
+\end{itemize}
+Example:
+\begin{lstlisting}[language=Python]
+def greet(name, msg):    # parameters
+    return f"{msg}, {name}"
+
+print(greet("Asha", "Hello"))  # arguments
+\end{lstlisting}
+
+\subsection{Positional and Keyword Arguments}
+\begin{lstlisting}[language=Python]
+def power(base, exp):
+    return base ** exp
+
+power(2, 3)             # positional
+power(base=2, exp=3)    # keyword
+power(exp=3, base=2)    # keyword order can change
+\end{lstlisting}
+Keyword arguments improve readability when a function has many parameters.
+
+\section{Default Arguments}
+Defaults make a function flexible:
+\begin{lstlisting}[language=Python]
+def greet(name, msg="Hello"):
+    return f"{msg}, {name}"
+\end{lstlisting}
+\textbf{Important detail:} default values are evaluated once, when the function
+is defined (not every time it is called).
+
+\subsection{Pitfall: Mutable Default Arguments}
+This is one of the most common Python interview and exam traps.
+\begin{lstlisting}[language=Python]
+def add_item(x, items=[]):
+    items.append(x)
+    return items
+
+print(add_item(1))  # [1]
+print(add_item(2))  # [1, 2]  (surprise!)
+\end{lstlisting}
+Why it happens: the default list \texttt{[]} is created once and reused.
+
+\subsection{Safe Pattern for Defaults}
+Use \texttt{None} and create a new list inside the function:
+\begin{lstlisting}[language=Python]
+def add_item_safe(x, items=None):
+    if items is None:
+        items = []
+    items.append(x)
+    return items
+\end{lstlisting}
+
+\section{Variable-Length Arguments}
+Sometimes you do not know how many inputs the caller will provide.
+
+\subsection{\texttt{*args} (Extra Positional Arguments)}
+\begin{lstlisting}[language=Python]
+def total(*nums):
+    return sum(nums)
+
+print(total(10, 20, 30))
+\end{lstlisting}
+Inside the function, \texttt{nums} is a tuple of all extra positional arguments.
+
+\subsection{\texttt{**kwargs} (Extra Keyword Arguments)}
+\begin{lstlisting}[language=Python]
+def describe(**info):
+    return info
+
+print(describe(name="Asha", age=18))
+\end{lstlisting}
+Inside the function, \texttt{info} is a dictionary of keyword arguments.
+
+\subsection{Worked Example: Average of Any Number of Scores}
+\begin{lstlisting}[language=Python]
+def avg(*scores):
+    if not scores:
+        return 0.0
+    return sum(scores) / len(scores)
+\end{lstlisting}
+The empty-input check avoids division by zero.
+
+\section{Scope: Local vs Global}
+By default, variables created inside a function are \textbf{local}.
+\begin{lstlisting}[language=Python]
+x = 5
+
+def foo():
+    x = 2      # local
+    return x
+
+print(foo(), x)
+\end{lstlisting}
+Using global variables is possible (with the \texttt{global} keyword), but it
+makes code harder to reason about. Prefer returning values instead.
+
+\section{Demo Walkthrough: Grade Calculator Function}
+\textbf{Script:} \texttt{demo/grade\_calculator.py}
+
+\subsection{What the Demo Is Teaching}
+\begin{itemize}
+  \item Use a function to keep grading logic in one place.
+  \item Use parameters/defaults so the grading scheme can be reused.
+  \item Return a grade value (instead of only printing).
+\end{itemize}
+
+\subsection{Suggested Run Steps}
+\begin{lstlisting}
+python demo/grade_calculator.py
+\end{lstlisting}
+Extension idea: allow custom grade boundaries (e.g., a different university
+policy).
+
+\section{Quiz and Solutions}
+
+\subsection{Checkpoint 1 (Mutable Defaults)}
+\textbf{Question.} What happens if you use a mutable default like
+\texttt{def f(items=[])}?
+
+\textbf{Solution.} The default object is created once and reused across calls.
+So changes to \texttt{items} in one call affect the default in later calls.
+
+\subsection{Checkpoint 2 (Local Scope)}
+\textbf{Question.} Predict the output:
+\begin{lstlisting}[language=Python]
+x = 5
+
+def foo():
+    x = 2
+    return x
+
+print(foo(), x)
+\end{lstlisting}
+
+\textbf{Solution.} Output is \texttt{2 5}. The \texttt{x} inside \texttt{foo}
+shadows the global \texttt{x} but does not change it.
+
+\subsection{Think-Pair-Share (Keyword Arguments)}
+\textbf{Prompt.} When do keyword arguments improve readability?
+
+\textbf{Sample response.} When a function has multiple parameters of the same
+type or meaning, keywords prevent confusion. For example,
+\texttt{resize(width=640, height=480)} is clearer than \texttt{resize(640, 480)}.
+
+\subsection{Exit Question (Signature for Average)}
+\textbf{Question.} Write a function signature that accepts any number of scores
+and returns their average.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def avg(*scores):
+    if not scores:
+        return 0.0
+    return sum(scores) / len(scores)
+\end{lstlisting}
+
+\section{Practice Exercises (With Solutions)}
+
+\subsection{Exercise 1: Safe Append Helper}
+\textbf{Task.} Write a function \texttt{push(x, items=None)} that appends \texttt{x}
+to a list, but does not use a mutable default.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def push(x, items=None):
+    if items is None:
+        items = []
+    items.append(x)
+    return items
+\end{lstlisting}
+
+\subsection{Exercise 2: Named Formatting Function}
+\textbf{Task.} Write \texttt{format\_name(first, last, title="")} that returns a
+formatted full name. Prefer keyword arguments for optional parts.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def format_name(first, last, title=""):
+    title = title.strip()
+    if title:
+        return f"{title} {first} {last}"
+    return f"{first} {last}"
+\end{lstlisting}
+
+\subsection{Exercise 3: Return vs Print}
+\textbf{Task.} Write a function \texttt{is\_even(n)} that returns \texttt{True} or
+\texttt{False}. Do not print inside the function.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def is_even(n):
+    return n % 2 == 0
+\end{lstlisting}
+
+\section{Further Reading}
+\begin{itemize}
+  \item \url{https://docs.python.org/3/tutorial/controlflow.html#defining-functions}
+\end{itemize}
+
+\end{document}

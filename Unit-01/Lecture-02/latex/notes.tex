@@ -1,0 +1,231 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 01 -- Lecture 02 Notes\\Basic Syntax, Comments, Dynamic Typing, Mutability}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+In this lecture we build the \textbf{core habits} required to write correct and
+readable Python programs:
+\begin{itemize}
+  \item indentation-based blocks,
+  \item meaningful comments and naming,
+  \item dynamic typing and inspecting values using \texttt{type()},
+  \item and the important idea of \textbf{mutability}.
+\end{itemize}
+
+\section{Core Concepts}
+
+\subsection{Indentation and Blocks}
+Python uses indentation to define a block of code. A block starts after a colon
+\texttt{:}.
+
+\begin{lstlisting}[language=Python]
+if 10 > 5:
+    print("Yes")
+    print("Still inside if")
+print("Outside if")
+\end{lstlisting}
+
+\textbf{Common mistakes:}
+\begin{itemize}
+  \item forgetting the colon,
+  \item inconsistent indentation (mixing tabs and spaces),
+  \item extra indentation where it is not needed.
+\end{itemize}
+
+\subsection{Comments}
+Comments are for humans.
+\begin{itemize}
+  \item Use comments to explain \textbf{why} a choice is made.
+  \item Avoid commenting obvious code.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+rate = 0.08  # annual interest rate (8%)
+\end{lstlisting}
+
+\subsection{Variables and Dynamic Typing}
+In Python, the variable name is just a label. The \textbf{value} has the type.
+That is why you can reassign a variable to a new type:
+
+\begin{lstlisting}[language=Python]
+x = 10
+print(type(x))  # <class 'int'>
+x = "ten"
+print(type(x))  # <class 'str'>
+\end{lstlisting}
+
+\textbf{Practical implication:} dynamic typing makes coding fast, but you must
+be careful when reading user input (because \texttt{input()} is always a string).
+
+\subsection{\texttt{type()} and \texttt{id()}}
+\texttt{type(x)} tells you what kind of value is stored in \texttt{x}.
+\texttt{id(x)} gives an integer that represents the identity of the object in
+memory (you can treat it as ``object address-like'' for learning purposes).
+
+\begin{lstlisting}[language=Python]
+a = 100
+print(type(a))
+print(id(a))
+\end{lstlisting}
+
+\subsection{Mutable vs Immutable Types}
+\textbf{Immutable:} cannot be changed in-place (a new object is created).
+\textbf{Mutable:} can be modified after creation.
+
+\begin{center}
+\begin{tabular}{ll}
+  \textbf{Immutable} & \textbf{Mutable} \\
+  \hline
+  \texttt{int}, \texttt{float}, \texttt{bool} & \texttt{list} \\
+  \texttt{str}, \texttt{tuple} & \texttt{dict} \\
+  & \texttt{set} \\
+\end{tabular}
+\end{center}
+
+\subsubsection{Immutable Example (String)}
+\begin{lstlisting}[language=Python]
+s = "python"
+t = s.upper()
+print(s)  # python
+print(t)  # PYTHON
+\end{lstlisting}
+\texttt{upper()} returns a new string. The original string \texttt{s} is unchanged.
+
+\subsubsection{Mutable Example (List)}
+\begin{lstlisting}[language=Python]
+a = [1, 2, 3]
+a.append(99)
+print(a)  # [1, 2, 3, 99]
+\end{lstlisting}
+\texttt{append} changes the same list object in-place.
+
+\subsection{Aliasing (A Common Beginner Bug)}
+Aliasing means two variables refer to the \textbf{same} object.
+
+\begin{lstlisting}[language=Python]
+a = [10, 20]
+b = a        # alias
+b.append(30)
+print(a)     # [10, 20, 30]
+\end{lstlisting}
+
+\textbf{Fix:} create an independent copy:
+\begin{lstlisting}[language=Python]
+b = a.copy()
+# or: b = a[:]
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/dynamic\_typing\_and\_mutability.py}
+
+\subsection*{What to observe}
+\begin{itemize}
+  \item The same variable name can store \texttt{int}, then \texttt{float}, then
+  \texttt{str}.
+  \item \texttt{id()} helps you notice when a new object was created.
+  \item A list can be mutated, and aliasing can cause unexpected changes.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} Identify the error and fix it.
+\begin{lstlisting}[language=Python]
+if 5 > 2
+    print("OK")
+\end{lstlisting}
+
+\textbf{Fix:} add a colon and keep proper indentation:
+\begin{lstlisting}[language=Python]
+if 5 > 2:
+    print("OK")
+\end{lstlisting}
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} Predict the output.
+\begin{lstlisting}[language=Python]
+a = [10, 20]
+b = a
+b.append(30)
+print(a)
+\end{lstlisting}
+
+\textbf{Answer:} \texttt{[10, 20, 30]} because \texttt{a} and \texttt{b} refer to
+the same list.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Fix Indentation}
+\textbf{Task:} Correct the indentation to print \texttt{OK} only when the number is positive.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+n = int(input("Enter n: "))
+if n > 0:
+    print("OK")
+\end{lstlisting}
+
+\subsection*{Exercise 2: Type Checking}
+\textbf{Task:} Store your age as an integer and print its type.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+age = int(input("Enter age: "))
+print(type(age))
+\end{lstlisting}
+
+\subsection*{Exercise 3: Demonstrate Mutability}
+\textbf{Task:} Create a list, add one item, and print before/after.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+items = [1, 2, 3]
+print("Before:", items)
+items.append(4)
+print("After:", items)
+\end{lstlisting}
+
+\subsection*{Exercise 4: Avoid Aliasing}
+\textbf{Task:} Copy a list so that changing the copy does not change the original.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+a = [5, 6, 7]
+b = a.copy()
+b.append(99)
+print("a:", a)
+print("b:", b)
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} Name one mutable type and one immutable type.
+
+\textbf{Answer:} mutable: \texttt{list}; immutable: \texttt{str} (many answers are possible).
+
+\end{document}
+

@@ -1,0 +1,246 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 03 -- Lecture 01 Notes\\File Handling Fundamentals and Directories}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Many programs become truly useful only when they can \textbf{store and load}
+data. File handling allows you to:
+\begin{itemize}
+  \item save results (reports, logs, grades, summaries),
+  \item reuse data later (datasets, configuration),
+  \item and share data between programs.
+\end{itemize}
+This lecture covers file opening modes, reading/writing patterns, the \texttt{with}
+statement, and basic directory handling using \texttt{pathlib}.
+
+\section{Core Concepts}
+
+\subsection{The \texttt{open()} Function}
+The function \texttt{open(path, mode, encoding=...)} returns a file object.
+You can use it to read or write.
+
+\textbf{Best practice:} use \texttt{with open(...)} so the file is always closed:
+\begin{lstlisting}[language=Python]
+with open("data.txt", "r", encoding="utf-8") as f:
+    content = f.read()
+    print(content)
+\end{lstlisting}
+
+\subsection{File Modes (Read/Write/Append)}
+Common modes (text mode):
+\begin{center}
+\begin{tabular}{ll}
+  \toprule
+  Mode & Meaning \\
+  \midrule
+  \texttt{r} & read (file must exist) \\
+  \texttt{w} & write (overwrite if exists, create if not) \\
+  \texttt{a} & append (write at end, create if not) \\
+  \texttt{x} & create new (error if file exists) \\
+  \texttt{t} & text mode (default) \\
+  \texttt{b} & binary mode (images, PDFs, etc.) \\
+  \texttt{+} & update mode (read + write) \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Important behavior:}
+\begin{itemize}
+  \item \texttt{"w"} truncates the file (clears old content). Use carefully.
+  \item \texttt{"a"} keeps old content and adds new lines at the end.
+  \item \texttt{"r"} fails if the file does not exist (\texttt{FileNotFoundError}).
+\end{itemize}
+
+\subsection{Reading Data}
+\subsubsection*{Reading the whole file}
+\begin{lstlisting}[language=Python]
+with open("names.txt", "r", encoding="utf-8") as f:
+    text = f.read()
+\end{lstlisting}
+Good for small files. Not recommended for very large files.
+
+\subsubsection*{Reading line by line (recommended)}
+\begin{lstlisting}[language=Python]
+with open("names.txt", "r", encoding="utf-8") as f:
+    for line in f:
+        name = line.strip()
+        print(name)
+\end{lstlisting}
+\texttt{strip()} removes the newline character \texttt{"\\n"} and extra spaces.
+
+\subsection{Writing Data}
+To write a line, use \texttt{write()} and include a newline \texttt{"\\n"}:
+\begin{lstlisting}[language=Python]
+with open("out.txt", "w", encoding="utf-8") as f:
+    f.write("Alice\\n")
+    f.write("Bob\\n")
+\end{lstlisting}
+
+To write many lines at once, use \texttt{writelines()}:
+\begin{lstlisting}[language=Python]
+lines = ["A\\n", "B\\n", "C\\n"]
+with open("out.txt", "w", encoding="utf-8") as f:
+    f.writelines(lines)
+\end{lstlisting}
+
+\subsection{Why \texttt{with} is Better Than Manual Close}
+Without \texttt{with}, you must remember \texttt{f.close()}:
+\begin{lstlisting}[language=Python]
+f = open("data.txt", "r")
+try:
+    print(f.read())
+finally:
+    f.close()
+\end{lstlisting}
+\texttt{with} automatically does this for you. This matters on Windows because
+open files can remain \emph{locked} if not closed properly.
+
+\subsection{File Pointer: \texttt{tell()} and \texttt{seek()}}
+Files have a current reading position.
+\begin{lstlisting}[language=Python]
+with open("data.txt", "r") as f:
+    print("pos =", f.tell())
+    first = f.readline()
+    print("after readline pos =", f.tell())
+    f.seek(0)  # move back to start
+    again = f.readline()
+\end{lstlisting}
+
+\subsection{Working with Directories (Pathlib)}
+The \texttt{pathlib} module gives an object-oriented way to handle paths.
+\begin{lstlisting}[language=Python]
+from pathlib import Path
+
+root = Path(".")
+print("Current folder:", root.resolve())
+
+for p in root.iterdir():
+    print(p.name, "dir" if p.is_dir() else "file")
+\end{lstlisting}
+
+\textbf{Common useful operations:}
+\begin{itemize}
+  \item Create a directory: \texttt{Path("data").mkdir(exist\_ok=True)}
+  \item Join paths: \texttt{root / "data" / "names.txt"}
+  \item Recursive search: \texttt{root.rglob("*.py")}
+\end{itemize}
+
+\section{Demo Walkthrough}
+\subsection{Demo 1: Read/Write + Simple Stats}
+\textbf{File:} \texttt{demo/file\_read\_write\_demo.py}
+
+What it does:
+\begin{itemize}
+  \item Creates a file in \texttt{data/} and writes a few names.
+  \item Reads the file back.
+  \item Computes:
+    \begin{itemize}
+      \item number of names,
+      \item longest name,
+      \item count of names that start with a vowel.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Demo 2: Directory Walk}
+\textbf{File:} \texttt{demo/directory\_walk\_demo.py}
+
+What it does:
+\begin{itemize}
+  \item Prints a small ``tree'' of files under the lecture folder.
+  \item Demonstrates \texttt{Path.rglob(...)} and basic path operations.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} difference between modes \texttt{"w"} and \texttt{"a"}?
+
+\textbf{Answer:}
+\begin{itemize}
+  \item \texttt{"w"} overwrites (truncates) the file.
+  \item \texttt{"a"} appends to the end of the file without deleting old content.
+\end{itemize}
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} what happens if you open a missing file using \texttt{"r"}?
+
+\textbf{Answer:} Python raises \texttt{FileNotFoundError}.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Count Lines}
+\textbf{Task:} Read a text file and print number of lines.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+path = input("File path: ").strip()
+count = 0
+with open(path, "r", encoding="utf-8") as f:
+    for _ in f:
+        count += 1
+print("Line count =", count)
+\end{lstlisting}
+
+\subsection*{Exercise 2: Copy a File}
+\textbf{Task:} Copy text from one file to another.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+src = input("Source file: ").strip()
+dst = input("Destination file: ").strip()
+with open(src, "r", encoding="utf-8") as f_in:
+    with open(dst, "w", encoding="utf-8") as f_out:
+        for line in f_in:
+            f_out.write(line)
+print("Copied.")
+\end{lstlisting}
+
+\subsection*{Exercise 3: List Python Files}
+\textbf{Task:} Print all \texttt{.py} files inside the current directory and its subfolders.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+from pathlib import Path
+root = Path(".")
+for p in root.rglob("*.py"):
+    print(p)
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} Read all lines from \texttt{"names.txt"} using \texttt{with} and print without newlines.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+with open("names.txt", "r", encoding="utf-8") as f:
+    for line in f:
+        print(line.strip())
+\end{lstlisting}
+
+\end{document}
+

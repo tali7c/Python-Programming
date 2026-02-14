@@ -1,0 +1,34 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Experiment 04 - Exercise 06: Unique Words Using Sets}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Objective}
+Count the number of unique words in a sentence using sets.
+
+\section*{Input}
+A sentence.
+
+\section*{Output}
+Unique word count (and optionally the set of unique words).
+
+\section*{Approach}
+\begin{itemize}
+  \item Split sentence into words.
+  \item Normalize words (lowercase, remove punctuation if needed).
+  \item Insert into a set to remove duplicates automatically.
+\end{itemize}
+
+\section*{Time Complexity}
+\texttt{O(n)} average-case, where $n$ is the number of words/characters.
+
+\end{document}
+

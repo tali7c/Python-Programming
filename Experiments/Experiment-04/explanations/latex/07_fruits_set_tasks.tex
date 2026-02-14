@@ -1,0 +1,41 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Experiment 04 - Exercise 07: Fruit Sets (Intersection, Difference, Union)}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Objective}
+Create two sets of fruits and find:
+\begin{itemize}
+  \item fruits in both sets,
+  \item fruits only in the first set,
+  \item count of all unique fruits from both sets.
+\end{itemize}
+
+\section*{Input}
+Number of fruits $n$ and fruit names for sets \texttt{s1} and \texttt{s2}.
+
+\section*{Output}
+Intersection, difference, union, and the union size.
+
+\section*{Approach}
+Use set operations:
+\begin{itemize}
+  \item Intersection: \texttt{s1 \& s2}
+  \item Difference: \texttt{s1 - s2}
+  \item Union: \texttt{s1 | s2}
+  \item Count of all unique fruits: \texttt{len(s1 | s2)}
+\end{itemize}
+
+\section*{Time Complexity}
+\texttt{O(n)} average-case for building sets and computing operations.
+
+\end{document}
+

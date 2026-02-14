@@ -1,0 +1,156 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 04 -- Lecture 05 Notes\\DB-API 2.0, CRUD Operations, MongoDB Overview}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Python connects to relational databases using the DB-API 2.0 pattern:
+\begin{itemize}
+  \item open a connection,
+  \item create a cursor,
+  \item execute SQL queries,
+  \item fetch results,
+  \item commit changes (for INSERT/UPDATE/DELETE),
+  \item close connection.
+\end{itemize}
+This lecture uses SQLite (\texttt{sqlite3}) for hands-on CRUD and discusses MongoDB at a high level.
+
+\section{Core Concepts}
+
+\subsection{DB-API 2.0 Workflow (SQLite Example)}
+\begin{lstlisting}[language=Python]
+import sqlite3
+
+con = sqlite3.connect("app.db")
+cur = con.cursor()
+
+cur.execute("CREATE TABLE IF NOT EXISTS students(id INTEGER PRIMARY KEY, name TEXT)")
+con.commit()
+
+cur.execute("SELECT * FROM students")
+rows = cur.fetchall()
+
+con.close()
+\end{lstlisting}
+
+\subsection{CRUD in SQL}
+\begin{itemize}
+  \item \textbf{Create:} \texttt{INSERT INTO table (...) VALUES (...)}
+  \item \textbf{Read:} \texttt{SELECT ... FROM table WHERE ...}
+  \item \textbf{Update:} \texttt{UPDATE table SET ... WHERE ...}
+  \item \textbf{Delete:} \texttt{DELETE FROM table WHERE ...}
+\end{itemize}
+
+\subsection{Parameterised Queries}
+Never build SQL by concatenation with user input:
+\begin{lstlisting}[language=Python]
+# BAD (do not do this)
+cur.execute("SELECT * FROM students WHERE sapid = '" + sapid + "'")
+\end{lstlisting}
+
+Use placeholders:
+\begin{lstlisting}[language=Python]
+cur.execute("SELECT * FROM students WHERE sapid = ?", (sapid,))
+\end{lstlisting}
+Benefits:
+\begin{itemize}
+  \item avoids SQL injection,
+  \item handles quoting automatically,
+  \item reduces bugs.
+\end{itemize}
+
+\subsection{Fetching Results}
+Common methods:
+\begin{itemize}
+  \item \texttt{fetchone()} for a single row
+  \item \texttt{fetchall()} for all rows
+\end{itemize}
+
+\subsection{MongoDB Overview}
+MongoDB is a document database:
+\begin{itemize}
+  \item data is stored as documents (JSON-like),
+  \item documents are grouped into collections.
+\end{itemize}
+
+Python driver: \texttt{pymongo} (external install). Example (conceptual):
+\begin{lstlisting}[language=Python]
+# pip install pymongo
+from pymongo import MongoClient
+
+client = MongoClient("mongodb://localhost:27017")
+db = client["college"]
+students = db["students"]
+students.insert_one({"name": "Asha", "sapid": "5001", "marks": 88})
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{SQLite CRUD:} \texttt{demo/sqlite\_crud\_demo.py}\\
+\textbf{MongoDB (optional):} \texttt{demo/mongodb\_optional\_demo.py}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} purpose of \texttt{cursor.execute(...)}?
+
+\textbf{Answer:} It sends an SQL statement (or command) to the database engine to be executed.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} why parameterised queries are safer?
+
+\textbf{Answer:} They separate SQL code from data values, preventing injection and handling escaping correctly.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Update Marks}
+\textbf{Task:} Update marks for a student by SAP ID.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+cur.execute("UPDATE students SET marks = ? WHERE sapid = ?", (marks, sapid))
+con.commit()
+\end{lstlisting}
+
+\subsection*{Exercise 2: Delete a Student}
+\textbf{Task:} Delete a row by SAP ID.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+cur.execute("DELETE FROM students WHERE sapid = ?", (sapid,))
+con.commit()
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} SQL query to update marks by SAP ID?
+
+\textbf{Answer (pattern):}
+\begin{lstlisting}
+UPDATE students SET marks = ? WHERE sapid = ?;
+\end{lstlisting}
+
+\end{document}
+

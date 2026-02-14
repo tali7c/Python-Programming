@@ -1,0 +1,194 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 03 -- Lecture 04: Regular Expressions (Regex) in Python}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Explain what regular expressions are and where they are useful
+    \item Use \texttt{re.search}, \texttt{re.match}, \texttt{re.fullmatch}, \texttt{re.findall}, \texttt{re.sub}
+    \item Understand common meta characters and quantifiers
+    \item Build simple patterns for validation and extraction
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{What is Regex?}
+  \begin{itemize}[<+->]
+    \item A \textbf{pattern language} to match text
+    \item Useful for:
+      \begin{itemize}
+        \item validation (email, phone, ID formats)
+        \item extraction (find all numbers, dates, names)
+        \item cleaning (replace multiple spaces, remove symbols)
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Important: Raw Strings for Patterns}
+  \begin{itemize}[<+->]
+    \item Python uses backslashes in strings (escape sequences)
+    \item Regex also uses backslashes (e.g., \texttt{\textbackslash d})
+    \item Use raw strings: \texttt{r"..."}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+import re
+pattern = r"\d{4}-\d{2}-\d{2}"  # YYYY-MM-DD
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Common Meta Characters}
+  \begin{itemize}[<+->]
+    \item \texttt{.} any character (except newline)
+    \item \texttt{[abc]} one of a,b,c
+    \item \texttt{[a-z]} range
+    \item \texttt{\textbackslash d} digit, \texttt{\textbackslash w} word char, \texttt{\textbackslash s} whitespace
+    \item Anchors: \texttt{\string^} start, \texttt{\$} end
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Quantifiers}
+  \begin{itemize}[<+->]
+    \item \texttt{*} 0 or more
+    \item \texttt{+} 1 or more
+    \item \texttt{?} 0 or 1
+    \item \texttt{\{m\}} exactly m times
+    \item \texttt{\{m,n\}} between m and n times
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+r"\d+"       # one or more digits
+r"\d{10}"    # exactly 10 digits
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Core \texttt{re} Functions}
+  \begin{itemize}[<+->]
+    \item \texttt{re.search(p, text)}: match anywhere
+    \item \texttt{re.match(p, text)}: match from start
+    \item \texttt{re.fullmatch(p, text)}: entire string must match
+    \item \texttt{re.findall(p, text)}: all matches as a list
+    \item \texttt{re.sub(p, repl, text)}: replace matches
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Example: Validate a Phone Number (10 digits)}
+  \begin{lstlisting}[language=Python]
+import re
+phone = input("Phone: ").strip()
+if re.fullmatch(r"\d{10}", phone):
+    print("Valid")
+else:
+    print("Invalid")
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Example: Extract Emails}
+  \begin{lstlisting}[language=Python]
+import re
+text = "Mail us at a@b.com or help@upes.ac.in"
+emails = re.findall(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", text)
+print(emails)
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Extract + Validate Patterns}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/regex\_extractor\_demo.py}
+    \item Extracts:
+      \begin{itemize}
+        \item email addresses
+        \item Indian-style 10-digit phone numbers
+      \end{itemize}
+    \item Demonstrates: \texttt{findall}, \texttt{fullmatch}, \texttt{sub}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} What is the difference between \texttt{search} and \texttt{fullmatch}?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} Write a regex to match a 4-digit PIN code (e.g., 248001).
+  Should it allow leading zeros?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item When is regex a good tool?
+    \item When is plain string logic better than regex?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Regex is for pattern matching, validation, and extraction
+    \item Prefer raw strings \texttt{r"..."} for patterns
+    \item Learn meta characters and quantifiers (\texttt{.}, \texttt{[]}, \texttt{+}, \texttt{\{m,n\}})
+    \item Use \texttt{fullmatch} for validation and \texttt{findall} for extraction
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write a one-line regex (pattern only) for a date in format \texttt{YYYY-MM-DD}.
+\end{frame}
+
+\end{document}

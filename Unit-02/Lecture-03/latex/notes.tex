@@ -1,0 +1,242 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 02 -- Lecture 03 Notes\\Sets and Dictionaries}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+This lecture introduces two extremely practical collection types:
+\begin{itemize}
+  \item \textbf{sets} for uniqueness and fast membership checking, and
+  \item \textbf{dictionaries} for key-value modeling and frequency counting.
+\end{itemize}
+Students should leave with a clear mental model: \emph{use a set when you care
+about ``is it present?'' and uniqueness; use a dictionary when you care about
+``for this key, what value should I store?''}
+
+\section{Sets}
+
+\subsection{What Is a Set?}
+A set is an \textbf{unordered} collection of \textbf{unique} elements.
+When you add duplicates, they are automatically removed.
+
+\subsection{Creating Sets and Testing Membership}
+\begin{lstlisting}[language=Python]
+colors = {"red", "blue", "red"}
+print(colors)          # duplicates removed
+print("red" in colors) # membership check
+
+s = set([1, 2, 2, 3])
+empty_set = set()      # NOT {}
+\end{lstlisting}
+\textbf{Important:} \texttt{\{\}} creates an empty dictionary, not an empty set.
+
+\subsection{Set Operations (Set Algebra)}
+Given two sets \texttt{A} and \texttt{B}:
+\begin{itemize}
+  \item Union: \texttt{A | B} (elements in either)
+  \item Intersection: \texttt{A \& B} (elements common to both)
+  \item Difference: \texttt{A - B} (in A but not in B)
+  \item Symmetric difference: \texttt{A \string^ B} (in exactly one of them)
+\end{itemize}
+Example:
+\begin{lstlisting}[language=Python]
+A = {1, 2, 3}
+B = {2, 3, 4}
+A | B   # {1, 2, 3, 4}
+A & B   # {2, 3}
+A - B   # {1}
+A ^ B   # {1, 4}
+\end{lstlisting}
+
+\subsection{When Sets Are the Right Tool}
+Sets shine in problems like:
+\begin{itemize}
+  \item removing duplicates (de-duplication),
+  \item checking if something has been seen before, and
+  \item computing overlap between two groups.
+\end{itemize}
+Membership tests in sets are typically fast (average-case constant time), which
+is why sets are preferred for repeated \texttt{in} checks.
+
+\subsection{Pitfalls with Sets}
+\begin{itemize}
+  \item \textbf{No indexing:} sets are unordered, so \texttt{s[0]} is invalid.
+  \item \textbf{Elements must be hashable:} you cannot put a list inside a set.
+\end{itemize}
+If order is needed, convert to a sorted list:
+\begin{lstlisting}[language=Python]
+s = {3, 1, 2}
+ordered = sorted(s)   # [1, 2, 3]
+\end{lstlisting}
+
+\section{Dictionaries}
+
+\subsection{What Is a Dictionary?}
+A dictionary maps \textbf{keys} to \textbf{values}. Keys are unique and must be
+immutable (hashable). Values can be any type.
+
+\subsection{Creation and Basic Operations}
+\begin{lstlisting}[language=Python]
+student = {"name": "Asha", "marks": 88}
+student["name"]          # access
+student["marks"] = 90     # update
+
+for k, v in student.items():
+    print(k, v)
+\end{lstlisting}
+
+\subsection{Access: \texttt{d[key]} vs \texttt{d.get(key)}}
+\texttt{d[key]} raises a \texttt{KeyError} if the key does not exist.
+\texttt{d.get(key)} returns \texttt{None} by default (or a custom default).
+\begin{lstlisting}[language=Python]
+d = {"a": 1}
+# d["b"]           # KeyError
+
+d.get("b")          # None
+d.get("b", 0)       # 0
+\end{lstlisting}
+\textbf{Rule of thumb:}
+\begin{itemize}
+  \item Use \texttt{d[key]} when missing keys are a real error.
+  \item Use \texttt{get} when missing keys are expected.
+\end{itemize}
+
+\subsection{Worked Pattern: Frequency Counting}
+Counting is one of the most common dictionary use cases.
+\begin{lstlisting}[language=Python]
+text = "to be or not to be"
+freq = {}
+for w in text.split():
+    freq[w] = freq.get(w, 0) + 1
+\end{lstlisting}
+The key idea is \texttt{get(w, 0)} which uses 0 for unseen words.
+
+\subsection{Sorting Dictionary Items}
+Dictionaries themselves are mappings; sorting creates a \emph{list of pairs}:
+\begin{lstlisting}[language=Python]
+counts = {"a": 3, "b": 1, "c": 2}
+by_value = sorted(counts.items(), key=lambda kv: kv[1])
+by_value_desc = sorted(counts.items(), key=lambda kv: kv[1], reverse=True)
+\end{lstlisting}
+The result is a list like \texttt{[("b", 1), ("c", 2), ("a", 3)]}.
+
+\section{Demo Walkthrough: Word Frequency and Unique Words}
+\textbf{Script:} \texttt{demo/word\_frequency.py}
+
+\subsection{What the Demo Is Teaching}
+\begin{itemize}
+  \item Use a set to get the unique vocabulary.
+  \item Use a dictionary to count word occurrences.
+  \item (Extension) Sort counts to find top frequent words.
+\end{itemize}
+
+\subsection{Suggested Run Steps}
+\begin{lstlisting}
+python demo/word_frequency.py
+\end{lstlisting}
+Suggested student activity: change the sentence and predict which word becomes
+most frequent.
+
+\section{Quiz and Solutions}
+
+\subsection{Checkpoint 1 (Set Removes Duplicates)}
+\textbf{Question.} What is the result of \texttt{set([1,1,2,2])}?
+
+\textbf{Solution.} \texttt{\{1, 2\}} (order does not matter).
+
+\subsection{Checkpoint 2 (\texttt{d[key]} vs \texttt{get})}
+\textbf{Question.} What is the difference between \texttt{d[key]} and
+\texttt{d.get(key)}?
+
+\textbf{Solution.} \texttt{d[key]} raises \texttt{KeyError} if the key is
+missing. \texttt{d.get(key)} returns \texttt{None} (or a provided default) and
+avoids the exception.
+
+\subsection{Think-Pair-Share (Set vs List for Membership)}
+\textbf{Prompt.} Choose set vs list for membership checks and justify.
+
+\textbf{Sample response.} Use a set when you repeatedly check \texttt{x in data}
+for many \texttt{x}. A set is designed for fast membership; a list must scan
+values one by one, which becomes slow as the list grows.
+
+\subsection{Exit Question (Sort by Value Descending)}
+\textbf{Question.} Write one line to sort dictionary items by value in
+descending order.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+sorted(d.items(), key=lambda kv: kv[1], reverse=True)
+\end{lstlisting}
+
+\section{Practice Exercises (With Solutions)}
+
+\subsection{Exercise 1: Unique Words (Case-Insensitive)}
+\textbf{Task.} Given a sentence, print the number of unique words ignoring
+case.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+text = "Python python is FUN fun"
+words = [w.lower() for w in text.split()]
+unique = set(words)
+print(len(unique))
+\end{lstlisting}
+
+\subsection{Exercise 2: Top-3 Frequent Words}
+\textbf{Task.} From a text, print the top-3 words by frequency.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+text = "to be or not to be"
+freq = {}
+for w in text.split():
+    freq[w] = freq.get(w, 0) + 1
+
+top3 = sorted(freq.items(), key=lambda kv: kv[1], reverse=True)[:3]
+print(top3)
+\end{lstlisting}
+
+\subsection{Exercise 3: Jaccard Similarity}
+\textbf{Task.} Given two sets \texttt{A} and \texttt{B}, compute
+$J(A,B)=\frac{|A\cap B|}{|A\cup B|}$.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def jaccard(A, B):
+    inter = A & B
+    uni = A | B
+    return len(inter) / len(uni) if uni else 0.0
+\end{lstlisting}
+
+\section{Further Reading}
+\begin{itemize}
+  \item \url{https://docs.python.org/3/tutorial/datastructures.html#sets}
+  \item \url{https://docs.python.org/3/tutorial/datastructures.html#dictionaries}
+\end{itemize}
+
+\end{document}

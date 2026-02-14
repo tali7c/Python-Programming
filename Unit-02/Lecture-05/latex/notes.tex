@@ -1,0 +1,264 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 02 -- Lecture 05 Notes\\Advanced Functions and Functional Patterns}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+This lecture moves from basic function syntax to advanced usage patterns that
+appear in real codebases:
+\begin{itemize}
+  \item passing collections safely (mutation vs copying),
+  \item recursion (and how to avoid infinite recursion),
+  \item functional tools: \texttt{map}, \texttt{filter}, and \texttt{lambda},
+  \item closures (functions defined inside functions), and
+  \item pure functions vs side effects.
+\end{itemize}
+
+\section{Passing Collections: Mutation and Side Effects}
+Lists and dictionaries are mutable. When you pass them into a function, you pass
+\emph{a reference to the same object}. That means the function can change the
+caller-visible object.
+
+\subsection{In-place Mutation (Sometimes Useful)}
+\begin{lstlisting}[language=Python]
+def add_item(lst, item):
+    lst.append(item)
+
+data = [1, 2]
+add_item(data, 99)
+print(data)  # [1, 2, 99]
+\end{lstlisting}
+This can be efficient, but it is also a side effect. If a function mutates its
+inputs, it should be clearly documented (and ideally reflected in the name).
+
+\subsection{Avoiding Unintended Mutation (Copying)}
+If you want a function that behaves like ``input in, output out'' without
+changing input, copy first:
+\begin{lstlisting}[language=Python]
+def sort_copy(items):
+    tmp = items.copy()
+    tmp.sort()
+    return tmp
+\end{lstlisting}
+This pattern is a stepping stone to writing \textbf{pure functions}.
+
+\section{Recursion}
+
+\subsection{What Is Recursion?}
+A recursive function calls itself to solve a smaller version of the same
+problem.
+Two required parts:
+\begin{itemize}
+  \item \textbf{Base case:} stops recursion.
+  \item \textbf{Progress step:} reduces the problem size each call.
+\end{itemize}
+
+\subsection{Example: Factorial}
+\begin{lstlisting}[language=Python]
+def factorial(n):
+    if n == 1:
+        return 1
+    return n * factorial(n - 1)
+\end{lstlisting}
+If the base case is missing or never reached, Python raises a
+\texttt{RecursionError} after hitting the recursion depth limit.
+
+\subsection{When to Avoid Recursion in Python}
+Recursion is sometimes the clearest solution (trees, divide-and-conquer), but
+for simple loops Python iteration is usually:
+\begin{itemize}
+  \item faster (less call overhead),
+  \item safer (no recursion depth risk), and
+  \item easier to debug.
+\end{itemize}
+
+\section{Functional Tools: \texttt{map}, \texttt{filter}, \texttt{lambda}}
+
+\subsection{\texttt{map}: Transform Each Item}
+\texttt{map(f, iterable)} applies \texttt{f} to each item.
+\begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4]
+squares = list(map(lambda x: x * x, nums))
+\end{lstlisting}
+
+\subsection{\texttt{filter}: Keep Items That Match a Condition}
+\texttt{filter(pred, iterable)} keeps items where \texttt{pred(item)} is true.
+\begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4]
+evens = list(filter(lambda x: x % 2 == 0, nums))
+\end{lstlisting}
+
+\subsection{Pitfall: Iterators in Python 3}
+In Python 3, \texttt{map} and \texttt{filter} return \textbf{iterators}, not
+lists. That is why we wrap them in \texttt{list(...)} when printing or reusing.
+
+\subsection{\texttt{lambda}: Small Anonymous Functions}
+\texttt{lambda} is useful for short functions used once, often as a \texttt{key}
+for sorting or as a mapping function.
+Example (sorting by length):
+\begin{lstlisting}[language=Python]
+words = ["pear", "banana", "fig"]
+print(sorted(words, key=lambda w: len(w)))
+\end{lstlisting}
+If the lambda becomes complex, define a normal named function instead.
+
+\subsection{Inner Functions and Closures}
+An inner function can capture variables from the outer function.
+\begin{lstlisting}[language=Python]
+def make_multiplier(k):
+    def mult(x):
+        return x * k
+    return mult
+
+triple = make_multiplier(3)
+print(triple(10))  # 30
+\end{lstlisting}
+This is a closure: \texttt{mult} ``remembers'' \texttt{k}.
+
+\section{Pure Functions vs Side Effects}
+\textbf{Pure function:}
+\begin{itemize}
+  \item same input always gives same output, and
+  \item no changes to external state (no mutation of input, no global writes).
+\end{itemize}
+Pure functions are easier to test and reason about. Side effects are sometimes
+necessary (writing a file, printing, updating a database), but should be kept
+controlled.
+
+\section{Demo Walkthrough: Cleaning Data with \texttt{map/filter}}
+\textbf{Script:} \texttt{demo/functional\_tools.py}
+
+\subsection{What the Demo Is Teaching}
+\begin{itemize}
+  \item filter invalid values before processing,
+  \item map a transformation across data,
+  \item compare recursion vs iteration for summation.
+\end{itemize}
+
+\subsection{Suggested Run Steps}
+\begin{lstlisting}
+python demo/functional_tools.py
+\end{lstlisting}
+Extension idea: rewrite the \texttt{map/filter} part using list comprehensions
+and compare which version reads better.
+
+\section{Quiz and Solutions}
+
+\subsection{Checkpoint 1 (Base Case)}
+\textbf{Question.} Identify the base case in a recursive function. Why is it
+necessary?
+
+\textbf{Solution.} The base case is the condition that stops recursion (e.g.,
+\texttt{if n == 1: return 1} in factorial). Without it, the function would call
+itself forever (until Python raises \texttt{RecursionError}).
+
+\subsection{Checkpoint 2 (Replace Loop with \texttt{map})}
+\textbf{Question.} Replace this loop with \texttt{map}:
+\begin{lstlisting}[language=Python]
+nums = [1,2,3,4,5]
+squares = []
+for n in nums:
+    squares.append(n*n)
+\end{lstlisting}
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4, 5]
+squares = list(map(lambda x: x * x, nums))
+\end{lstlisting}
+
+\subsection{Think-Pair-Share (Avoiding Recursion)}
+\textbf{Prompt.} When should you avoid recursion in Python? Provide one reason
+and one example.
+
+\textbf{Sample response.} Avoid recursion for simple counting/accumulation loops
+because recursion is slower and can hit recursion depth limits. Example:
+summing a list is clearer and safer with a \texttt{for} loop than with recursion.
+
+\subsection{Exit Question (Mutation Visibility)}
+\textbf{Question.} If a function appends to a list passed as an argument, does
+the caller see the change? Why?
+
+\textbf{Solution.} Yes. The function receives a reference to the same list
+object, so mutating it (append/remove) changes the object the caller holds.
+
+\section{Practice Exercises (With Solutions)}
+
+\subsection{Exercise 1: Pure vs In-place}
+\textbf{Task.} Write two functions: one that sorts a list in place, and one that
+returns a sorted copy.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def sort_in_place(items):
+    items.sort()
+    return items
+
+def sorted_copy(items):
+    return sorted(items)
+\end{lstlisting}
+
+\subsection{Exercise 2: Recursive Sum}
+\textbf{Task.} Write a recursive function \texttt{sum\_list(nums)}.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def sum_list(nums):
+    if not nums:
+        return 0
+    return nums[0] + sum_list(nums[1:])
+\end{lstlisting}
+Note: slicing creates new lists; for very large lists, an iterative approach is
+more efficient.
+
+\subsection{Exercise 3: Rewrite \texttt{map/filter} as a Comprehension}
+\textbf{Task.} Given \texttt{nums}, build a list of squares of even numbers.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4, 5]
+even_squares = [n*n for n in nums if n % 2 == 0]
+\end{lstlisting}
+
+\subsection{Exercise 4: Closure Practice}
+\textbf{Task.} Use \texttt{make\_multiplier} to create a function that multiplies
+by 5.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+five_x = make_multiplier(5)
+print(five_x(7))  # 35
+\end{lstlisting}
+
+\section{Further Reading}
+\begin{itemize}
+  \item \url{https://docs.python.org/3/library/functions.html#map}
+  \item \url{https://docs.python.org/3/library/functions.html#filter}
+\end{itemize}
+
+\end{document}

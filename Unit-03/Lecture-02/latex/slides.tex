@@ -1,0 +1,198 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 03 -- Lecture 02: Errors vs Exceptions and Exception Handling}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Explain the difference between \textbf{errors} and \textbf{exceptions}
+    \item Use \texttt{try/except/else/finally} for safe programs
+    \item Handle multiple exceptions correctly and specifically
+    \item Use \texttt{raise} and \texttt{assert} appropriately
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Errors vs Exceptions}
+  \begin{itemize}[<+->]
+    \item \textbf{Syntax errors}: program cannot start (invalid code)
+    \item \textbf{Exceptions}: runtime problems (division by zero, bad input, missing file)
+    \item A robust program anticipates exceptions and handles them cleanly
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{The Exception Model (Big Picture)}
+  \begin{itemize}[<+->]
+    \item An exception is \textbf{raised} when something goes wrong
+    \item If not handled, it \textbf{propagates} up and stops the program
+    \item \texttt{try/except} lets you catch and recover
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Basic \texttt{try/except}}
+  \begin{lstlisting}[language=Python]
+try:
+    n = int(input("Enter n: "))
+    print(10 / n)
+except ValueError:
+    print("Please enter an integer.")
+except ZeroDivisionError:
+    print("Division by zero is not allowed.")
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{else} and \texttt{finally}}
+  \begin{itemize}[<+->]
+    \item \texttt{else}: runs only if \textbf{no exception} occurred
+    \item \texttt{finally}: runs \textbf{always} (cleanup)
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+try:
+    f = open("data.txt", "r")
+    data = f.read()
+except FileNotFoundError:
+    print("File not found")
+else:
+    print("Length:", len(data))
+finally:
+    # runs even if exception happens
+    try:
+        f.close()
+    except Exception:
+        pass
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Multiple Exceptions}
+  \begin{itemize}[<+->]
+    \item Catch \textbf{specific} exceptions first
+    \item Avoid catching everything unless you re-raise or log
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+try:
+    x = int(input("x: "))
+    y = int(input("y: "))
+    print(x // y)
+except (ValueError, ZeroDivisionError) as e:
+    print("Error:", e)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{raise} and \texttt{assert}}
+  \begin{itemize}[<+->]
+    \item \texttt{raise} creates your own exception with a message
+    \item \texttt{assert} is mainly for debugging assumptions
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+age = int(input("Age: "))
+if age < 0:
+    raise ValueError("Age must be non-negative")
+
+assert age >= 0
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Safe Input + Safe File Read}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/exception\_handling\_demo.py}
+    \item Shows:
+      \begin{itemize}
+        \item repeated input until valid integer
+        \item safe division
+        \item safe file reading (missing file handling)
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} When does the \texttt{else} block of a \texttt{try} statement run?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} Why is it better to catch \texttt{ValueError} than to catch
+  \texttt{Exception} for user input conversion?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item Where should you place \texttt{try/except} blocks?
+    \item Around the entire program OR only around the risky lines?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Exceptions are runtime issues; syntax errors stop the program immediately
+    \item Use \texttt{try/except} to handle expected failures
+    \item \texttt{else} runs only on success; \texttt{finally} runs always
+    \item Catch specific exceptions and keep error messages user-friendly
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write a snippet that reads an integer and prints it.
+  If the input is invalid, print \texttt{"Invalid integer"} without crashing.
+\end{frame}
+
+\end{document}
+

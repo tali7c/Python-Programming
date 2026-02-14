@@ -1,0 +1,134 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 06 -- Lecture 05 Notes\\Matplotlib Fundamentals (pyplot, labels, grid)}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Matplotlib is the most commonly used plotting library in Python.
+This lecture focuses on basic plotting with \texttt{matplotlib.pyplot}:
+\begin{itemize}
+  \item line plots,
+  \item labels and title,
+  \item grid and legend,
+  \item saving plots to files.
+\end{itemize}
+
+\section{Setup (If Needed)}
+If Matplotlib is not installed:
+\begin{lstlisting}
+pip install matplotlib
+\end{lstlisting}
+
+\section{Core Concepts}
+
+\subsection{Basic Plot Workflow}
+Typical steps:
+\begin{enumerate}
+  \item prepare x and y data,
+  \item call \texttt{plt.plot(...)} or another plotting function,
+  \item add labels/title/legend,
+  \item show or save the plot.
+\end{enumerate}
+
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4]
+y = [2, 4, 6, 8]
+
+plt.plot(x, y)
+plt.show()
+\end{lstlisting}
+
+\subsection{Labels, Title, Grid, Legend}
+\begin{lstlisting}[language=Python]
+plt.plot(x, y, label="y = 2x")
+plt.title("Line Plot")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.grid(True)
+plt.legend()
+\end{lstlisting}
+
+\subsection{Customization}
+You can customize style:
+\begin{itemize}
+  \item color (\texttt{color="red"})
+  \item line style (\texttt{linestyle="--"})
+  \item marker (\texttt{marker="o"})
+\end{itemize}
+
+\subsection{Saving Plots}
+\begin{lstlisting}[language=Python]
+plt.savefig("images/line_plot.png", dpi=150)
+\end{lstlisting}
+\textbf{Tip:} create the output folder before saving.
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/matplotlib\_line\_plot\_demo.py}
+
+This demo creates a customized plot and saves it into \texttt{images/}.
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} What does \texttt{plt.grid(True)} do?
+
+\textbf{Answer:} It draws a grid on the plot background to improve readability.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} Why labels and titles?
+
+\textbf{Answer:} They explain what the plot represents; without labels, a plot can be confusing or misleading.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Plot Squares}
+\textbf{Task:} Plot $y = x^2$ for $x = 1..10$.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+x = list(range(1, 11))
+y = [i*i for i in x]
+
+plt.plot(x, y, marker="o")
+plt.title("y = x^2")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.grid(True)
+plt.show()
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} function used to save a plot?
+
+\textbf{Answer:} \texttt{savefig}
+
+\end{document}
+

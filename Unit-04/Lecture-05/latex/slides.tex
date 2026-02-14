@@ -1,0 +1,152 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 04 -- Lecture 05: DB-API 2.0, CRUD Operations, MongoDB Overview}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Understand the DB-API 2.0 workflow (connection, cursor, execute)
+    \item Perform CRUD operations using parameterised queries
+    \item Fetch results using \texttt{fetchone} / \texttt{fetchall}
+    \item Describe how MongoDB differs from relational databases
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{DB-API 2.0: The Common Pattern}
+  \begin{lstlisting}[language=Python]
+import sqlite3
+con = sqlite3.connect("app.db")
+cur = con.cursor()
+cur.execute("SELECT * FROM students")
+rows = cur.fetchall()
+con.close()
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{CRUD}
+  \begin{itemize}[<+->]
+    \item \textbf{C}reate: \texttt{INSERT}
+    \item \textbf{R}ead: \texttt{SELECT}
+    \item \textbf{U}pdate: \texttt{UPDATE}
+    \item \textbf{D}elete: \texttt{DELETE}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Parameterised Queries (Important)}
+  \begin{itemize}[<+->]
+    \item Avoid string concatenation in SQL
+    \item Use placeholders to prevent SQL injection and quoting bugs
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+cur.execute(
+    "INSERT INTO students(name, sapid) VALUES (?, ?)",
+    (name, sapid)
+)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{MongoDB (High-Level View)}
+  \begin{itemize}[<+->]
+    \item MongoDB is a document database (NoSQL)
+    \item Stores JSON-like documents in collections
+    \item Useful when schema is flexible or data is nested
+    \item Python driver: \texttt{pymongo} (requires installation)
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: SQLite CRUD + Optional MongoDB Stub}
+  \begin{itemize}[<+->]
+    \item SQLite CRUD: \texttt{demo/sqlite\_crud\_demo.py}
+    \item MongoDB (optional): \texttt{demo/mongodb\_optional\_demo.py}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} What is the purpose of \texttt{cursor.execute(...)}?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} Why are parameterised queries safer than string concatenation?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item Which operations should be allowed in a student database app:
+      Insert, Update, Delete? Why?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item DB-API uses connection + cursor + execute + fetch + commit
+    \item CRUD maps to SQL commands (INSERT/SELECT/UPDATE/DELETE)
+    \item Parameterised queries improve safety and correctness
+    \item MongoDB stores documents (NoSQL) and is accessed via drivers like \texttt{pymongo}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write one SQL query to update marks of a student with a given SAP ID.
+\end{frame}
+
+\end{document}
+

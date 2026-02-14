@@ -1,0 +1,166 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 06 -- Lecture 01 Notes\\NumPy Basics (ndarray, Operations, Broadcasting)}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+NumPy is the core library for numerical computing in Python. It provides
+\textbf{ndarray} objects (n-dimensional arrays) and fast vectorized operations.
+This lecture focuses on:
+\begin{itemize}
+  \item array creation,
+  \item array attributes,
+  \item vectorized operations,
+  \item and broadcasting.
+\end{itemize}
+
+\section{Setup (If Needed)}
+If NumPy is not installed:
+\begin{lstlisting}
+pip install numpy
+\end{lstlisting}
+
+\section{Core Concepts}
+
+\subsection{List vs NumPy Array}
+Python lists can store mixed types and are not optimized for numerical math.
+NumPy arrays store values in a compact block of memory and use fixed \texttt{dtype}.
+
+\begin{lstlisting}[language=Python]
+import numpy as np
+
+lst = [1, 2, 3]
+arr = np.array([1, 2, 3])
+
+print(lst * 2)   # [1, 2, 3, 1, 2, 3]
+print(arr * 2)   # [2 4 6]
+\end{lstlisting}
+
+\subsection{Array Creation}
+Common creation functions:
+\begin{itemize}
+  \item \texttt{np.array([...])}
+  \item \texttt{np.zeros((r,c))}
+  \item \texttt{np.ones((r,c))}
+  \item \texttt{np.arange(start, stop, step)}
+  \item \texttt{np.linspace(start, stop, num)}
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+a = np.zeros((2, 3))
+b = np.ones((2, 3))
+c = np.arange(0, 10, 2)
+d = np.linspace(0, 1, 5)
+\end{lstlisting}
+
+\subsection{Array Attributes}
+Useful attributes:
+\begin{itemize}
+  \item \texttt{shape}: tuple of dimensions
+  \item \texttt{ndim}: number of dimensions
+  \item \texttt{size}: total number of elements
+  \item \texttt{dtype}: data type of elements
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+m = np.array([[1, 2], [3, 4]])
+print(m.shape)  # (2, 2)
+print(m.ndim)   # 2
+print(m.size)   # 4
+print(m.dtype)  # int64 (or similar)
+\end{lstlisting}
+
+\subsection{Vectorized Operations}
+NumPy applies operations element-wise:
+\begin{lstlisting}[language=Python]
+x = np.array([1, 2, 3])
+print(x + 10)   # [11 12 13]
+print(x * x)    # [1 4 9]
+\end{lstlisting}
+
+\subsection{Broadcasting (Beginner View)}
+Broadcasting allows operations between arrays of different shapes when compatible.
+The simplest forms:
+\begin{itemize}
+  \item array and scalar (scalar applied to all elements)
+  \item matrix and vector (vector applied across rows/columns depending on shape)
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+a = np.array([[1, 2, 3],
+              [4, 5, 6]])
+v = np.array([10, 20, 30])
+print(a + v)
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/numpy\_basics\_demo.py}
+
+Observe:
+\begin{itemize}
+  \item creating arrays using multiple methods,
+  \item applying vectorized operations,
+  \item broadcasting with a row vector.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} why is \texttt{[1,2,3]*2} different?
+
+\textbf{Answer:} list multiplication repeats the list, while NumPy array multiplication is numeric and element-wise.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} what is broadcasting?
+
+\textbf{Answer:} a rule system that expands smaller shapes to match larger shapes for element-wise operations.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Create a 3x3 Array of Ones}
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+import numpy as np
+a = np.ones((3, 3))
+print(a)
+\end{lstlisting}
+
+\subsection*{Exercise 2: Square All Elements}
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+import numpy as np
+x = np.array([1, 2, 3, 4])
+print(x * x)
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} name two array creation functions.
+
+\textbf{Answer:} \texttt{np.array}, \texttt{np.zeros} (many answers).
+
+\end{document}
+

@@ -1,0 +1,106 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\title{Python Programming (B.Tech CSE - Sem 2)\\Experiment 05 -- Exercise Sheet\\Collections and Mini-Apps}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\textbf{Repository:} \texttt{https://github.com/tali7c/Python-Programming}
+
+\textbf{Note:} This document contains only problem statements (no solutions).
+
+\section*{Instructions}
+\begin{itemize}[leftmargin=*]
+  \item Write a separate Python program for each exercise.
+  \item Use appropriate data structures (list/tuple/dict) based on the task.
+  \item Validate input and handle edge cases (empty input, duplicates).
+  \item For menu-driven tasks, keep the menu clear and loop until Exit.
+\end{itemize}
+
+\section*{Exercises}
+
+\subsection*{Exercise 01: Count Occurrences (0 to 3)}
+Read $n$ integers (each expected in the range 0 to 3). Count occurrences of 0,
+1, 2, and 3 and display the counts.
+
+\textbf{Input:} $n$ and $n$ integers \\
+\textbf{Output:} counts for 0, 1, 2, and 3
+
+\subsection*{Exercise 02: Tuple Average}
+Read $n$ numbers, store them in a tuple, and compute the average.
+
+\textbf{Input:} $n$ and $n$ numbers \\
+\textbf{Output:} the tuple and its average
+
+\subsection*{Exercise 03: Runner-Up Score}
+Read $n$ scores and print the runner-up score (the second highest distinct score).
+If there are fewer than two distinct scores, print a suitable message.
+
+\textbf{Input:} $n$ and $n$ integers \\
+\textbf{Output:} runner-up score (or message if not possible)
+
+\subsection*{Exercise 04: Name-City Dictionary and City Counts}
+Read details of $n$ persons (name and city) and store them in a dictionary.
+Then:
+\begin{itemize}[leftmargin=*]
+  \item print all names,
+  \item print all cities,
+  \item print name and city pairs,
+  \item compute and print how many persons belong to each city.
+\end{itemize}
+
+\textbf{Input:} $n$ pairs of (name, city) \\
+\textbf{Output:} names, cities, pairs, and city-wise counts
+
+\subsection*{Exercise 05: Movie Dictionary Queries}
+Read details of $n$ movies and store them in a dictionary. For each movie, store:
+name, year, director, production cost, and collection. Then:
+\begin{itemize}[leftmargin=*]
+  \item print all movie details,
+  \item list movies released before 2015,
+  \item list movies that made a profit (collection $>$ cost),
+  \item ask for a director name and list movies by that director (case-insensitive).
+\end{itemize}
+
+\textbf{Input:} movie details and a director name to search \\
+\textbf{Output:} results of the queries
+
+\subsection*{Exercise 06: Contact Book (Menu-Driven)}
+Build a contact book using a dictionary with the following operations:
+\begin{itemize}[leftmargin=*]
+  \item Add a contact (name, phone),
+  \item Search by name,
+  \item Update phone number,
+  \item Delete a contact,
+  \item View all contacts,
+  \item Exit.
+\end{itemize}
+
+\textbf{Input:} menu choices and contact details \\
+\textbf{Output:} results of operations and current contacts
+
+\subsection*{Exercise 07: Todo List Manager (Menu-Driven)}
+Build a todo list manager using a list with the following operations:
+\begin{itemize}[leftmargin=*]
+  \item Add a task,
+  \item View all tasks (with numbering),
+  \item Remove a task by its number,
+  \item Exit.
+\end{itemize}
+
+\textbf{Input:} menu choices and task details \\
+\textbf{Output:} updated task list after each operation
+
+\end{document}
+

@@ -1,0 +1,182 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 01 -- Lecture 01 Notes\\Introduction and Working with Python}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+This lecture helps you \textbf{start} with Python the right way:
+\begin{itemize}
+  \item what Python is and why it is popular,
+  \item how to run Python in \textbf{interactive mode (REPL)} and \textbf{scripting mode},
+  \item and how to write a first program that follows the common pattern:
+  \textbf{Input} $\rightarrow$ \textbf{Process} $\rightarrow$ \textbf{Output}.
+\end{itemize}
+
+\textbf{Repository (course materials):}
+\texttt{https://github.com/tali7c/Python-Programming}
+
+\section{Core Concepts}
+
+\subsection{What is Python? (Quick Picture)}
+Python is a general-purpose programming language known for:
+\begin{itemize}
+  \item \textbf{readable syntax} (you can focus on logic, not symbols),
+  \item a \textbf{large ecosystem} of libraries (web, data analysis, AI, automation),
+  \item and \textbf{cross-platform} support.
+\end{itemize}
+In this course, Python is used to build programming fundamentals that later
+support subjects like data structures, databases, and data analysis.
+
+\subsection{Two Ways to Run Python}
+There are two everyday ways to run Python code:
+\begin{enumerate}
+  \item \textbf{Interactive mode (REPL):} You type a statement and get the result
+  immediately. Good for exploration.
+  \item \textbf{Scripting mode:} You save a program in a \texttt{.py} file and
+  execute it. Good for assignments, labs, and reusable programs.
+\end{enumerate}
+
+\subsubsection{Interactive Mode (REPL)}
+Example (Python prompt):
+\begin{lstlisting}[language=Python]
+>>> 2 + 3
+5
+>>> "UPES".lower()
+'upes'
+\end{lstlisting}
+Use REPL when you want quick feedback, or when you are learning a new concept.
+
+\subsubsection{Scripting Mode (\texttt{.py} file)}
+A script is a plain text file that contains Python statements.
+Typical run command in a terminal:
+\begin{lstlisting}
+python my_program.py
+\end{lstlisting}
+If your file is \texttt{task.py}, the command is \texttt{python task.py}.
+
+\subsection{The IPO Pattern: Input $\rightarrow$ Process $\rightarrow$ Output}
+Most beginner programs follow this pattern:
+\begin{itemize}
+  \item \textbf{Input:} read values from the user (keyboard).
+  \item \textbf{Process:} compute something using variables and operators.
+  \item \textbf{Output:} show the result using \texttt{print()}.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+name = input("Enter your name: ")
+print("Hello,", name)
+\end{lstlisting}
+
+\textbf{Important:} \texttt{input()} always returns a \texttt{str}.
+So if you read numbers, you must convert:
+\begin{lstlisting}[language=Python]
+a = input("Enter a number: ")
+b = input("Enter another number: ")
+total = int(a) + int(b)
+print("Sum =", total)
+\end{lstlisting}
+If you forget \texttt{int(...)} here, then \texttt{"2" + "3"} becomes \texttt{"23"},
+because string concatenation is used.
+
+\section{Demo Walkthrough: Mini Calculator}
+\textbf{File:} \texttt{demo/mini\_calculator.py}
+
+\subsection*{Goal}
+Read two numbers and print their sum, difference, product, and quotient.
+Also handle division by zero safely.
+
+\subsection*{How to run}
+From the lecture folder:
+\begin{lstlisting}
+python demo/mini_calculator.py
+\end{lstlisting}
+
+\subsection*{Key idea}
+Use \texttt{float(...)} to allow decimal inputs. Use an \texttt{if} condition to
+avoid dividing by zero.
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} When is interactive mode (REPL) better than a script?
+
+\textbf{Answer (examples):}
+\begin{itemize}
+  \item When you want to quickly test a small expression (e.g., check operator precedence).
+  \item When you want to explore a library function without writing a full program.
+\end{itemize}
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} What is the type of \texttt{input()}?
+
+\textbf{Answer:} \texttt{input()} returns a \texttt{str}. You can verify using:
+\begin{lstlisting}[language=Python]
+x = input("Enter something: ")
+print(type(x))  # <class 'str'>
+\end{lstlisting}
+
+\section{Practice Exercises (with Solutions)}
+Try these after the lecture. Solutions are provided so you can self-check.
+
+\subsection*{Exercise 1: Sum of Two Integers}
+\textbf{Task:} Read two integers and print their sum.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+a = int(input("Enter a: "))
+b = int(input("Enter b: "))
+print("Sum =", a + b)
+\end{lstlisting}
+
+\subsection*{Exercise 2: Area of a Circle}
+\textbf{Task:} Read radius $r$ and print area using $\pi r^2$ (use $\pi=3.14159$).
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+pi = 3.14159
+r = float(input("Enter radius: "))
+area = pi * r * r
+print("Area =", area)
+\end{lstlisting}
+
+\subsection*{Exercise 3: Print a Clean Output Line}
+\textbf{Task:} Print \texttt{Name: <name>, Age: <age>} in one line.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+name = input("Name: ")
+age = int(input("Age: "))
+print("Name:", name + ",", "Age:", age)
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} Write the command to run \texttt{task.py} from terminal.
+
+\textbf{Solution:} \texttt{python task.py}
+
+\end{document}
+

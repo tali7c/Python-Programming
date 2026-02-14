@@ -1,0 +1,146 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 04 -- Lecture 06 Notes\\Transactions and Database Error Handling}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Databases must remain consistent even when errors happen.
+Transactions solve this by providing \textbf{all-or-nothing} behavior:
+either every operation succeeds or none is applied.
+
+\section{Core Concepts}
+
+\subsection{What is a Transaction?}
+A transaction groups multiple SQL operations into one unit of work.
+
+Example: transferring money requires two updates:
+\begin{itemize}
+  \item subtract from account A,
+  \item add to account B.
+\end{itemize}
+If the second update fails, the first update must be undone.
+That is rollback.
+
+\subsection{Commit and Rollback}
+\begin{itemize}
+  \item \texttt{commit()} makes changes permanent.
+  \item \texttt{rollback()} undoes changes since the last commit.
+\end{itemize}
+
+\subsection{Safe Pattern in Python}
+\begin{lstlisting}[language=Python]
+import sqlite3
+
+con = sqlite3.connect("app.db")
+try:
+    con.execute("INSERT ...")
+    con.execute("UPDATE ...")
+    con.commit()
+except sqlite3.Error as e:
+    con.rollback()
+    print("DB Error:", e)
+finally:
+    con.close()
+\end{lstlisting}
+
+\subsection{Common Database Exceptions}
+\begin{itemize}
+  \item \texttt{sqlite3.IntegrityError}: constraint failed (UNIQUE, NOT NULL, etc.)
+  \item \texttt{sqlite3.OperationalError}: bad SQL, missing table, locked database
+  \item \texttt{sqlite3.ProgrammingError}: wrong API usage (closed cursor, wrong parameters)
+  \item \texttt{sqlite3.Error}: parent class for SQLite exceptions
+\end{itemize}
+
+\subsection{Context Manager Shortcut}
+SQLite connections support context managers:
+\begin{lstlisting}[language=Python]
+import sqlite3
+
+with sqlite3.connect("app.db") as con:
+    con.execute("INSERT ...")
+    # commit happens automatically if no exception
+    # rollback happens automatically on exception
+\end{lstlisting}
+This is a clean and safe pattern for many scripts.
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/transactions\_rollback\_demo.py}
+
+The demo:
+\begin{itemize}
+  \item creates a table with a UNIQUE constraint,
+  \item attempts two inserts in one transaction,
+  \item the second insert violates the constraint,
+  \item rollback ensures no partial insertion remains.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} What problem happens without transactions?
+
+\textbf{Answer:} partial updates can remain in the database, causing inconsistent data.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} Which exception for duplicate unique value?
+
+\textbf{Answer:} \texttt{IntegrityError}.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Add UNIQUE Constraint}
+\textbf{Task:} Create a table where \texttt{sapid} must be unique.
+
+\textbf{Solution:}
+\begin{lstlisting}
+CREATE TABLE students (
+  id INTEGER PRIMARY KEY,
+  sapid TEXT UNIQUE,
+  name TEXT
+);
+\end{lstlisting}
+
+\subsection*{Exercise 2: Rollback on Failure}
+\textbf{Task:} Insert two rows; if any insert fails, rollback.
+
+\textbf{Solution (pattern):}
+\begin{lstlisting}[language=Python]
+try:
+    con.execute("INSERT ...", (...,))
+    con.execute("INSERT ...", (...,))
+    con.commit()
+except sqlite3.Error:
+    con.rollback()
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} What does \texttt{rollback()} do?
+
+\textbf{Answer:} It cancels all uncommitted changes and restores the database to the last committed state.
+
+\end{document}
+

@@ -1,0 +1,179 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 03 -- Lecture 04 Notes\\Regular Expressions (Regex) in Python}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Regular expressions (regex) are a powerful way to describe text patterns.
+They are widely used in:
+\begin{itemize}
+  \item input validation (phone numbers, emails, dates),
+  \item information extraction (finding all numbers, IDs, links),
+  \item and cleaning data (replacing unwanted characters).
+\end{itemize}
+This lecture focuses on practical regex features that you can use in beginner programs.
+
+\section{Core Concepts}
+
+\subsection{Use Raw Strings for Patterns}
+Regex patterns contain backslashes like \texttt{\textbackslash d}. Python strings also use backslashes for escapes.
+So it is recommended to use raw strings:
+\begin{lstlisting}[language=Python]
+pattern = r"\d{4}-\d{2}-\d{2}"
+\end{lstlisting}
+
+\subsection{Common Meta Characters (Quick Reference)}
+\begin{itemize}
+  \item \texttt{.} any character (except newline)
+  \item \texttt{[abc]} one of a,b,c
+  \item \texttt{[a-z]} range
+  \item \texttt{\textbackslash d} digit, \texttt{\textbackslash w} word char, \texttt{\textbackslash s} whitespace
+  \item Anchors: \texttt{\string^} start of string, \texttt{\$} end of string
+  \item Grouping: \texttt{(...)} creates a group
+  \item Alternation: \texttt{|} means OR
+\end{itemize}
+
+\subsection{Quantifiers}
+\begin{itemize}
+  \item \texttt{*} 0 or more
+  \item \texttt{+} 1 or more
+  \item \texttt{?} 0 or 1
+  \item \texttt{\{m\}} exactly m times
+  \item \texttt{\{m,n\}} between m and n times
+\end{itemize}
+
+Examples:
+\begin{lstlisting}[language=Python]
+r"\d+"      # one or more digits
+r"\d{10}"   # exactly 10 digits
+r"[A-Z]{2}\d{4}"  # like AB1234
+\end{lstlisting}
+
+\subsection{Core \texttt{re} Functions}
+\begin{itemize}
+  \item \texttt{re.search(p, text)}: match anywhere
+  \item \texttt{re.match(p, text)}: match only from the start
+  \item \texttt{re.fullmatch(p, text)}: entire string must match (great for validation)
+  \item \texttt{re.findall(p, text)}: all matches
+  \item \texttt{re.sub(p, repl, text)}: replace all matches
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+import re
+text = "Marks: 75, 88, 92"
+nums = re.findall(r"\d+", text)  # ["75", "88", "92"]
+\end{lstlisting}
+
+\subsection{Validation vs Extraction}
+\textbf{Validation:} use \texttt{fullmatch}.
+\begin{lstlisting}[language=Python]
+import re
+pin = input("PIN: ").strip()
+if re.fullmatch(r"\d{6}", pin):
+    print("Valid PIN")
+\end{lstlisting}
+
+\textbf{Extraction:} use \texttt{findall} or \texttt{finditer}.
+\begin{lstlisting}[language=Python]
+import re
+text = "Call 9876543210 or 9123456789"
+phones = re.findall(r"\b\d{10}\b", text)
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/regex\_extractor\_demo.py}
+
+\subsection*{What it does}
+\begin{itemize}
+  \item Finds all email addresses in a text block.
+  \item Finds all 10-digit phone numbers.
+  \item Cleans multiple spaces into a single space using \texttt{re.sub}.
+  \item Validates a user-provided phone number using \texttt{fullmatch}.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} difference between \texttt{search} and \texttt{fullmatch}?
+
+\textbf{Answer:}
+\begin{itemize}
+  \item \texttt{search} finds a match anywhere inside the text.
+  \item \texttt{fullmatch} requires the entire string to match the pattern (best for validation).
+\end{itemize}
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} regex for 4-digit PIN? Should it allow leading zeros?
+
+\textbf{Answer:} A 4-digit PIN pattern is \texttt{r"\textbackslash d\{4\}"}.
+If leading zeros are allowed, this is fine. If you want to disallow leading zeros,
+use \texttt{r"[1-9]\textbackslash d\{3\}"}.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Extract All Integers}
+\textbf{Task:} Extract all integer numbers from a string.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+import re
+text = input("Text: ")
+nums = re.findall(r"-?\d+", text)
+print(nums)
+\end{lstlisting}
+
+\subsection*{Exercise 2: Replace Multiple Spaces}
+\textbf{Task:} Replace multiple spaces with a single space.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+import re
+s = input("Enter text: ")
+clean = re.sub(r"\s+", " ", s).strip()
+print(clean)
+\end{lstlisting}
+
+\subsection*{Exercise 3: Validate Date (YYYY-MM-DD)}
+\textbf{Task:} Validate format \texttt{YYYY-MM-DD}. (Format only, not calendar correctness.)
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+import re
+date = input("Date: ").strip()
+if re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+    print("Valid format")
+else:
+    print("Invalid format")
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} regex pattern for \texttt{YYYY-MM-DD}?
+
+\textbf{Answer:} \texttt{r"\textbackslash d\{4\}-\textbackslash d\{2\}-\textbackslash d\{2\}"}
+
+\end{document}
+

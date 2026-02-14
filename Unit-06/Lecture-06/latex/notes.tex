@@ -1,0 +1,116 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 06 -- Lecture 06 Notes\\Plot Types and Subplots}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Different plot types are used for different questions:
+\begin{itemize}
+  \item trends $\rightarrow$ line plots,
+  \item comparisons $\rightarrow$ bar charts,
+  \item distributions $\rightarrow$ histograms,
+  \item relationships $\rightarrow$ scatter plots.
+\end{itemize}
+Subplots help you combine multiple plots in one figure.
+
+\section{Core Concepts}
+
+\subsection{Line Plot}
+Good for trends (time series).
+\begin{lstlisting}[language=Python]
+plt.plot(x, y)
+\end{lstlisting}
+
+\subsection{Bar Chart}
+Good for category comparisons.
+\begin{lstlisting}[language=Python]
+plt.bar(categories, values)
+\end{lstlisting}
+
+\subsection{Histogram}
+Good for distributions.
+\begin{lstlisting}[language=Python]
+plt.hist(values, bins=10)
+\end{lstlisting}
+
+\subsection{Scatter Plot}
+Good for relationships between two numeric variables.
+\begin{lstlisting}[language=Python]
+plt.scatter(x, y)
+\end{lstlisting}
+
+\subsection{Pie Chart (Use Carefully)}
+Pie charts show proportions, but can be hard to compare precisely.
+\begin{lstlisting}[language=Python]
+plt.pie(values, labels=labels, autopct="%1.1f%%")
+\end{lstlisting}
+
+\subsection{Subplots}
+Create multiple axes in one figure:
+\begin{lstlisting}[language=Python]
+fig, ax = plt.subplots(2, 2, figsize=(8, 6))
+ax[0, 0].plot(x, y)
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/matplotlib\_plot\_types\_demo.py}
+
+The demo creates a 2x2 subplot figure and saves it into \texttt{images/}.
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} distribution of marks?
+
+\textbf{Answer:} Histogram.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} compare marks of 5 subjects?
+
+\textbf{Answer:} Bar chart.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Histogram of Random Numbers}
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.random.randn(1000)
+plt.hist(x, bins=20)
+plt.title("Histogram")
+plt.show()
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} function name used to create subplots?
+
+\textbf{Answer:} \texttt{subplots}
+
+\end{document}
+

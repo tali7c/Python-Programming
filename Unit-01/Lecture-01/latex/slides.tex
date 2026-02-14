@@ -1,0 +1,206 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 01 -- Lecture 01: Introduction and Working with Python}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Overview}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Explain \textbf{interactive (REPL)} vs \textbf{scripting} mode
+    \item Run Python from terminal/IDLE/IDE
+    \item Write a first program using \texttt{print()} and \texttt{input()}
+    \item Follow the basic Input $\rightarrow$ Process $\rightarrow$ Output pattern
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Why Python?}
+  \begin{itemize}[<+->]
+    \item Simple, readable syntax (good for beginners)
+    \item Huge ecosystem (web, data, AI, automation)
+    \item Cross-platform (Windows, Linux, macOS)
+    \item Great for rapid prototyping and scripting
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Two Ways to Run Python}
+  \begin{itemize}[<+->]
+    \item \textbf{Interactive mode (REPL)}: run one line at a time
+    \item \textbf{Scripting mode}: save code in a \texttt{.py} file and run it
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+>>> 2 + 3
+5
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Interactive Mode (REPL)}
+  Best for:
+  \begin{itemize}[<+->]
+    \item quick calculations and testing small ideas
+    \item learning syntax (instant feedback)
+    \item checking library functions
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+>>> name = "UPES"
+>>> name.lower()
+'upes'
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Scripting Mode (\texttt{.py} files)}
+  Best for:
+  \begin{itemize}[<+->]
+    \item programs you want to \textbf{save, reuse, and share}
+    \item assignments, labs, mini-projects
+  \end{itemize}
+  \vspace{0.4em}
+  Typical run command:
+  \begin{lstlisting}
+python my_program.py
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{First Program: Input $\rightarrow$ Process $\rightarrow$ Output}
+  \begin{lstlisting}[language=Python]
+name = input("Enter your name: ")
+print("Hello,", name)
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item \texttt{input()} always returns a \texttt{str}
+    \item Use type conversion when you need numbers
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Type Conversion (Quick Example)}
+  \begin{lstlisting}[language=Python]
+a = input("Enter a number: ")
+b = input("Enter another number: ")
+total = int(a) + int(b)
+print("Sum =", total)
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item Without \texttt{int()}, \texttt{"2" + "3"} becomes \texttt{"23"}
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Mini Calculator}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/mini\_calculator.py}
+    \item Reads two numbers and prints +, -, *, /
+    \item Shows input conversion and division-by-zero handling
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Demo Snippet}
+  \begin{lstlisting}[language=Python]
+a = float(input("Enter a: "))
+b = float(input("Enter b: "))
+print("a + b =", a + b)
+print("a - b =", a - b)
+print("a * b =", a * b)
+if b != 0:
+    print("a / b =", a / b)
+else:
+    print("Division by zero is not allowed.")
+  \end{lstlisting}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} When is interactive mode (REPL) better than a script?
+  \vspace{0.6em}
+
+  \textbf{Your answer:} write 2 use-cases.
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} What is the type of \texttt{input()}?
+
+  \vspace{0.6em}
+  \begin{lstlisting}[language=Python]
+x = input("Enter something: ")
+print(type(x))
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  In pairs, discuss:
+  \begin{itemize}
+    \item Where can Python help you in daily life or engineering?
+    \item Give 3 examples (automation / data / web / etc.).
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item REPL is for quick exploration; scripts are for reusable programs
+    \item \texttt{input()} returns a string; convert to \texttt{int/float} when needed
+    \item Most programs follow Input $\rightarrow$ Process $\rightarrow$ Output
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write the command to run a Python script named \texttt{task.py} from terminal.
+\end{frame}
+
+\end{document}
+

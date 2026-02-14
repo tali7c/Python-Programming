@@ -1,0 +1,136 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 06 -- Lecture 04 Notes\\Missing Data, Aggregation, Combining, CSV I/O}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Real-world datasets are rarely perfect. Common issues:
+\begin{itemize}
+  \item missing values,
+  \item inconsistent categories,
+  \item multiple tables that must be combined,
+  \item and reading/writing data files (CSV).
+\end{itemize}
+This lecture teaches practical Pandas tools to handle these issues.
+
+\section{Core Concepts}
+
+\subsection{Missing Values}
+Pandas represents missing numeric values as \texttt{NaN}.
+Useful functions:
+\begin{itemize}
+  \item \texttt{df.isna()} and \texttt{df.notna()}
+  \item \texttt{df.dropna()} remove rows/columns with missing data
+  \item \texttt{df.fillna(value)} fill missing values
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+print(df.isna().sum())
+df["marks"] = df["marks"].fillna(df["marks"].mean())
+\end{lstlisting}
+
+\textbf{Important:} filling strategy depends on context.
+Replacing missing marks with 0 may be wrong if the mark is unknown (not actually 0).
+
+\subsection{Aggregation with \texttt{groupby}}
+\texttt{groupby} groups rows by a category and then applies a function:
+\begin{lstlisting}[language=Python]
+avg = df.groupby("city")["marks"].mean()
+count = df.groupby("city")["sapid"].count()
+\end{lstlisting}
+
+\subsection{Combining DataFrames}
+\textbf{\texttt{concat}} stacks data:
+\begin{lstlisting}[language=Python]
+combined = pd.concat([df1, df2], ignore_index=True)
+\end{lstlisting}
+
+\textbf{\texttt{merge}} joins data like SQL:
+\begin{lstlisting}[language=Python]
+merged = pd.merge(df, city_state, on="city", how="left")
+\end{lstlisting}
+
+\subsection{CSV Import/Export}
+\begin{lstlisting}[language=Python]
+df = pd.read_csv("data/student_scores.csv")
+df.to_csv("data/cleaned.csv", index=False)
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{Data:} \texttt{data/student\_scores.csv}\\
+\textbf{Script:} \texttt{demo/pandas\_missing\_data\_demo.py}
+
+The demo:
+\begin{itemize}
+  \item prints missing-value counts,
+  \item fills missing \texttt{city} and \texttt{marks},
+  \item computes average marks per city,
+  \item merges a city-to-state mapping,
+  \item exports a cleaned CSV.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} what does \texttt{fillna(0)} do?
+
+\textbf{Answer:} it replaces missing values (\texttt{NaN}) with 0 in the selected Series/DataFrame.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} when use \texttt{merge} instead of \texttt{concat}?
+
+\textbf{Answer:}
+\begin{itemize}
+  \item Use \texttt{merge} when you want to join tables using a key (like \texttt{city}).
+  \item Use \texttt{concat} when you want to stack rows/columns.
+\end{itemize}
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Fill Missing Marks with Median}
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+median = df["marks"].median()
+df["marks"] = df["marks"].fillna(median)
+\end{lstlisting}
+
+\subsection*{Exercise 2: City-wise Count}
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+print(df.groupby("city")["sapid"].count())
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} read \texttt{"marks.csv"} into a DataFrame?
+
+\textbf{Answer:}
+\begin{lstlisting}[language=Python]
+df = pd.read_csv("marks.csv")
+\end{lstlisting}
+
+\end{document}
+

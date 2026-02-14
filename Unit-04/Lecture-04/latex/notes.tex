@@ -1,0 +1,150 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 04 -- Lecture 04 Notes\\Tkinter + Databases (Concepts and Integration)}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Many GUI apps need to store data persistently: users, tasks, marks, inventory, etc.
+Files can work for simple cases, but databases provide:
+\begin{itemize}
+  \item structured storage,
+  \item fast searching,
+  \item constraints (unique IDs),
+  \item and transactions for safe updates.
+\end{itemize}
+
+\section{Core Concepts}
+
+\subsection{Relational Databases (SQL)}
+Relational databases store data in \textbf{tables}.
+Each table has:
+\begin{itemize}
+  \item columns (fields), e.g., \texttt{name}, \texttt{sapid}
+  \item rows (records), one row per student
+\end{itemize}
+
+\textbf{Primary key:} a column (or set of columns) that uniquely identifies a row.
+Examples: \texttt{id}, \texttt{sapid}.
+
+\subsection{NoSQL Databases}
+NoSQL databases store data in different formats depending on the type:
+\begin{itemize}
+  \item document (MongoDB),
+  \item key-value (Redis),
+  \item graph (Neo4j),
+  \item column-family (Cassandra).
+\end{itemize}
+They often offer flexible schemas and scale for certain use-cases.
+
+\subsection{SQLite for Learning and Small Apps}
+SQLite is an embedded relational database:
+\begin{itemize}
+  \item no server is required,
+  \item database is stored as a single file,
+  \item Python provides \texttt{sqlite3} in the standard library.
+\end{itemize}
+
+\subsection{GUI-to-Database Workflow}
+Typical workflow:
+\begin{enumerate}
+  \item user enters values in Entry widgets,
+  \item program validates input,
+  \item program executes SQL (INSERT/SELECT/UPDATE/DELETE),
+  \item program refreshes UI (Listbox/Table) to show latest data.
+\end{enumerate}
+
+\subsection{Parameterised Queries (Important)}
+Never build SQL by string concatenation with user input (SQL injection risk).
+Use parameters:
+\begin{lstlisting}[language=Python]
+cur.execute("INSERT INTO students(name, sapid) VALUES (?, ?)", (name, sapid))
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/tkinter\_sqlite\_student\_app.py}
+
+Key things to observe:
+\begin{itemize}
+  \item Create the database file in \texttt{data/} automatically.
+  \item Create table using \texttt{CREATE TABLE IF NOT EXISTS}.
+  \item Insert rows using parameterised queries.
+  \item Refresh a Listbox with the latest records.
+  \item Commit changes after INSERT.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} One advantage of databases over text files?
+
+\textbf{Answer (examples):} fast queries/search, data integrity via constraints,
+structured schema, transactions.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} What is a primary key?
+
+\textbf{Answer:} A primary key uniquely identifies each row and prevents duplicates
+for that key value.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Create a Table}
+\textbf{Task:} Write SQL to create a table \texttt{students} with columns \texttt{id} (primary key) and \texttt{name}.
+
+\textbf{Solution:}
+\begin{lstlisting}
+CREATE TABLE IF NOT EXISTS students (
+  id   INTEGER PRIMARY KEY,
+  name TEXT NOT NULL
+);
+\end{lstlisting}
+
+\subsection*{Exercise 2: Insert a Student Safely}
+\textbf{Task:} Insert (name, sapid) using parameters.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+cur.execute(
+    "INSERT INTO students(name, sapid) VALUES (?, ?)",
+    (name, sapid)
+)
+con.commit()
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} SQL to create \texttt{students(id, name)} with \texttt{id} as primary key?
+
+\textbf{Answer:}
+\begin{lstlisting}
+CREATE TABLE students (
+  id   INTEGER PRIMARY KEY,
+  name TEXT
+);
+\end{lstlisting}
+
+\end{document}
+

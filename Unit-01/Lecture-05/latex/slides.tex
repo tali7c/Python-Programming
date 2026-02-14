@@ -1,0 +1,201 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 01 -- Lecture 05: Decision Making and Looping Structures}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Write decisions using \texttt{if/elif/else} and nested conditions
+    \item Use \texttt{match-case} for multi-way branching (Python 3.10+)
+    \item Write \texttt{for} and \texttt{while} loops using \texttt{range()}
+    \item Control loops using \texttt{break}, \texttt{continue}, \texttt{pass}, and loop \texttt{else}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Decision Making: \texttt{if/elif/else}}
+  \begin{lstlisting}[language=Python]
+marks = int(input("Marks: "))
+if marks >= 90:
+    print("A+")
+elif marks >= 75:
+    print("A")
+else:
+    print("Needs improvement")
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Nested \texttt{if} (Example)}
+  \begin{lstlisting}[language=Python]
+age = int(input("Age: "))
+if age >= 18:
+    if age >= 60:
+        print("Senior")
+    else:
+        print("Adult")
+else:
+    print("Minor")
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{match-case} (Python 3.10+)}
+  \begin{itemize}[<+->]
+    \item Useful for clean multi-way choices
+    \item Alternative to long \texttt{elif} ladders
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+day = int(input("Enter day number (1-7): "))
+match day:
+    case 1:
+        print("Monday")
+    case 2:
+        print("Tuesday")
+    case _:
+        print("Other day")
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Loops: \texttt{for} with \texttt{range}}
+  \begin{itemize}[<+->]
+    \item \texttt{range(n)} generates 0..n-1
+    \item \texttt{range(start, stop, step)} is flexible
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+for i in range(1, 6):
+    print(i)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Loops: \texttt{while}}
+  \begin{itemize}[<+->]
+    \item Use when you do not know the exact number of iterations
+    \item Always ensure the loop condition eventually becomes false
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+n = 5
+while n > 0:
+    print(n)
+    n -= 1
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Loop Control}
+  \begin{itemize}[<+->]
+    \item \texttt{break}: stop the loop
+    \item \texttt{continue}: skip to next iteration
+    \item \texttt{pass}: do nothing (placeholder)
+    \item \texttt{else} in loops: runs only if loop ends normally (no \texttt{break})
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{else} with a \texttt{for} Loop}
+  \begin{lstlisting}[language=Python]
+for i in range(1, 6):
+    if i == 3:
+        break
+else:
+    print("Loop finished without break")
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item Here \texttt{else} does not run because we used \texttt{break}.
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Menu-Driven Program}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/menu\_driven\_number\_analyzer.py}
+    \item Uses a \texttt{while True} loop + \texttt{match-case}
+    \item Demonstrates clean branching + repetition until user exits
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} When does the \texttt{else} part of a loop execute?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} What is the difference between \texttt{break} and \texttt{continue}?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Choose the better loop and justify:
+  \begin{itemize}
+    \item Printing 1..100
+    \item Repeating until the user enters ``exit''
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Use \texttt{if/elif/else} for decisions and \texttt{match-case} for clean multi-way choices
+    \item Use \texttt{for} when you have a count/range; use \texttt{while} for condition-based repetition
+    \item \texttt{break} stops a loop; \texttt{continue} skips to next iteration
+    \item Loop \texttt{else} runs only when no \texttt{break} happens
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write a loop that prints numbers 1..10 but skips multiples of 3.
+\end{frame}
+
+\end{document}
+

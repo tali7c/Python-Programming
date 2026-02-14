@@ -1,0 +1,203 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 03 -- Lecture 03: Modules, Packages, and the Standard Library}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Explain what modules and packages are in Python
+    \item Import modules using different import styles
+    \item Use \texttt{\_\_name\_\_ == "\_\_main\_\_"} to control script execution
+    \item Use common standard modules: \texttt{sys}, \texttt{math}, \texttt{time}, \texttt{os}, \texttt{pathlib}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Why Modules?}
+  \begin{itemize}[<+->]
+    \item Organize code into reusable files
+    \item Improve readability and maintainability
+    \item Enable teamwork (different files for different features)
+    \item Avoid copying-pasting functions between scripts
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{A Module is a \texttt{.py} File}
+  Example:
+  \begin{itemize}[<+->]
+    \item \texttt{math\_helpers.py} contains functions
+    \item another script imports and uses them
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+import math
+print(math.sqrt(16))
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Import Styles}
+  \begin{itemize}[<+->]
+    \item \texttt{import module}
+    \item \texttt{import module as alias}
+    \item \texttt{from module import name}
+    \item \texttt{from module import name as alias}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+import math as m
+from math import pi, sqrt
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{\texttt{\_\_name\_\_} and Script Entry Point}
+  \begin{itemize}[<+->]
+    \item If a file is executed directly, \texttt{\_\_name\_\_} is \texttt{"\_\_main\_\_"}
+    \item If the file is imported, \texttt{\_\_name\_\_} is the module name
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def main():
+    print("Running as a script")
+
+if __name__ == "__main__":
+    main()
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{What is a Package?}
+  \begin{itemize}[<+->]
+    \item A package is a folder that groups modules
+    \item Conventionally contains \texttt{\_\_init\_\_.py}
+  \end{itemize}
+  \vspace{0.4em}
+  Example structure:
+  \begin{lstlisting}
+demo/
+  my_utils/
+    __init__.py
+    math_helpers.py
+    text_helpers.py
+  use_my_utils.py
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Standard Modules You Should Know}
+  \begin{itemize}[<+->]
+    \item \texttt{sys}: command-line args, Python path
+    \item \texttt{math}: math functions/constants
+    \item \texttt{time}: timestamps, delays
+    \item \texttt{os} and \texttt{pathlib}: filesystem and paths
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Example: \texttt{sys.argv}}
+  \begin{lstlisting}[language=Python]
+import sys
+print(sys.argv)  # list of command-line arguments
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item Useful when building scripts that take inputs from terminal
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Create a Small Package}
+  \begin{itemize}[<+->]
+    \item Package: \texttt{demo/my\_utils/}
+    \item Script: \texttt{demo/use\_my\_utils.py}
+    \item Also demonstrates standard modules (\texttt{sys}, \texttt{math}, \texttt{time}, \texttt{pathlib})
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} What is the value of \texttt{\_\_name\_\_} when:
+  \begin{itemize}
+    \item you run a file directly?
+    \item you import that file as a module?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} When should you prefer \texttt{import module} over
+  \texttt{from module import name}?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  You have a project with 200 lines of code in one file.
+  Discuss how you would split it into modules:
+  \begin{itemize}
+    \item What goes into \texttt{utils.py}?
+    \item What stays in \texttt{main.py}?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Modules and packages help organize and reuse code
+    \item \texttt{\_\_name\_\_ == "\_\_main\_\_"} controls what runs on import
+    \item The standard library provides powerful tools without extra installs
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Create a package named \texttt{tools} with a module \texttt{helpers.py}.
+  Which file makes \texttt{tools} a package?
+\end{frame}
+
+\end{document}
+

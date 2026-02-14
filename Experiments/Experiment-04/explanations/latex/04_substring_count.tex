@@ -1,0 +1,38 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Experiment 04 - Exercise 04: Substring Occurrence Count}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Objective}
+Enter a string and a substring. Print the number of times the substring occurs
+in the given string. Traversal should be from left to right.
+
+\section*{Input}
+\begin{itemize}
+  \item Main string \texttt{text}
+  \item Substring \texttt{sub}
+\end{itemize}
+
+\section*{Output}
+Number of occurrences.
+
+\section*{Approach}
+To support \textbf{overlapping} occurrences, check every starting position $i$:
+\begin{verbatim}
+for i in range(0, len(text) - len(sub) + 1):
+    if text[i:i+len(sub)] == sub:
+        count += 1
+\end{verbatim}
+
+\section*{Time Complexity}
+$O(n \cdot m)$ where $n$ is length of text and $m$ is length of substring.
+
+\end{document}

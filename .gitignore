@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# LaTeX build artifacts (keep sources + PDFs)
+*.aux
+*.log
+*.nav
+*.snm
+*.toc
+*.out
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.vrb
+*.lof
+*.lot
+
+# OS cruft
+Thumbs.db
+Desktop.ini
+_tmp_delete_me.txt
+.gitignore
+# Planning docs (optional; keep repo focused on deliverables)
+*.md
+
