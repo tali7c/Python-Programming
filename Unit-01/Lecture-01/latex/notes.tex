@@ -1,0 +1,327 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\graphicspath{{../images/}}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 01 -- Lecture 01 Notes\\Introduction and Working with Python}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+This lecture helps you \textbf{start} with Python the right way:
+\begin{itemize}
+  \item what Python is and why it is popular,
+  \item how to run Python in \textbf{interactive mode (REPL)} and \textbf{scripting mode},
+  \item and how to write a first program that follows the common pattern:
+  \textbf{Input} $\rightarrow$ \textbf{Process} $\rightarrow$ \textbf{Output}.
+\end{itemize}
+
+\textbf{Repository (course materials):}
+\texttt{https://github.com/tali7c/Python-Programming}
+
+\section{Core Concepts}
+
+\subsection{What is Python? (Quick Picture)}
+Python is a general-purpose programming language known for:
+\begin{itemize}
+  \item \textbf{readable syntax} (you can focus on logic, not symbols),
+  \item a \textbf{large ecosystem} of libraries (web, data analysis, AI, automation),
+  \item and \textbf{cross-platform} support.
+\end{itemize}
+In this course, Python is used to build programming fundamentals that later
+support subjects like data structures, databases, and data analysis.
+
+\subsection{Two Ways to Run Python}
+There are two everyday ways to run Python code:
+\begin{enumerate}
+  \item \textbf{Interactive mode (REPL):} You type a statement and get the result
+  immediately. Good for exploration.
+  \item \textbf{Scripting mode:} You save a program in a \texttt{.py} file and
+  execute it. Good for assignments, labs, and reusable programs.
+\end{enumerate}
+
+\subsubsection{Interactive Mode (REPL)}
+Example (Python prompt):
+\begin{lstlisting}[language=Python]
+>>> 2 + 3
+5
+>>> "UPES".lower()
+'upes'
+\end{lstlisting}
+Use REPL when you want quick feedback, or when you are learning a new concept.
+
+\subsubsection{Scripting Mode (\texttt{.py} file)}
+A script is a plain text file that contains Python statements.
+Typical run command in a terminal:
+\begin{lstlisting}
+python my_program.py
+\end{lstlisting}
+If your file is \texttt{task.py}, the command is \texttt{python task.py}.
+
+\subsection{The IPO Pattern: Input $\rightarrow$ Process $\rightarrow$ Output}
+Most beginner programs follow this pattern:
+\begin{itemize}
+  \item \textbf{Input:} read values from the user (keyboard).
+  \item \textbf{Process:} compute something using variables and operators.
+  \item \textbf{Output:} show the result using \texttt{print()}.
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+name = input("Enter your name: ")
+print("Hello,", name)
+\end{lstlisting}
+
+\textbf{Important:} \texttt{input()} always returns a \texttt{str}.
+So if you read numbers, you must convert:
+\begin{lstlisting}[language=Python]
+a = input("Enter a number: ")
+b = input("Enter another number: ")
+total = int(a) + int(b)
+print("Sum =", total)
+\end{lstlisting}
+If you forget \texttt{int(...)} here, then \texttt{"2" + "3"} becomes \texttt{"23"},
+because string concatenation is used.
+
+\section{Demo Walkthrough: Mini Calculator}
+\textbf{File:} \texttt{demo/mini\_calculator.py}
+
+\subsection*{Goal}
+Read two numbers and print their sum, difference, product, and quotient.
+Also handle division by zero safely.
+
+\subsection*{How to run}
+From the lecture folder:
+\begin{lstlisting}
+python demo/mini_calculator.py
+\end{lstlisting}
+
+\subsection*{Key idea}
+Use \texttt{float(...)} to allow decimal inputs. Use an \texttt{if} condition to
+avoid dividing by zero.
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} When is interactive mode (REPL) better than a script?
+
+\textbf{Answer (examples):}
+\begin{itemize}
+  \item When you want to quickly test a small expression (e.g., check operator precedence).
+  \item When you want to explore a library function without writing a full program.
+\end{itemize}
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} What is the type of \texttt{input()}?
+
+\textbf{Answer:} \texttt{input()} returns a \texttt{str}. You can verify using:
+\begin{lstlisting}[language=Python]
+x = input("Enter something: ")
+print(type(x))  # <class 'str'>
+\end{lstlisting}
+
+\section{Practice Exercises (with Solutions)}
+Try these after the lecture. Solutions are provided so you can self-check.
+
+\subsection*{Exercise 1: Sum of Two Integers}
+\textbf{Task:} Read two integers and print their sum.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+a = int(input("Enter a: "))
+b = int(input("Enter b: "))
+print("Sum =", a + b)
+\end{lstlisting}
+
+\subsection*{Exercise 2: Area of a Circle}
+\textbf{Task:} Read radius $r$ and print area using $\pi r^2$ (use $\pi=3.14159$).
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+pi = 3.14159
+r = float(input("Enter radius: "))
+area = pi * r * r
+print("Area =", area)
+\end{lstlisting}
+
+\subsection*{Exercise 3: Print a Clean Output Line}
+\textbf{Task:} Print \texttt{Name: <name>, Age: <age>} in one line.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+name = input("Name: ")
+age = int(input("Age: "))
+print("Name:", name + ",", "Age:", age)
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} Write the command to run \texttt{task.py} from terminal.
+
+\textbf{Solution:} \texttt{python task.py}
+
+
+
+% BEGIN SLIDE APPENDIX (AUTO-GENERATED)
+\clearpage
+\section*{Appendix: Slide Deck Content (Reference)}
+\noindent The material below is a reference copy of the slide deck content. Exercise solutions are explained in the main notes where applicable.
+
+\subsection*{Title Slide}
+\titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\subsection*{Quick Links}
+\centering
+  \textbf{Core Concepts}\hspace{1em}
+  \textbf{Demo}\hspace{1em}
+  \textbf{Interactive}\hspace{1em}
+  \textbf{Summary}
+\subsection*{Agenda}
+\begin{itemize}
+  \item Overview
+  \item Core Concepts
+  \item Demo
+  \item Interactive
+  \item Summary
+\end{itemize}
+\subsection*{Learning Outcomes}
+\begin{itemize}
+    \item Explain \textbf{interactive (REPL)} vs \textbf{scripting} mode
+    \item Run Python from terminal/IDLE/IDE
+    \item Write a first program using \texttt{print()} and \texttt{input()}
+    \item Follow the basic Input $\rightarrow$ Process $\rightarrow$ Output pattern
+  \end{itemize}
+\subsection*{Why Python?}
+\begin{itemize}
+    \item Simple, readable syntax (good for beginners)
+    \item Huge ecosystem (web, data, AI, automation)
+    \item Cross-platform (Windows, Linux, macOS)
+    \item Great for rapid prototyping and scripting
+  \end{itemize}
+\subsection*{Two Ways to Run Python}
+\begin{itemize}
+    \item \textbf{Interactive mode (REPL)}: run one line at a time
+    \item \textbf{Scripting mode}: save code in a \texttt{.py} file and run it
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+>>> 2 + 3
+5
+  \end{lstlisting}
+\subsection*{Interactive Mode (REPL)}
+Best for:
+  \begin{itemize}
+    \item quick calculations and testing small ideas
+    \item learning syntax (instant feedback)
+    \item checking library functions
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+>>> name = "UPES"
+>>> name.lower()
+'upes'
+  \end{lstlisting}
+\subsection*{Scripting Mode (\texttt{.py} files)}
+Best for:
+  \begin{itemize}
+    \item programs you want to \textbf{save, reuse, and share}
+    \item assignments, labs, mini-projects
+  \end{itemize}
+  \vspace{0.4em}
+  Typical run command:
+  \begin{lstlisting}
+python my_program.py
+  \end{lstlisting}
+\subsection*{First Program: Input $\rightarrow$ Process $\rightarrow$ Output}
+\begin{lstlisting}[language=Python]
+name = input("Enter your name: ")
+print("Hello,", name)
+  \end{lstlisting}
+  \begin{itemize}
+    \item \texttt{input()} always returns a \texttt{str}
+    \item Use type conversion when you need numbers
+  \end{itemize}
+\subsection*{Type Conversion (Quick Example)}
+\begin{lstlisting}[language=Python]
+a = input("Enter a number: ")
+b = input("Enter another number: ")
+total = int(a) + int(b)
+print("Sum =", total)
+  \end{lstlisting}
+  \begin{itemize}
+    \item Without \texttt{int()}, \texttt{"2" + "3"} becomes \texttt{"23"}
+  \end{itemize}
+\subsection*{Demo: Mini Calculator}
+\begin{itemize}
+    \item File: \texttt{demo/mini\_calculator.py}
+    \item Reads two numbers and prints +, -, *, /
+    \item Shows input conversion and division-by-zero handling
+  \end{itemize}
+\subsection*{Demo Snippet}
+\begin{lstlisting}[language=Python]
+a = float(input("Enter a: "))
+b = float(input("Enter b: "))
+print("a + b =", a + b)
+print("a - b =", a - b)
+print("a * b =", a * b)
+if b != 0:
+    print("a / b =", a / b)
+else:
+    print("Division by zero is not allowed.")
+  \end{lstlisting}
+\subsection*{Checkpoint 1}
+\textbf{Question:} When is interactive mode (REPL) better than a script?
+  \vspace{0.6em}
+
+  \textbf{Your answer:} write 2 use-cases.
+\subsection*{Checkpoint 2}
+\textbf{Question:} What is the type of \texttt{input()}?
+
+  \vspace{0.6em}
+  \begin{lstlisting}[language=Python]
+x = input("Enter something: ")
+print(type(x))
+  \end{lstlisting}
+\subsection*{Think-Pair-Share}
+In pairs, discuss:
+  \begin{itemize}
+    \item Where can Python help you in daily life or engineering?
+    \item Give 3 examples (automation / data / web / etc.).
+  \end{itemize}
+\subsection*{Key Takeaways}
+\begin{itemize}
+    \item REPL is for quick exploration; scripts are for reusable programs
+    \item \texttt{input()} returns a string; convert to \texttt{int/float} when needed
+    \item Most programs follow Input $\rightarrow$ Process $\rightarrow$ Output
+  \end{itemize}
+\subsection*{Exit Question}
+Write the command to run a Python script named \texttt{task.py} from terminal.
+% END SLIDE APPENDIX (AUTO-GENERATED)
+
+\end{document}
+

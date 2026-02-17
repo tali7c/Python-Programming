@@ -1,0 +1,217 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\graphicspath{{../images/}}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 05 -- Lecture 03 Notes\\Inheritance and Types of Inheritance}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Inheritance is a key OOP feature that allows one class (child) to reuse and extend
+another class (parent). It reduces duplication and models ``is-a'' relationships.
+
+\section{Core Concepts}
+
+\subsection{Basic Inheritance}
+\begin{lstlisting}[language=Python]
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+class Student(Person):
+    def __init__(self, name, sapid):
+        super().__init__(name)
+        self.sapid = sapid
+\end{lstlisting}
+
+\subsection{Types of Inheritance}
+\begin{itemize}
+  \item \textbf{Single:} one parent, one child.
+  \item \textbf{Multilevel:} child becomes parent for another class.
+  \item \textbf{Hierarchical:} one parent has multiple children.
+  \item \textbf{Multiple:} a class has more than one parent (use carefully).
+\end{itemize}
+
+\subsection{The Role of \texttt{super()}}
+\texttt{super()} calls parent class methods without writing the parent class name.
+It is especially useful for constructors and for multiple inheritance patterns.
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/inheritance\_demo.py}
+
+The demo shows:
+\begin{itemize}
+  \item \texttt{Person} base class,
+  \item \texttt{Student} subclass,
+  \item \texttt{PlacementStudent} as a multilevel subclass.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} What does \texttt{super()} do in a constructor?
+
+\textbf{Answer:} It calls the parent class constructor so parent attributes are initialized correctly.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} Give one real-world example.
+
+\textbf{Answer (examples):} Vehicle $\rightarrow$ Car, Person $\rightarrow$ Student, Shape $\rightarrow$ Circle.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Base + Child Class}
+\textbf{Task:} Create a base class \texttt{Vehicle} (brand) and subclass \texttt{Car} (brand, seats).
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+class Vehicle:
+    def __init__(self, brand):
+        self.brand = brand
+
+class Car(Vehicle):
+    def __init__(self, brand, seats):
+        super().__init__(brand)
+        self.seats = seats
+\end{lstlisting}
+
+\subsection*{Exercise 2: Hierarchical Inheritance}
+\textbf{Task:} Create \texttt{Employee} base class and subclasses \texttt{Teacher} and \texttt{Engineer}.
+
+\textbf{Solution (idea):}
+\begin{lstlisting}[language=Python]
+class Employee:
+    def __init__(self, name):
+        self.name = name
+
+class Teacher(Employee):
+    pass
+
+class Engineer(Employee):
+    pass
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} A $\rightarrow$ (B, C) is which type?
+
+\textbf{Answer:} Hierarchical inheritance.
+
+
+
+% BEGIN SLIDE APPENDIX (AUTO-GENERATED)
+\clearpage
+\section*{Appendix: Slide Deck Content (Reference)}
+\noindent The material below is a reference copy of the slide deck content. Exercise solutions are explained in the main notes where applicable.
+
+\subsection*{Title Slide}
+\titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\subsection*{Quick Links}
+\centering
+  \textbf{Core Concepts}\hspace{1em}
+  \textbf{Demo}\hspace{1em}
+  \textbf{Interactive}\hspace{1em}
+  \textbf{Summary}
+\subsection*{Agenda}
+\begin{itemize}
+  \item Core Concepts
+  \item Demo
+  \item Interactive
+  \item Summary
+\end{itemize}
+\subsection*{Learning Outcomes}
+\begin{itemize}
+    \item Explain inheritance and its purpose
+    \item Create subclasses and reuse parent methods/attributes
+    \item Use \texttt{super()} to call parent constructor/methods
+    \item Identify types of inheritance (single, multilevel, multiple, hierarchical)
+  \end{itemize}
+\subsection*{What is Inheritance?}
+\begin{itemize}
+    \item Create a new class from an existing class
+    \item Reuse common code and extend behavior
+    \item ``is-a'' relationship (Student is a Person)
+  \end{itemize}
+\subsection*{Basic Syntax}
+\begin{lstlisting}[language=Python]
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+class Student(Person):
+    def __init__(self, name, sapid):
+        super().__init__(name)
+        self.sapid = sapid
+  \end{lstlisting}
+\subsection*{Types of Inheritance}
+\begin{itemize}
+    \item Single: A $\rightarrow$ B
+    \item Multilevel: A $\rightarrow$ B $\rightarrow$ C
+    \item Hierarchical: A $\rightarrow$ (B, C, D)
+    \item Multiple: (A, B) $\rightarrow$ C
+  \end{itemize}
+\subsection*{Why \texttt{super()}?}
+\begin{itemize}
+    \item Calls parent class methods safely
+    \item Avoids duplicating parent initialization code
+    \item Important in multiple inheritance (method resolution order)
+  \end{itemize}
+\subsection*{Demo: Person $\rightarrow$ Student $\rightarrow$ PlacementStudent}
+\begin{itemize}
+    \item File: \texttt{demo/inheritance\_demo.py}
+    \item Demonstrates:
+      \begin{itemize}
+        \item single and multilevel inheritance
+        \item use of \texttt{super()}
+      \end{itemize}
+  \end{itemize}
+\subsection*{Checkpoint 1}
+\textbf{Question:} What does \texttt{super()} do in a subclass constructor?
+\subsection*{Checkpoint 2}
+\textbf{Question:} Give one real-world example of inheritance.
+\subsection*{Think-Pair-Share}
+Discuss:
+  \begin{itemize}
+    \item Should \texttt{Car} inherit from \texttt{Engine}? Why or why not?
+  \end{itemize}
+\subsection*{Key Takeaways}
+\begin{itemize}
+    \item Inheritance reuses and extends code
+    \item Subclasses can add new attributes and methods
+    \item \texttt{super()} helps call parent logic correctly
+    \item Multiple inheritance exists, but use it carefully
+  \end{itemize}
+\subsection*{Exit Question}
+What type of inheritance is: A $\rightarrow$ (B, C)?
+% END SLIDE APPENDIX (AUTO-GENERATED)
+
+\end{document}
+

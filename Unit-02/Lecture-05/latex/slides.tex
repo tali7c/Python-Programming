@@ -1,0 +1,213 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 02 -- Lecture 05: Advanced Functions and Functional Patterns}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Overview}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Pass collections safely and reason about mutation
+    \item Apply recursion with a correct base case
+    \item Use \texttt{map}, \texttt{filter}, and \texttt{lambda}
+    \item Recognize side effects in functions
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Passing Collections}
+  \begin{itemize}[<+->]
+    \item Lists and dicts are mutable
+    \item Functions can modify them in place
+    \item Use copies when you want to preserve input
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def add_item(lst, item):
+    lst.append(item)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Worked Example: Avoid Unintended Mutation}
+  \begin{lstlisting}[language=Python]
+def sort_copy(items):
+    tmp = items.copy()
+    tmp.sort()
+    return tmp
+
+data = [3, 1, 2]
+print(sort_copy(data))  # [1, 2, 3]
+print(data)             # [3, 1, 2]
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item Copy when you want a function without side effects
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Recursion Basics}
+  \begin{itemize}[<+->]
+    \item A function calls itself
+    \item Needs a base case to stop
+    \item Each call reduces the problem size
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Recursive Example}
+  \begin{lstlisting}[language=Python]
+def factorial(n):
+    if n == 1:
+        return 1
+    return n * factorial(n - 1)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Pitfall: Recursion in Python}
+  \begin{itemize}[<+->]
+    \item Missing base case leads to infinite recursion
+    \item Deep recursion can hit recursion limits
+    \item Prefer iteration for simple loops in Python
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{map and filter}
+  \begin{itemize}[<+->]
+    \item \texttt{map} applies a function to each item
+    \item \texttt{filter} keeps items that satisfy a condition
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4]
+print(list(map(lambda x: x*x, nums)))
+print(list(filter(lambda x: x%2==0, nums)))
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Pitfall: map/filter Return Iterators}
+  \begin{itemize}[<+->]
+    \item In Python 3, \texttt{map} and \texttt{filter} return iterators
+    \item Wrap with \texttt{list(...)} to materialize results
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Lambda and Inner Functions}
+  \begin{itemize}[<+->]
+    \item \texttt{lambda} creates small anonymous functions
+    \item Inner functions can capture variables (closures)
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def make_multiplier(k):
+    def mult(x):
+        return x * k
+    return mult
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Side Effects vs Pure Functions}
+  \begin{itemize}[<+->]
+    \item Pure functions do not change external state
+    \item Side effects can make debugging harder
+    \item Prefer pure functions when possible
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Cleaning Data with map/filter}
+  \begin{itemize}[<+->]
+    \item Remove invalid values
+    \item Transform items with \texttt{map}
+    \item Compute recursive sum
+    \item Extension: rewrite using comprehensions and compare readability
+  \end{itemize}
+  \vspace{0.4em}
+  \textbf{Script:} \texttt{demo/functional\_tools.py}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  Identify the base case in a recursive function. Why is it necessary?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  Replace this loop with \texttt{map}:
+  \begin{lstlisting}[language=Python]
+nums = [1,2,3,4,5]
+squares = []
+for n in nums:
+    squares.append(n*n)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  When should you avoid recursion in Python?
+  Provide one reason and one example.
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Summary}
+  \begin{itemize}[<+->]
+    \item Passing collections can mutate inputs
+    \item Recursion needs a base case
+    \item \texttt{map/filter/lambda} support functional style
+    \item Prefer pure functions for clarity and testing
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  If a function appends to a list passed as argument, does the caller see the change? Why?
+\end{frame}
+
+\end{document}

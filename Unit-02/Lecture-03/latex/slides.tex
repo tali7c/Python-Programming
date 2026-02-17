@@ -1,0 +1,206 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 02 -- Lecture 03: Sets and Dictionaries}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Overview}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Create and use sets for uniqueness and membership
+    \item Perform common set operations
+    \item Build dictionaries for key-value modeling
+    \item Sort and summarize collections with dicts
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Sets: The Idea}
+  \begin{itemize}[<+->]
+    \item Unordered collection of unique elements
+    \item Fast membership testing
+    \item Useful for de-duplication
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Set Creation and Membership}
+  \begin{itemize}[<+->]
+    \item Create with braces or \texttt{set()}
+    \item Use \texttt{in} to test membership
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+colors = {"red", "blue", "red"}
+print(colors)           # duplicates removed
+print("red" in colors)  # True
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Set Operations}
+  \begin{itemize}[<+->]
+    \item Union: \texttt{A | B}
+    \item Intersection: \texttt{A \& B}
+    \item Difference: \texttt{A - B}
+    \item Symmetric difference: \texttt{A \string^ B}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Pitfall: Sets Are Unordered}
+  \begin{itemize}[<+->]
+    \item Sets do not support indexing (no \texttt{s[0]})
+    \item Use sets for membership/uniqueness, not ordering
+    \item Convert to a sorted list when you need order
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+s = {3, 1, 2}
+print(sorted(s))    # [1, 2, 3]
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Dictionaries: Key-Value Model}
+  \begin{itemize}[<+->]
+    \item Map keys to values
+    \item Keys must be immutable
+    \item Fast lookup by key
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+student = {"name": "Asha", "marks": 88}
+print(student["name"])
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Dictionary Operations}
+  \begin{itemize}[<+->]
+    \item Access: \texttt{d[key]} or \texttt{d.get(key)}
+    \item Update: \texttt{d[key] = value}
+    \item Iterate: \texttt{for k, v in d.items()}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Worked Example: Frequency Count Pattern}
+  \begin{lstlisting}[language=Python]
+text = "to be or not to be"
+freq = {}
+for w in text.split():
+    freq[w] = freq.get(w, 0) + 1
+print(freq)
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item \texttt{get(w, 0)} avoids \texttt{KeyError} for new words
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Sorting Collections}
+  \begin{itemize}[<+->]
+    \item Sort dict items by key or value
+    \item \texttt{sorted(d.items(), key=...)}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+counts = {"a": 3, "b": 1, "c": 2}
+by_value = sorted(counts.items(), key=lambda x: x[1])
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Applications}
+  \begin{itemize}[<+->]
+    \item Frequency counts with dictionaries
+    \item Unique vocabulary with sets
+    \item Fast membership checks
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Word Frequency and Unique Words}
+  \begin{itemize}[<+->]
+    \item Split a sentence into words
+    \item Build a frequency dictionary
+    \item Build a set of unique words
+    \item Extension: print top 3 most frequent words
+  \end{itemize}
+  \vspace{0.4em}
+  \textbf{Script:} \texttt{demo/word\_frequency.py}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  What is the result of \texttt{set([1,1,2,2])}?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  What is the difference between \texttt{d[key]} and \texttt{d.get(key)}?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Choose set vs list for membership checks and justify.
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Summary}
+  \begin{itemize}[<+->]
+    \item Sets store unique elements and support set algebra
+    \item Dictionaries map keys to values for fast lookup/counting
+    \item Sorting dict items enables ranking and reporting
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write one line to sort dictionary items by value in descending order.
+\end{frame}
+
+\end{document}

@@ -1,0 +1,231 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\graphicspath{{../images/}}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 05 -- Lecture 04 Notes\\Polymorphism (Overriding and Operator Overloading)}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Polymorphism means the same method call can behave differently based on the object.
+In Python, this happens naturally through method overriding.
+Python also supports operator overloading using special (dunder) methods.
+
+\section{Core Concepts}
+
+\subsection{Method Overriding}
+If a subclass defines a method with the same name as the parent method, it overrides it.
+When you call the method, Python uses the object's actual class.
+
+\begin{lstlisting}[language=Python]
+class A:
+    def greet(self):
+        print("Hello from A")
+
+class B(A):
+    def greet(self):
+        print("Hello from B")
+
+b = B()
+b.greet()  # Hello from B
+\end{lstlisting}
+
+\subsection{Operator Overloading}
+Operators map to special methods. Some examples:
+\begin{itemize}
+  \item \texttt{+} $\rightarrow$ \texttt{\_\_add\_\_}
+  \item \texttt{-} $\rightarrow$ \texttt{\_\_sub\_\_}
+  \item \texttt{==} $\rightarrow$ \texttt{\_\_eq\_\_}
+  \item \texttt{<} $\rightarrow$ \texttt{\_\_lt\_\_}
+  \item \texttt{len(x)} $\rightarrow$ \texttt{\_\_len\_\_}
+  \item \texttt{print(x)} $\rightarrow$ \texttt{\_\_str\_\_}
+\end{itemize}
+
+\subsection{Point Example}
+\begin{lstlisting}[language=Python]
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+\end{lstlisting}
+This allows \texttt{p3 = p1 + p2}.
+
+\subsection{When to Use Operator Overloading}
+Good cases:
+\begin{itemize}
+  \item mathematical objects (Point, Vector, Matrix)
+  \item domain objects where \texttt{+} has a clear meaning
+\end{itemize}
+
+Bad cases:
+\begin{itemize}
+  \item when the meaning is unclear or surprising (hurts readability)
+\end{itemize}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/polymorphism\_operator\_overloading\_demo.py}
+
+Observe:
+\begin{itemize}
+  \item different shapes implement \texttt{area()}
+  \item \texttt{Point} supports \texttt{+} and has a readable \texttt{\_\_str\_\_}
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} If parent and child define \texttt{describe()}, which runs for child object?
+
+\textbf{Answer:} The child's method runs (overriding).
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} Which special method for \texttt{+}?
+
+\textbf{Answer:} \texttt{\_\_add\_\_}
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Add \texttt{\_\_str\_\_} to Point}
+\textbf{Task:} Print \texttt{Point(10,20)} for a point object.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+def __str__(self):
+    return f"Point({self.x},{self.y})"
+\end{lstlisting}
+
+\subsection*{Exercise 2: Implement Subtraction}
+\textbf{Task:} Implement \texttt{p1 - p2}.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+def __sub__(self, other):
+    return Point(self.x - other.x, self.y - other.y)
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} special method for printing?
+
+\textbf{Answer:} \texttt{\_\_str\_\_}
+
+
+
+% BEGIN SLIDE APPENDIX (AUTO-GENERATED)
+\clearpage
+\section*{Appendix: Slide Deck Content (Reference)}
+\noindent The material below is a reference copy of the slide deck content. Exercise solutions are explained in the main notes where applicable.
+
+\subsection*{Title Slide}
+\titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\subsection*{Quick Links}
+\centering
+  \textbf{Core Concepts}\hspace{1em}
+  \textbf{Demo}\hspace{1em}
+  \textbf{Interactive}\hspace{1em}
+  \textbf{Summary}
+\subsection*{Agenda}
+\begin{itemize}
+  \item Core Concepts
+  \item Demo
+  \item Interactive
+  \item Summary
+\end{itemize}
+\subsection*{Learning Outcomes}
+\begin{itemize}
+    \item Explain polymorphism in OOP
+    \item Implement method overriding in subclasses
+    \item Implement operator overloading using special methods
+    \item Use \texttt{\_\_str\_\_} for readable object printing
+  \end{itemize}
+\subsection*{Polymorphism (Idea)}
+\begin{itemize}
+    \item ``Same interface, different behavior''
+    \item Example: \texttt{area()} behaves differently for Circle and Rectangle
+  \end{itemize}
+\subsection*{Method Overriding}
+\begin{itemize}
+    \item A child class provides its own implementation of a parent method
+    \item Python chooses the method based on the object's actual class
+  \end{itemize}
+\subsection*{Operator Overloading}
+\begin{itemize}
+    \item Define how operators work for your objects
+    \item Examples:
+      \begin{itemize}
+        \item \texttt{+} uses \texttt{\_\_add\_\_}
+        \item \texttt{==} uses \texttt{\_\_eq\_\_}
+        \item \texttt{len(obj)} uses \texttt{\_\_len\_\_}
+      \end{itemize}
+  \end{itemize}
+\subsection*{Example: Point Addition}
+\begin{lstlisting}[language=Python]
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __add__(self, other):
+        return Point(self.x + other.x, self.y + other.y)
+  \end{lstlisting}
+\subsection*{Demo: Overriding + Operator Overloading}
+\begin{itemize}
+    \item File: \texttt{demo/polymorphism\_operator\_overloading\_demo.py}
+    \item Shows:
+      \begin{itemize}
+        \item polymorphic \texttt{area()} calls
+        \item \texttt{Point + Point} using \texttt{\_\_add\_\_}
+      \end{itemize}
+  \end{itemize}
+\subsection*{Checkpoint 1}
+\textbf{Question:} If a parent and child both define \texttt{describe()}, which one runs for a child object?
+\subsection*{Checkpoint 2}
+\textbf{Question:} Which special method is used for operator \texttt{+}?
+\subsection*{Think-Pair-Share}
+Discuss:
+  \begin{itemize}
+    \item Should every class implement operator overloading? When is it helpful vs confusing?
+  \end{itemize}
+\subsection*{Key Takeaways}
+\begin{itemize}
+    \item Overriding enables polymorphism (same method name, different behavior)
+    \item Operator overloading uses special methods like \texttt{\_\_add\_\_}
+    \item Use overloading only when it improves readability and matches meaning
+  \end{itemize}
+\subsection*{Exit Question}
+Name the special method used to control printing of an object using \texttt{print(obj)}.
+% END SLIDE APPENDIX (AUTO-GENERATED)
+
+\end{document}
+

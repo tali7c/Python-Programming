@@ -1,0 +1,128 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 06 -- Lecture 06: Plot Types and Subplots}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Create different plot types: line, bar, histogram, scatter, pie
+    \item Build multi-plot figures using subplots
+    \item Choose the right plot type for the data story
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Common Plot Types}
+  \begin{itemize}[<+->]
+    \item Line plot: trend over time
+    \item Bar chart: compare categories
+    \item Histogram: distribution of values
+    \item Scatter plot: relationship between two variables
+    \item Pie chart: parts of a whole (use carefully)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Subplots}
+  \begin{itemize}[<+->]
+    \item Subplots allow multiple plots in one figure
+    \item Use \texttt{plt.subplots(rows, cols)}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+fig, ax = plt.subplots(2, 2)
+ax[0, 0].plot(x, y)
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Multiple Plot Types in One Figure}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/matplotlib\_plot\_types\_demo.py}
+    \item Generates a figure with subplots and saves it to \texttt{images/}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} Which plot type would you use to show distribution of marks of 100 students?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} Which plot type would you use to compare marks of 5 subjects?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item Why can pie charts be misleading?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Different plot types answer different questions
+    \item Subplots help compare multiple views of data in one figure
+    \item Always label and choose scales carefully for honest visuals
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write the function name used to create subplots in Matplotlib.
+\end{frame}
+
+\end{document}
+

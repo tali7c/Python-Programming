@@ -1,0 +1,341 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\graphicspath{{../images/}}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 03 -- Lecture 02 Notes\\Errors vs Exceptions and Exception Handling}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+When a program meets unexpected input or a missing resource (file, database,
+network), it should not crash with a confusing traceback for the user. Instead,
+it should:
+\begin{itemize}
+  \item detect the problem,
+  \item display a clear message, and
+  \item recover or exit gracefully.
+\end{itemize}
+This lecture introduces exceptions and shows how to handle them using
+\texttt{try/except/else/finally}.
+
+\section{Core Concepts}
+
+\subsection{Syntax Errors vs Exceptions}
+\textbf{Syntax errors} happen when Python cannot understand your code.
+Example: missing colon after \texttt{if}.
+
+\textbf{Exceptions} are runtime problems.
+Example: dividing by zero, converting \texttt{"abc"} to \texttt{int}, missing file, etc.
+
+\subsection{What is an Exception?}
+An exception is an object that represents an error condition.
+When raised, it interrupts normal flow and searches for a matching \texttt{except}.
+If none is found, the program terminates and prints a traceback.
+
+\subsection{Basic \texttt{try/except}}
+\begin{lstlisting}[language=Python]
+try:
+    n = int(input("Enter n: "))
+    print(10 / n)
+except ValueError:
+    print("Please enter an integer.")
+except ZeroDivisionError:
+    print("Division by zero is not allowed.")
+\end{lstlisting}
+
+\textbf{Why catch specific exceptions?}
+Because different problems need different messages and different recovery steps.
+
+\subsection{\texttt{else} and \texttt{finally}}
+\texttt{else} runs only if the \texttt{try} block succeeded (no exception).
+\texttt{finally} runs always (cleanup).
+
+\begin{lstlisting}[language=Python]
+f = None
+try:
+    f = open("data.txt", "r", encoding="utf-8")
+    data = f.read()
+except FileNotFoundError:
+    print("File not found.")
+else:
+    print("Length:", len(data))
+finally:
+    if f is not None:
+        f.close()
+\end{lstlisting}
+
+\textbf{Note:} In real code, prefer \texttt{with open(...)} so you avoid manual close.
+
+\subsection{Handling Multiple Exceptions}
+Sometimes multiple error types can happen in the same risky code.
+Python allows catching a tuple of exceptions:
+\begin{lstlisting}[language=Python]
+try:
+    x = int(input("x: "))
+    y = int(input("y: "))
+    print(x // y)
+except (ValueError, ZeroDivisionError) as e:
+    print("Error:", e)
+\end{lstlisting}
+
+\subsection{\texttt{raise}: Creating Your Own Errors}
+You can raise an exception to signal invalid state:
+\begin{lstlisting}[language=Python]
+age = int(input("Age: "))
+if age < 0:
+    raise ValueError("Age must be non-negative")
+\end{lstlisting}
+This is useful when you want to enforce a rule and stop execution for invalid inputs.
+
+\subsection{\texttt{assert}: Debugging Assumptions}
+\texttt{assert condition} is mainly for debugging and internal checks:
+\begin{lstlisting}[language=Python]
+assert 2 + 2 == 4
+\end{lstlisting}
+\textbf{Warning:} assertions can be disabled when Python runs with optimization flags
+(\texttt{-O}). Do not use \texttt{assert} as a replacement for user input validation.
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/exception\_handling\_demo.py}
+
+\subsection*{What the demo teaches}
+\begin{itemize}
+  \item Create a safe input function that keeps asking until the user enters a valid integer.
+  \item Use \texttt{try/except} for division and file reading.
+  \item Print user-friendly error messages.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} When does \texttt{else} run in a \texttt{try} statement?
+
+\textbf{Answer:} \texttt{else} runs only if \textbf{no exception} occurs in the \texttt{try} block.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} Why prefer catching \texttt{ValueError} instead of catching \texttt{Exception}?
+
+\textbf{Answer:}
+\begin{itemize}
+  \item Catching \texttt{Exception} can hide bugs you did not expect (programming mistakes).
+  \item Catching \texttt{ValueError} is more precise and documents what you are handling.
+\end{itemize}
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Safe Integer Input Function}
+\textbf{Task:} Write \texttt{read\_int(prompt)} that keeps asking until user enters a valid integer.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+def read_int(prompt: str) -> int:
+    while True:
+        try:
+            return int(input(prompt).strip())
+        except ValueError:
+            print("Invalid integer. Try again.")
+\end{lstlisting}
+
+\subsection*{Exercise 2: Safe Division}
+\textbf{Task:} Read two integers and print \texttt{a/b}. Handle division by zero.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+try:
+    a = int(input("a: "))
+    b = int(input("b: "))
+    print("a / b =", a / b)
+except ZeroDivisionError:
+    print("Division by zero is not allowed.")
+except ValueError:
+    print("Invalid integer input.")
+\end{lstlisting}
+
+\subsection*{Exercise 3: Safe File Read}
+\textbf{Task:} Read a filename and print its content. If file does not exist, print a message.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+path = input("File path: ").strip()
+try:
+    with open(path, "r", encoding="utf-8") as f:
+        print(f.read())
+except FileNotFoundError:
+    print("File not found.")
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} Read an integer and print it. If invalid, print \texttt{"Invalid integer"}.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+try:
+    n = int(input("Enter n: ").strip())
+    print("n =", n)
+except ValueError:
+    print("Invalid integer")
+\end{lstlisting}
+
+
+
+% BEGIN SLIDE APPENDIX (AUTO-GENERATED)
+\clearpage
+\section*{Appendix: Slide Deck Content (Reference)}
+\noindent The material below is a reference copy of the slide deck content. Exercise solutions are explained in the main notes where applicable.
+
+\subsection*{Title Slide}
+\titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\subsection*{Quick Links}
+\centering
+  \textbf{Core Concepts}\hspace{1em}
+  \textbf{Demo}\hspace{1em}
+  \textbf{Interactive}\hspace{1em}
+  \textbf{Summary}
+\subsection*{Agenda}
+\begin{itemize}
+  \item Core Concepts
+  \item Demo
+  \item Interactive
+  \item Summary
+\end{itemize}
+\subsection*{Learning Outcomes}
+\begin{itemize}
+    \item Explain the difference between \textbf{errors} and \textbf{exceptions}
+    \item Use \texttt{try/except/else/finally} for safe programs
+    \item Handle multiple exceptions correctly and specifically
+    \item Use \texttt{raise} and \texttt{assert} appropriately
+  \end{itemize}
+\subsection*{Errors vs Exceptions}
+\begin{itemize}
+    \item \textbf{Syntax errors}: program cannot start (invalid code)
+    \item \textbf{Exceptions}: runtime problems (division by zero, bad input, missing file)
+    \item A robust program anticipates exceptions and handles them cleanly
+  \end{itemize}
+\subsection*{The Exception Model (Big Picture)}
+\begin{itemize}
+    \item An exception is \textbf{raised} when something goes wrong
+    \item If not handled, it \textbf{propagates} up and stops the program
+    \item \texttt{try/except} lets you catch and recover
+  \end{itemize}
+\subsection*{Basic \texttt{try/except}}
+\begin{lstlisting}[language=Python]
+try:
+    n = int(input("Enter n: "))
+    print(10 / n)
+except ValueError:
+    print("Please enter an integer.")
+except ZeroDivisionError:
+    print("Division by zero is not allowed.")
+  \end{lstlisting}
+\subsection*{\texttt{else} and \texttt{finally}}
+\begin{itemize}
+    \item \texttt{else}: runs only if \textbf{no exception} occurred
+    \item \texttt{finally}: runs \textbf{always} (cleanup)
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+try:
+    f = open("data.txt", "r")
+    data = f.read()
+except FileNotFoundError:
+    print("File not found")
+else:
+    print("Length:", len(data))
+finally:
+    # runs even if exception happens
+    try:
+        f.close()
+    except Exception:
+        pass
+  \end{lstlisting}
+\subsection*{Multiple Exceptions}
+\begin{itemize}
+    \item Catch \textbf{specific} exceptions first
+    \item Avoid catching everything unless you re-raise or log
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+try:
+    x = int(input("x: "))
+    y = int(input("y: "))
+    print(x // y)
+except (ValueError, ZeroDivisionError) as e:
+    print("Error:", e)
+  \end{lstlisting}
+\subsection*{\texttt{raise} and \texttt{assert}}
+\begin{itemize}
+    \item \texttt{raise} creates your own exception with a message
+    \item \texttt{assert} is mainly for debugging assumptions
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+age = int(input("Age: "))
+if age < 0:
+    raise ValueError("Age must be non-negative")
+
+assert age >= 0
+  \end{lstlisting}
+\subsection*{Demo: Safe Input + Safe File Read}
+\begin{itemize}
+    \item File: \texttt{demo/exception\_handling\_demo.py}
+    \item Shows:
+      \begin{itemize}
+        \item repeated input until valid integer
+        \item safe division
+        \item safe file reading (missing file handling)
+      \end{itemize}
+  \end{itemize}
+\subsection*{Checkpoint 1}
+\textbf{Question:} When does the \texttt{else} block of a \texttt{try} statement run?
+\subsection*{Checkpoint 2}
+\textbf{Question:} Why is it better to catch \texttt{ValueError} than to catch
+  \texttt{Exception} for user input conversion?
+\subsection*{Think-Pair-Share}
+Discuss:
+  \begin{itemize}
+    \item Where should you place \texttt{try/except} blocks?
+    \item Around the entire program OR only around the risky lines?
+  \end{itemize}
+\subsection*{Key Takeaways}
+\begin{itemize}
+    \item Exceptions are runtime issues; syntax errors stop the program immediately
+    \item Use \texttt{try/except} to handle expected failures
+    \item \texttt{else} runs only on success; \texttt{finally} runs always
+    \item Catch specific exceptions and keep error messages user-friendly
+  \end{itemize}
+\subsection*{Exit Question}
+Write a snippet that reads an integer and prints it.
+  If the input is invalid, print \texttt{"Invalid integer"} without crashing.
+% END SLIDE APPENDIX (AUTO-GENERATED)
+
+\end{document}
+

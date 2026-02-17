@@ -1,0 +1,166 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 06 -- Lecture 01: NumPy Basics (ndarray, Operations, Broadcasting)}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Explain why NumPy is used for numerical computing
+    \item Create arrays and understand \texttt{dtype} and shape
+    \item Apply vectorized operations on arrays
+    \item Explain broadcasting with examples
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Why NumPy?}
+  \begin{itemize}[<+->]
+    \item Fast numerical computing (implemented in C)
+    \item Compact arrays with fixed data types
+    \item Vectorized operations (no Python loops for many tasks)
+    \item Foundation for Pandas, ML, and scientific computing
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{List vs NumPy Array}
+  \begin{itemize}[<+->]
+    \item List: can store mixed types, slower for numeric math
+    \item NumPy array: fixed dtype, faster operations
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+import numpy as np
+x = np.array([1, 2, 3])
+print(x * 2)  # [2 4 6]
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Array Creation}
+  \begin{itemize}[<+->]
+    \item \texttt{np.array([...])}
+    \item \texttt{np.zeros((r,c))}, \texttt{np.ones((r,c))}
+    \item \texttt{np.arange(start, stop, step)}
+    \item \texttt{np.linspace(start, stop, num)}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Array Attributes}
+  \begin{itemize}[<+->]
+    \item \texttt{shape}, \texttt{ndim}, \texttt{size}, \texttt{dtype}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+a = np.array([[1, 2], [3, 4]])
+print(a.shape, a.ndim, a.size, a.dtype)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Broadcasting (Idea)}
+  \begin{itemize}[<+->]
+    \item NumPy can apply operations between arrays of different shapes
+    \item Example: add a scalar to every element
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+a = np.array([1, 2, 3])
+print(a + 10)  # [11 12 13]
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Array Creation + Broadcasting}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/numpy\_basics\_demo.py}
+    \item Shows:
+      \begin{itemize}
+        \item creating arrays
+        \item vectorized math
+        \item broadcasting examples
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} Why is \texttt{[1,2,3] * 2} different from \texttt{np.array([1,2,3]) * 2}?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} What does broadcasting mean in NumPy?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item When would you still use a Python list instead of a NumPy array?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item NumPy arrays are fast and have fixed \texttt{dtype}
+    \item Vectorized operations avoid explicit loops
+    \item Broadcasting applies operations across compatible shapes
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Name any two NumPy functions used to create arrays.
+\end{frame}
+
+\end{document}
+

@@ -1,0 +1,223 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 02 -- Lecture 02: Tuples and Immutability}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Overview}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Create tuples and use indexing and slicing
+    \item Apply tuple packing and unpacking
+    \item Compare tuples with lists and choose appropriately
+    \item Use tuples in real-world scenarios
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Why Tuples?}
+  \begin{itemize}[<+->]
+    \item Immutable sequences (cannot be changed)
+    \item Useful for fixed records and safe data
+    \item Can be used as dictionary keys (if elements are hashable)
+    \item Communicates intent: “this should not change”
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Creating Tuples}
+  \begin{itemize}[<+->]
+    \item Literal: \texttt{point = (3, 4)}
+    \item Packing: \texttt{t = 1, 2, 3}
+    \item Singleton requires a comma: \texttt{single = (5,)}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Packing and Unpacking}
+  \begin{lstlisting}[language=Python]
+point = (10, 20)
+x, y = point
+
+values = (1, 2, 3, 4)
+a, b, *rest = values
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item Unpacking maps tuple positions to variables
+    \item \texttt{*rest} collects remaining values
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Worked Example: Swap and Multi-Return}
+  \begin{lstlisting}[language=Python]
+a, b = 5, 9
+a, b = b, a     # swap
+
+def min_max(nums):
+    return (min(nums), max(nums))
+
+mn, mx = min_max([3, 1, 7, 2])
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item Tuples are a common way to return multiple values
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Tuple Methods and Operations}
+  \begin{itemize}[<+->]
+    \item Methods: \texttt{count}, \texttt{index}
+    \item Supports indexing, slicing, concatenation, repetition
+    \item Example: \texttt{(1,2) + (3,4)}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Tuples vs Lists}
+  \small
+  \begin{tabular}{lll}
+    \toprule
+    Feature & List & Tuple \\
+    \midrule
+    Mutability & Mutable & Immutable \\
+    Syntax & [] & () \\
+    Use case & Changeable data & Fixed records \\
+    Hashable & No & Yes (if items hashable) \\
+    \bottomrule
+  \end{tabular}
+  \normalsize
+\end{frame}
+
+\begin{frame}[fragile]{Nested Tuples and Conversion}
+  \begin{itemize}[<+->]
+    \item Tuples can contain other tuples
+    \item Convert between list and tuple as needed
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+coords = ((0, 0), (1, 1), (2, 2))
+coords_list = list(coords)
+coords_tuple = tuple(coords_list)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Pitfall: Singleton Tuples and “Immutable”}
+  \begin{itemize}[<+->]
+    \item \texttt{(5)} is an integer in parentheses; use \texttt{(5,)} for a tuple
+    \item Tuples are immutable, but they can contain mutable objects
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+t = ([1, 2],)     # tuple containing a list
+t[0].append(3)    # allowed: the list mutates
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Common Use Cases}
+  \begin{itemize}[<+->]
+    \item Coordinates and geometry data
+    \item Dictionary keys (composite keys)
+    \item Returning multiple values from functions
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Distance Between Points}
+  \begin{itemize}[<+->]
+    \item Store coordinates as tuples
+    \item Unpack and compute distance
+    \item Keep data immutable
+    \item Extension: compute distances for multiple point pairs
+  \end{itemize}
+  \vspace{0.4em}
+  \textbf{Script:} \texttt{demo/tuple\_distance.py}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  Why does \texttt{(5)} not create a tuple?
+  \begin{enumerate}[<+->]
+    \item Parentheses alone do not create tuples
+    \item A trailing comma is required
+    \item \texttt{(5)} is just an integer in parentheses
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  Predict the result:
+  \begin{lstlisting}[language=Python]
+values = (10, 20, 30, 40, 50)
+a, b, *rest = values
+  \end{lstlisting}
+  What are \texttt{a}, \texttt{b}, and \texttt{rest}?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Where in programs should immutability be preferred?
+  Discuss one example from daily software use.
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Summary}
+  \begin{itemize}[<+->]
+    \item Tuples are immutable sequences
+    \item Packing/unpacking simplifies assignment and returns
+    \item Use tuples for fixed records and keys
+    \item Convert between lists and tuples when needed
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write one line to convert a list \texttt{L} to a tuple and back.
+\end{frame}
+
+\end{document}

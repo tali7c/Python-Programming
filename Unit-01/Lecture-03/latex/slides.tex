@@ -1,0 +1,197 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 01 -- Lecture 03: Tokens, Naming, Strings, and Numeric Types}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Identify Python tokens (keywords, identifiers, literals, operators)
+    \item Follow good naming conventions (snake\_case)
+    \item Use common string methods and operators
+    \item Format output using \texttt{format()} / f-strings
+    \item Work with numeric types (\texttt{int}, \texttt{float}, \texttt{complex})
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Python Tokens (Big Picture)}
+  \begin{itemize}[<+->]
+    \item \textbf{Keywords}: reserved words (e.g., \texttt{if}, \texttt{for}, \texttt{def})
+    \item \textbf{Identifiers}: names you create (variables, functions)
+    \item \textbf{Literals}: fixed values (\texttt{10}, \texttt{3.14}, \texttt{"hi"})
+    \item \textbf{Operators}: \texttt{+ - * / == <} etc.
+    \item \textbf{Delimiters}: \texttt{( ) [ ] \{ \} , :}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Identifiers and Naming Conventions}
+  \begin{itemize}[<+->]
+    \item Use \textbf{snake\_case}: \texttt{total\_marks}, \texttt{student\_name}
+    \item Names should be meaningful and consistent
+    \item Do not use keywords as names (e.g., \texttt{for = 5} is invalid)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{String Basics}
+  \begin{itemize}[<+->]
+    \item Strings are sequences of characters (immutable)
+    \item Indexing and slicing works like lists
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+s = "python"
+print(s[0])    # p
+print(s[-1])   # n
+print(s[1:4])  # yth
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Common String Methods}
+  \begin{itemize}[<+->]
+    \item \texttt{lower()}, \texttt{upper()}, \texttt{title()}
+    \item \texttt{strip()} (remove leading/trailing spaces)
+    \item \texttt{split()} (string $\rightarrow$ list of words)
+    \item \texttt{replace(old, new)}
+    \item \texttt{find(sub)} / \texttt{count(sub)}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{String Operators}
+  \begin{itemize}[<+->]
+    \item Concatenation: \texttt{"Py" + "thon"} $\rightarrow$ \texttt{"Python"}
+    \item Repetition: \texttt{"py" * 3} $\rightarrow$ \texttt{"pypypy"}
+    \item Membership: \texttt{"th" in "python"} $\rightarrow$ \texttt{True}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Formatting Output}
+  \begin{itemize}[<+->]
+    \item \texttt{format()} method:
+  \end{itemize}
+  \begin{lstlisting}[language=Python]
+name = "Rohit"
+cgpa = 7.0
+print("Name: {}, CGPA: {:.1f}".format(name, cgpa))
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item f-strings (recommended for readability):
+  \end{itemize}
+  \begin{lstlisting}[language=Python]
+print(f"Name: {name}, CGPA: {cgpa:.1f}")
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Numeric Data Types}
+  \begin{itemize}[<+->]
+    \item \texttt{int}: integers (e.g., \texttt{5}, \texttt{-12})
+    \item \texttt{float}: decimals (e.g., \texttt{3.14})
+    \item \texttt{complex}: complex numbers (e.g., \texttt{2+3j})
+    \item Convert types when needed: \texttt{int("10")}, \texttt{float("2.5")}
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Cleaning and Formatting Strings}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/string\_formatting\_demo.py}
+    \item Reads a name and marks, cleans extra spaces
+    \item Prints a formatted student summary line
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} What is the output?
+  \vspace{0.6em}
+  \begin{lstlisting}[language=Python]
+print("py" * 3)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} What is the difference between \texttt{split()} and \texttt{join()}?
+  \vspace{0.6em}
+  \begin{lstlisting}[language=Python]
+sentence = "Python is fun"
+parts = sentence.split()
+again = "-".join(parts)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  You have input text with extra spaces:
+  \begin{itemize}
+    \item \texttt{"  UPES   Dehradun  "}
+  \end{itemize}
+  Discuss: which methods would you use to clean it?
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Tokens build programs: keywords, identifiers, literals, operators
+    \item Use clean naming: snake\_case, meaningful names
+    \item Strings are immutable; methods return new strings
+    \item Use \texttt{split/join/strip} for text processing
+    \item f-strings and \texttt{format()} produce clean output
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Format \texttt{3.14159} to \textbf{2 decimal places}.
+\end{frame}
+
+\end{document}

@@ -1,0 +1,35 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Experiment 04 - Exercise 05: Alphabet Frequency (Case-Insensitive)}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Objective}
+Given a string containing both upper and lower case alphabets, count the number
+of occurrences of each alphabet (case insensitive) and display the result.
+
+\section*{Input}
+A string.
+
+\section*{Output}
+Frequency of each alphabet, ignoring case.
+
+\section*{Approach}
+\begin{itemize}
+  \item Convert each alphabet to uppercase (or lowercase) for counting.
+  \item Store counts in a dictionary: \texttt{freq[letter] += 1}.
+  \item Print results in sorted order (optional).
+\end{itemize}
+
+\section*{Time Complexity}
+\texttt{O(n)} where $n$ is the length of the string.
+
+\end{document}
+

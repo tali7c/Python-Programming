@@ -1,0 +1,243 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{listings}
+
+\geometry{margin=1in}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue
+}
+
+\setlist{itemsep=0.35em, topsep=0.35em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Python Programming (B.Tech)}
+\rhead{Unit 02: Collections and Functions}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single
+}
+
+\begin{document}
+
+\begin{center}
+  {\LARGE \textbf{Assignment -- Unit 02}}\\[0.25em]
+  {\large Collections and Functions}\\[0.25em]
+  \normalsize (Lists, Tuples, Sets, Dictionaries, Functions)
+\end{center}
+
+\noindent
+\textbf{Instructor:} Tofik Ali \hfill \textbf{Submission Deadline:} March 31, 2026\\
+\textbf{Student Name:} \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \hfill \textbf{Roll No.:} \_\_\_\_\_\_\_\_\\
+
+\vspace{0.6em}
+\hrule
+\vspace{0.8em}
+
+\textbf{Instructions}
+\begin{itemize}[leftmargin=*]
+  \item Answer \textbf{all} questions.
+  \item There is \textbf{no time limit}. Submit on or before \textbf{March 31, 2026}.
+  \item Write \textbf{clean code}: meaningful variable names, functions, and comments where needed.
+  \item Handle basic edge cases (empty input, invalid input types, etc.) and write assumptions.
+  \item Unless a question says otherwise, do \textbf{not} use external libraries.
+\end{itemize}
+
+\vspace{0.6em}
+
+\section*{Easy (10 Questions)}
+\begin{enumerate}[label=E\arabic*., leftmargin=*]
+  \item \textbf{List basics:} Given the list \texttt{a = [10, 20, 30, 40, 50, 60, 70]} write Python expressions for:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item the last 3 elements
+      \item all elements except the first and last
+      \item every 2nd element starting from index 0
+      \item the reversed list (using slicing)
+    \end{enumerate}
+
+  \item \textbf{List methods:} Using a list \texttt{nums = [5, 1, 5, 2, 9, 2]}, write code to:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item append 7
+      \item remove the first occurrence of 5
+      \item sort in ascending order
+      \item print how many times 2 occurs
+    \end{enumerate}
+
+  \item \textbf{Tuple unpacking:} Let \texttt{t = (\"UPES\", \"CSE\", 2026)}. Unpack it into three variables.
+    Then print: \texttt{CSE - UPES (2026)}.
+
+  \item \textbf{Set basics:} Given two sets \texttt{s1 = \{1,2,3,4\}} and \texttt{s2 = \{3,4,5,6\}} write code to print:
+    union, intersection, \texttt{s1 - s2}, and \texttt{s2 - s1}.
+
+  \item \textbf{Functions:} Write a function \texttt{area\_rectangle(length, width=1)} that returns the area.
+    Demonstrate with at least two calls: one using default width, one using a keyword argument.
+
+  \item \textbf{List comprehension (strings):} Given:
+    \begin{lstlisting}[language=Python]
+names = ["Aman", "Bina", "Chetan", "Divya"]
+    \end{lstlisting}
+    create:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item a list of uppercased names
+      \item a list of name lengths
+      \item a list of (name, length) tuples
+    \end{enumerate}
+
+  \item \textbf{Tuple slicing + membership:} Given \texttt{t = (11, 22, 33, 44, 55)} write expressions to:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item get the middle three elements
+      \item check whether \texttt{33} exists in the tuple
+      \item create a new tuple with \texttt{99} added at the end
+    \end{enumerate}
+
+  \item \textbf{Dictionary safe access:} Given \texttt{marks = \{"Python": 95, "Math": 88\}}, write code to:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item print Python marks using indexing
+      \item print Physics marks using \texttt{get} with default value 0
+      \item update Math marks to 90
+    \end{enumerate}
+
+  \item \textbf{Unique words using a set:} Read a sentence from the user, split into words, and:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item print the number of unique words
+      \item print the unique words in sorted order (as a list)
+    \end{enumerate}
+
+  \item \textbf{Return multiple values (tuple):} Write a function \texttt{min\_max(nums)} that returns a tuple
+    \texttt{(min\_value, max\_value)} for a list of numbers. Demonstrate with a sample list.
+\end{enumerate}
+
+\section*{Medium (10 Questions)}
+\begin{enumerate}[label=M\arabic*., leftmargin=*]
+  \item \textbf{List comprehension (if--else):} Given a list of integers, create a new list such that:
+    \begin{itemize}[leftmargin=*]
+      \item if a number is even, store its square
+      \item else, store its cube
+    \end{itemize}
+    Do it using a \textbf{single} list comprehension and show a sample run.
+
+  \item \textbf{Dictionary frequency:} Write a function \texttt{word\_freq(sentence)} that returns a dictionary of
+    word frequencies (case-insensitive). Ignore leading/trailing spaces and treat multiple spaces as one separator.
+    Example input: \texttt{\"Python is fun and Python is powerful\"}.
+
+  \item \textbf{Tuple + list processing:} You are given a list of (name, marks) tuples:
+    \texttt{students = [(\"Aman\", 78), (\"Bina\", 92), (\"Chetan\", 58), (\"Divya\", 92)]}.
+    Write code to:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item find the highest marks
+      \item print the names of all toppers (if tie)
+      \item compute the average marks
+    \end{enumerate}
+
+  \item \textbf{Functions with variable arguments:} Create a function \texttt{stats(*nums)} that returns a tuple
+    \texttt{(min, max, average)}. If no numbers are passed, return \texttt{None}.
+
+  \item \textbf{Sorting dictionaries:} Given a dictionary of subjects to marks, print the subjects in decreasing order of marks.
+    Example: \texttt{\{\"Math\": 88, \"Python\": 95, \"Physics\": 72\}}.
+
+  \item \textbf{Comprehension with multiple results:} Given \texttt{nums = [1, 2, 3, 4, 5]}, create a list of tuples
+    \texttt{(n, n*n, n*n*n)} using a single list comprehension.
+
+  \item \textbf{Create a dictionary using \texttt{zip}:} Given
+    \texttt{subjects = ["Python", "Math", "English"]} and \texttt{scores = [85, 78, 69]},
+    create a dictionary and compute total and average.
+
+  \item \textbf{Remove duplicates (preserve order):} Write a function named\\
+    \texttt{unique\_preserve\_order(items)}\\
+    that returns a new list with duplicates removed \textbf{without} changing the first occurrence order.
+    Example: \texttt{[1,2,1,3,2]} $\rightarrow$ \texttt{[1,2,3]}.
+
+  \item \textbf{Avoid mutation:} Write a function \texttt{add\_bonus(marks, bonus)} that returns a \textbf{new} list
+    with each value increased by bonus. Show that the original list does not change.
+
+  \item \textbf{Recursion:} Write a recursive function \texttt{sum\_to\_n(n)} that returns \texttt{1+2+...+n}.
+    Include a correct base case and test with \texttt{n=5}.
+\end{enumerate}
+
+\section*{Hard (10 Questions)}
+\begin{enumerate}[label=H\arabic*., leftmargin=*]
+  \item \textbf{Mini gradebook (lists + dicts + functions):} Maintain student marks for multiple subjects.
+    Use the data structure:
+    \begin{lstlisting}[language=Python]
+records = [
+  {"name": "Aman", "marks": {"Python": 85, "Math": 78, "English": 69}},
+  {"name": "Bina", "marks": {"Python": 92, "Math": 88, "English": 74}},
+  {"name": "Chetan", "marks": {"Python": 58, "Math": 61, "English": 55}},
+]
+    \end{lstlisting}
+    Write functions to:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item compute each student's total and average
+      \item find the top student by total
+      \item list students who are failing in any one subject (threshold 60)
+    \end{enumerate}
+
+  \item \textbf{Merge dictionaries (numeric values):} Write a function \texttt{merge\_sum(d1, d2)} that returns a new dictionary:
+    \begin{itemize}[leftmargin=*]
+      \item keys present in either dictionary should appear once
+      \item if a key exists in both, sum the values
+      \item do not modify the original dictionaries
+    \end{itemize}
+
+  \item \textbf{2D list (matrix) tasks:} For a matrix represented as a nested list, write code to compute:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item the transpose
+      \item sum of each row
+      \item sum of each column
+    \end{enumerate}
+    Use a \textbf{nested list comprehension} for at least one part.
+
+  \item \textbf{Recursion (with explanation):} Write a recursive function \texttt{flatten(lst)} that converts a nested list
+    (e.g., \texttt{[1, [2, 3], [4, [5]]]} ) into a flat list \texttt{[1,2,3,4,5]}.
+    Write 4--6 lines explaining the base case and recursive case.
+
+  \item \textbf{Functional patterns:} Given a list of integers \texttt{nums}, do the following without writing an explicit \texttt{for} loop:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item filter only positive numbers
+      \item map them to their squares
+      \item compute the sum of squares
+    \end{enumerate}
+    Use \texttt{filter}, \texttt{map}, and \texttt{sum}. (Optional: show an equivalent list-comprehension solution.)
+
+  \item \textbf{Top-K frequent words:} Write a function \texttt{top\_k\_frequent(words, k)} that returns the top-k
+    most frequent words from a list of words. Use a dictionary for counting and sort by frequency.
+    Demonstrate with a sample sentence you choose.
+
+  \item \textbf{Deep copy of a 2D list:} Write a function \texttt{deep\_copy\_2d(matrix)} that returns a new 2D list
+    such that modifying the copy does not affect the original. Demonstrate with an example.
+
+  \item \textbf{Function composition:} Write a function \texttt{compose(f, g)} that returns a new function \texttt{h(x)=f(g(x))}.
+    Demonstrate using two simple functions (e.g., \texttt{double} and \texttt{add\_3}).
+
+  \item \textbf{Balanced parentheses (stack):} Write a function \texttt{is\_balanced(s)} that returns \texttt{True} if parentheses
+    are balanced for strings containing only \texttt{(} and \texttt{)}. Test your function with at least 3 cases.
+
+  \item \textbf{Group anagrams:} Given a list of words, group them into anagrams.
+    Example input (order can vary):
+    \texttt{["eat", "tea", "tan", "ate", "nat", "bat"]}\\
+    One possible grouped output:
+    \texttt{["eat", "tea", "ate"]}, \texttt{["tan", "nat"]}, \texttt{["bat"]}.\\
+    Implement using a dictionary where the key is a canonical form (e.g., sorted letters).
+\end{enumerate}
+
+\vfill
+\noindent\textit{End of Assignment}
+
+\end{document}

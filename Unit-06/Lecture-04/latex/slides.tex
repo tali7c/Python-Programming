@@ -1,0 +1,150 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 06 -- Lecture 04: Missing Data, Aggregation, Combining, CSV I/O}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Detect and handle missing values (\texttt{NaN})
+    \item Use aggregation (\texttt{groupby}) for summaries
+    \item Combine DataFrames (\texttt{concat}, \texttt{merge})
+    \item Import/export CSV using \texttt{read\_csv} and \texttt{to\_csv}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Missing Data}
+  \begin{itemize}[<+->]
+    \item Missing values appear as \texttt{NaN} in Pandas
+    \item Useful functions:
+      \begin{itemize}
+        \item \texttt{isna()}, \texttt{notna()}
+        \item \texttt{dropna()}
+        \item \texttt{fillna(value)}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Aggregation with \texttt{groupby}}
+  \begin{lstlisting}[language=Python]
+avg_by_city = df.groupby("city")["marks"].mean()
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item Useful for summaries (average marks per city, counts per category)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Combining DataFrames}
+  \begin{itemize}[<+->]
+    \item \texttt{pd.concat([...])}: stack rows or columns
+    \item \texttt{pd.merge(a, b, on="key")}: SQL-like join
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{CSV Import/Export}
+  \begin{lstlisting}[language=Python]
+df = pd.read_csv("data/student_scores.csv")
+df.to_csv("data/cleaned.csv", index=False)
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Missing Data + Groupby + CSV}
+  \begin{itemize}[<+->]
+    \item Data: \texttt{data/student\_scores.csv}
+    \item Script: \texttt{demo/pandas\_missing\_data\_demo.py}
+    \item Shows:
+      \begin{itemize}
+        \item reading CSV
+        \item missing value handling
+        \item groupby aggregation
+        \item merge with another DataFrame
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} What does \texttt{fillna(0)} do?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} When would you use \texttt{merge} instead of \texttt{concat}?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item Is it always correct to replace missing marks with 0? Why/why not?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Missing values can be detected and filled/dropped
+    \item \texttt{groupby} provides powerful summaries
+    \item \texttt{merge} joins tables using keys; \texttt{concat} stacks data
+    \item CSV I/O connects Pandas with real-world datasets
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write one line to read a CSV file named \texttt{"marks.csv"} into a DataFrame.
+\end{frame}
+
+\end{document}
+

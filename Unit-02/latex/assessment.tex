@@ -1,0 +1,259 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{listings}
+
+\geometry{margin=1in}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue
+}
+
+\setlist{itemsep=0.35em, topsep=0.35em}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Python Programming (B.Tech)}
+\rhead{Unit 02: Diagnostic Assessment}
+\cfoot{\thepage}
+\setlength{\headheight}{14pt}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single
+}
+
+% Marks per question (total = 100)
+\newcommand{\EMarks}{\textbf{[2 marks]} }
+\newcommand{\MMarks}{\textbf{[3 marks]} }
+\newcommand{\HMarks}{\textbf{[5 marks]} }
+
+\begin{document}
+
+\begin{center}
+  {\LARGE \textbf{Diagnostic Assessment Test -- Unit 02}}\\[0.25em]
+  {\large Collections and Functions}\\[0.25em]
+  \normalsize (MCQ + Subjective; designed to identify learning gaps)
+\end{center}
+
+\noindent
+\textbf{Instructor:} Tofik Ali \hfill \textbf{Time Limit:} None\\
+\textbf{Submission Deadline:} March 31, 2026\\
+\textbf{Student Name:} \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \hfill \textbf{Roll No.:} \_\_\_\_\_\_\_\_\\
+
+\vspace{0.6em}
+\hrule
+\vspace{0.8em}
+
+\textbf{Instructions}
+\begin{itemize}[leftmargin=*]
+  \item \textbf{This is a diagnostic assessment, not a quiz/test.} The goal is to identify learning gaps so you know what to revise next.
+  \item \textbf{Total marks: 100.} Easy: 10 $\times$ 2 = 20, Medium: 10 $\times$ 3 = 30, Hard: 10 $\times$ 5 = 50.
+  \item \textbf{No time limit.} Submit on or before \textbf{March 31, 2026}.
+  \item \textbf{Important (70\% rule): To have your assignment marks counted, you must score at least 70\% (70/100 or more) in this assessment.}
+    If you score below 70\%, you may reattempt and resubmit. Your latest submission will be considered.
+  \item \textbf{Marking policy (honest attempt):} Marks are deducted only for (i) not attempting a question and (ii) high similarity with other submissions (copying).
+    Correctness is \textbf{not} the main focus; your reasoning and effort matter more.
+  \item \textbf{Show your real effort:} if you tried multiple approaches for any question, write them all (e.g., Attempt 1, Attempt 2). Partial or incorrect attempts are acceptable.
+  \item \textbf{Many questions are open-ended by design:} multiple solutions/variants are acceptable. Use your own example data and explain your choices.
+  \item Answer \textbf{all} questions.
+  \item For MCQs, follow the instruction in the question (some are \textbf{select all that apply}).
+  \item For subjective questions, write assumptions and show steps. We care more about your thinking process than a perfect final answer.
+  \item Do not use external libraries unless a question explicitly allows it.
+\end{itemize}
+
+\vspace{0.6em}
+
+\section*{Easy (10 Questions)}
+\begin{enumerate}[label=\textbf{E\arabic*.}, leftmargin=*]
+  \item \EMarks \textbf{[MCQ -- Select all that apply]} Which statements are \textbf{true} about lists?
+    (Write a 1-line justification for any \textbf{two} options you select.)
+    \begin{enumerate}[label=(\Alph*), leftmargin=*]
+      \item \texttt{append(x)} adds \textbf{one} element to the end of a list.
+      \item \texttt{extend(iterable)} adds each element of the iterable to the list.
+      \item \texttt{sorted(a)} sorts the list \texttt{a} in-place and returns \texttt{None}.
+      \item \texttt{a.sort()} returns a new sorted list without changing \texttt{a}.
+      \item Slicing like \texttt{a[1:4]} produces a new list.
+      \item \texttt{remove(x)} removes by index position.
+    \end{enumerate}
+
+  \item \EMarks \textbf{[MCQ -- Select all that apply]} Which operations will \textbf{modify} the original list \texttt{a}?
+    \begin{enumerate}[label=(\Alph*), leftmargin=*]
+      \item \texttt{a.append(5)}
+      \item \texttt{a = a + [5]}
+      \item \texttt{a.extend([5])}
+      \item \texttt{a.sort()}
+      \item \texttt{b = a + [5]}
+      \item \texttt{a.insert(0, 5)}
+    \end{enumerate}
+
+  \item \EMarks \textbf{[Subjective]} Create your own list \texttt{nums} of at least 8 integers (include duplicates and at least one negative).
+    Write code to produce:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item a set of unique values
+      \item count of unique values
+      \item a sorted list of unique values
+    \end{enumerate}
+    (Many correct solutions are possible.)
+
+  \item \EMarks \textbf{[Subjective]} Write a \textbf{single} list comprehension (use \textbf{if--else}) that converts a list of integers into
+    labels \texttt{"even"} and \texttt{"odd"}.
+    Use any input list of your choice and show the output.
+
+  \item \EMarks \textbf{[Subjective]} Show \textbf{two different} ways to swap variables \texttt{a} and \texttt{b} in Python.
+    (Use any numbers, ideally based on your roll number digits.)
+
+  \item \EMarks \textbf{[MCQ -- Select all that apply]} Which statements are \textbf{true} about tuples?
+    \begin{enumerate}[label=(\Alph*), leftmargin=*]
+      \item Tuples are immutable (you cannot change elements after creation).
+      \item A tuple can contain mutable objects (like lists) inside it.
+      \item \texttt{(5)} creates a one-element tuple.
+      \item \texttt{(5,)} creates a one-element tuple.
+      \item Tuples have \texttt{append} and \texttt{remove} methods.
+      \item Tuple unpacking can assign multiple variables in one line.
+    \end{enumerate}
+
+  \item \EMarks \textbf{[Subjective]} Write a function \texttt{clamp(x, low=0, high=100)} that returns:
+    \begin{itemize}[leftmargin=*]
+      \item \texttt{low} if \texttt{x < low}
+      \item \texttt{high} if \texttt{x > high}
+      \item otherwise returns \texttt{x}
+    \end{itemize}
+    Show at least 3 sample calls.
+
+  \item \EMarks \textbf{[Subjective]} Create a dictionary \texttt{profile} about yourself with at least 5 keys (e.g., name, city, branch, year).
+    Write code to: add a key, update a key, delete a key, and print all key-value pairs.
+
+  \item \EMarks \textbf{[Subjective]} Create two sets \texttt{A} and \texttt{B} (size $\ge$ 5) from any real-life categories
+    (e.g., favorite apps, hobbies). Print:
+    union, intersection, and symmetric difference. Explain each in 1 line.
+
+  \item \EMarks \textbf{[Subjective]} Explain (with a small code example) when \texttt{d.get(key, default)} is safer than \texttt{d[key]}.
+    Give at least \textbf{two} examples of missing keys.
+\end{enumerate}
+
+\section*{Medium (10 Questions)}
+\begin{enumerate}[label=\textbf{M\arabic*.}, leftmargin=*]
+  \item \MMarks \textbf{[MCQ -- Select all that apply]} Which of the following create a \textbf{shallow copy} of a list \texttt{a}?
+    \begin{enumerate}[label=(\Alph*), leftmargin=*]
+      \item \texttt{b = a}
+      \item \texttt{b = a[:]}
+      \item \texttt{b = list(a)}
+      \item \texttt{b = a.copy()}
+      \item \texttt{b = [*a]}
+      \item \texttt{b = a + []}
+    \end{enumerate}
+
+  \item \MMarks \textbf{[Subjective]} Write \textbf{two} solutions (two different styles) for this task:
+    ``From a list of integers, keep only numbers divisible by 3 and square them.''
+    \begin{itemize}[leftmargin=*]
+      \item Solution 1: list comprehension
+      \item Solution 2: \texttt{filter} + \texttt{map}
+    \end{itemize}
+    Use any input list of your choice.
+
+  \item \MMarks \textbf{[Subjective]} Write a function \texttt{word\_freq(sentence)} that returns a dictionary of word frequencies
+    \textbf{case-insensitive}. Ignore punctuation \texttt{.,!?} by replacing them with space.
+    Test using a sentence you choose.
+
+  \item \MMarks \textbf{[Subjective]} Create a list of at least 5 tuples \texttt{(name, marks)} (you choose the data).
+    Sort by marks (descending) and then by name (ascending). Print the sorted list.
+
+  \item \MMarks \textbf{[Subjective]} Implement \texttt{stats(*nums)} that returns \texttt{(min, max, avg)}.
+    If no numbers are passed, return \texttt{None}. Show at least 3 sample calls (including empty call).
+
+  \item \MMarks \textbf{[MCQ -- Select all that apply]} Which statements about dictionaries are true?
+    \begin{enumerate}[label=(\Alph*), leftmargin=*]
+      \item \texttt{d.keys()} returns a view of keys (not a list).
+      \item \texttt{d.items()} returns key-value pairs.
+      \item \texttt{d.get(k)} raises \texttt{KeyError} if \texttt{k} is missing.
+      \item \texttt{d.update(x)} can merge another dictionary into \texttt{d}.
+      \item \texttt{d.pop(k)} removes and returns the value for key \texttt{k}.
+      \item Dictionaries can only have integer keys.
+    \end{enumerate}
+
+  \item \MMarks \textbf{[Subjective]} Invert a mapping:
+    \begin{itemize}[leftmargin=*]
+      \item Given: \texttt{student\_to\_branch} (you create it)
+      \item Build: \texttt{branch\_to\_students} where each branch maps to a list of student names
+    \end{itemize}
+
+  \item \MMarks \textbf{[Subjective]} Create a 2D list (matrix) using your roll number digits (any shape at least 3x3).
+    Write code to compute:
+    transpose, row sums, and column sums.
+
+  \item \MMarks \textbf{[Subjective]} Write a small code snippet that demonstrates the difference between:
+    \textbf{aliasing} (\texttt{b = a}) and \textbf{copying} (\texttt{b = a[:]}) for lists.
+    Explain what happens in 3--5 lines.
+
+  \item \MMarks \textbf{[Subjective]} Write a recursive function \texttt{gcd(a, b)} (Euclid's algorithm) \textbf{or}
+    \texttt{sum\_to\_n(n)}. Show at least 2 test cases.
+\end{enumerate}
+
+\section*{Hard (10 Questions)}
+\begin{enumerate}[label=\textbf{H\arabic*.}, leftmargin=*]
+  \item \HMarks \textbf{[MCQ -- Select all that apply]} Which functions have a \textbf{mutable default argument} problem?
+    \begin{enumerate}[label=(\Alph*), leftmargin=*]
+      \item \texttt{def f(x, items=[]): ...}
+      \item \texttt{def g(x, items=None): ...}
+      \item \texttt{def h(x, d=\{\}): ...}
+      \item \texttt{def k(x, t=(1, 2)): ...}
+    \end{enumerate}
+
+  \item \HMarks \textbf{[Subjective]} Rewrite \textbf{one} problematic function from H1 to avoid the mutable-default pitfall.
+    Explain in 4--6 lines why the original was risky.
+
+  \item \HMarks \textbf{[Subjective]} Write a function \texttt{is\_balanced(s)} that checks whether the brackets in a string are balanced.
+    Consider \texttt{()}, \texttt{\{\}}, and \texttt{[]} and use a stack (list). Provide at least 5 test cases.
+
+  \item \HMarks \textbf{[Subjective]} Write a recursive function \texttt{flatten(lst)} that converts a nested list into a flat list.
+    Example: \texttt{[1, [2, 3], [4, [5]]]} $\rightarrow$ \texttt{[1, 2, 3, 4, 5]}.
+    Provide at least 3 test cases.
+
+  \item \HMarks \textbf{[Subjective]} Implement \texttt{top\_k\_frequent(words, k)} using a dictionary + sorting.
+    Use a paragraph you choose as input text and show the output for \texttt{k=3}.
+    (Many correct tie-breaking strategies are acceptable; mention yours.)
+
+  \item \HMarks \textbf{[Subjective]} Design and implement a mini ``attendance tracker'' (your choice of format).
+    \begin{itemize}[leftmargin=*]
+      \item Propose a data structure (nested list/dict/tuple/set).
+      \item Write function signatures for: mark present, mark absent, get attendance percentage, and list defaulters.
+      \item Implement at least \textbf{two} of the functions and show a small demo run.
+    \end{itemize}
+
+  \item \HMarks \textbf{[Subjective]} Write a generic \texttt{group\_by(items, key\_func)} that returns a dictionary:
+    key $\rightarrow$ list of items. Demonstrate with at least two examples
+    (e.g., group words by length, group numbers by parity).
+
+  \item \HMarks \textbf{[Subjective]} Use a list comprehension with \textbf{two loops} and a condition:
+    build coordinate pairs \texttt{(i, j)} for \texttt{i=1..m} and \texttt{j=1..n}, excluding pairs where \texttt{i == j}.
+    Choose \texttt{m} and \texttt{n} based on your roll number digits and show output.
+    Also write an alternative nested-loop solution.
+
+  \item \HMarks \textbf{[Subjective]} Implement one of these (your choice) and show a demo:
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+      \item \texttt{apply\_all(funcs, x)}: given a list of functions, return a list of results.
+      \item \texttt{compose(*funcs)}: compose multiple single-argument functions into one.
+    \end{enumerate}
+    (Any valid approach is accepted; show at least 2 small functions/lambdas.)
+
+  \item \HMarks \textbf{[Subjective]} Short reasoning: compare membership checking in a \textbf{list} vs a \textbf{set}.
+    Write 6--10 lines (no timing required) and include a small code snippet illustrating the idea.
+\end{enumerate}
+
+\vfill
+\noindent\textit{End of Assessment}
+
+\end{document}

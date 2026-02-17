@@ -1,0 +1,52 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{hyperref}
+\geometry{margin=1in}
+
+\title{Experiment 01 - Setup Notes: Python Installation and Modes}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Objective}
+Install Python and understand the difference between \textbf{interactive mode}
+(REPL) and \textbf{scripting mode} (\texttt{.py} files).
+
+\section*{Installation (Windows - Quick Steps)}
+\begin{enumerate}
+  \item Download Python 3 from the official website (python.org).
+  \item During installation, check \textbf{Add Python to PATH}.
+  \item Finish installation.
+  \item Verify in Command Prompt / PowerShell:
+  \begin{verbatim}
+python --version
+python -c "print('Hello')"
+  \end{verbatim}
+\end{enumerate}
+
+\section*{Interactive Mode vs Scripting Mode}
+\textbf{Interactive mode (REPL):}
+\begin{itemize}
+  \item Run one statement at a time and see immediate output.
+  \item Useful for quick testing and learning.
+\end{itemize}
+
+\textbf{Scripting mode:}
+\begin{itemize}
+  \item Write code in a \texttt{.py} file and run it.
+  \item Useful for assignments, experiments, and reusable programs.
+\end{itemize}
+
+\section*{IDLE (Optional)}
+Python ships with IDLE, which can run both:
+\begin{itemize}
+  \item Shell (interactive mode)
+  \item Editor + Run Module (scripting mode)
+\end{itemize}
+
+\end{document}
+

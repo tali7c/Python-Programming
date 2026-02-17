@@ -1,0 +1,35 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{Experiment 02 - Exercise 07: Next Date in Calendar}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Objective}
+Take a date as input and display the next date in the calendar.
+
+\section*{Input}
+\texttt{day}, \texttt{month}, \texttt{year}.
+
+\section*{Output}
+The next valid date (day, month, year).
+
+\section*{Approach}
+\begin{itemize}
+  \item Validate the input date using month length (and leap year rule for February).
+  \item Increase day by 1.
+  \item If day exceeds days in that month, set day=1 and increase month.
+  \item If month exceeds 12, set month=1 and increase year.
+\end{itemize}
+
+\section*{Time Complexity}
+\texttt{O(1)}.
+
+\end{document}
+

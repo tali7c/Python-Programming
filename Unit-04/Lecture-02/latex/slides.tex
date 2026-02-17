@@ -1,0 +1,167 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 04 -- Lecture 02: Layout Managers, Menus, Dialogs, Message Boxes}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Use \texttt{pack} and \texttt{grid} layout managers correctly
+    \item Organize widgets using Frames
+    \item Create menu bars and menu commands
+    \item Show message boxes and open file dialogs
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Layout Managers: \texttt{pack} vs \texttt{grid}}
+  \begin{itemize}[<+->]
+    \item \texttt{pack}: simple vertical/horizontal stacking
+    \item \texttt{grid}: table-like rows and columns (forms)
+    \item Rule: do not mix \texttt{pack} and \texttt{grid} in the same container
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Example: Simple \texttt{grid} Form}
+  \begin{lstlisting}[language=Python]
+tk.Label(root, text="Name").grid(row=0, column=0)
+tk.Entry(root).grid(row=0, column=1)
+
+tk.Label(root, text="Age").grid(row=1, column=0)
+tk.Entry(root).grid(row=1, column=1)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Frames for Better Structure}
+  \begin{itemize}[<+->]
+    \item Frame = container widget
+    \item Helps grouping widgets (header, form, buttons, etc.)
+    \item Makes layout easier and code more readable
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Menus}
+  \begin{itemize}[<+->]
+    \item A menu bar contains drop-down menus (File/Edit/Help)
+    \item Each menu contains commands (Open, Save, Exit)
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+menubar = tk.Menu(root)
+file_menu = tk.Menu(menubar, tearoff=0)
+file_menu.add_command(label="Exit", command=root.destroy)
+menubar.add_cascade(label="File", menu=file_menu)
+root.config(menu=menubar)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Dialogs and Message Boxes}
+  \begin{itemize}[<+->]
+    \item Message boxes: info/warning/error/askyesno
+    \item File dialogs: open/save file selection
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+from tkinter import messagebox, filedialog
+messagebox.showinfo("Done", "Saved successfully!")
+path = filedialog.askopenfilename()
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Layout + Menu + Dialogs}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/layout\_menus\_dialogs\_demo.py}
+    \item Builds a small form using \texttt{grid}
+    \item Adds a menu bar and message boxes
+    \item Uses file dialog to select a file
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} Why should you not mix \texttt{pack} and \texttt{grid} in the same container?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} What is the purpose of a Frame in Tkinter?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  You are building a Student Registration form.
+  Discuss:
+  \begin{itemize}
+    \item Which layout manager is better: \texttt{pack} or \texttt{grid}?
+    \item How would you use Frames to structure the UI?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item \texttt{pack} is good for simple stacking; \texttt{grid} is good for forms
+    \item Frames improve structure and maintainability
+    \item Menus provide standard UI navigation (File/Help)
+    \item Message boxes and dialogs provide user feedback and file selection
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write the code line that shows an information message box with title \texttt{"Saved"}
+  and message \texttt{"Done"}.
+\end{frame}
+
+\end{document}
+
