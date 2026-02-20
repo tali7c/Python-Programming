@@ -1,0 +1,144 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 06 -- Lecture 05: Matplotlib Fundamentals (pyplot, labels, grid)}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Create basic plots using Matplotlib pyplot
+    \item Add titles, labels, legends, and grids
+    \item Customize markers, line style, and colors
+    \item Save plots to image files
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Matplotlib and \texttt{pyplot}}
+  \begin{itemize}[<+->]
+    \item Matplotlib is a plotting library for Python
+    \item \texttt{matplotlib.pyplot} provides a simple plotting API
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Basic Line Plot}
+  \begin{lstlisting}[language=Python]
+import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4]
+y = [2, 4, 6, 8]
+
+plt.plot(x, y)
+plt.show()
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Labels, Title, Grid, Legend}
+  \begin{lstlisting}[language=Python]
+plt.plot(x, y, label="y = 2x")
+plt.title("Line Plot")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.grid(True)
+plt.legend()
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Saving a Plot}
+  \begin{lstlisting}[language=Python]
+plt.savefig("images/line_plot.png", dpi=150)
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Customized Line Plot}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/matplotlib\_line\_plot\_demo.py}
+    \item Saves a plot image to \texttt{images/}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} What does \texttt{plt.grid(True)} do?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} Why do we add labels and titles to plots?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item What makes a plot misleading? Give 2 examples.
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Use pyplot for quick plotting
+    \item Always label axes and add a title
+    \item Grids and legends improve readability
+    \item Save plots using \texttt{savefig}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write the function name used to save a plot to a file.
+\end{frame}
+
+\end{document}
+

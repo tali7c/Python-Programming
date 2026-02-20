@@ -1,0 +1,227 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 01 -- Lecture 02: Basic Syntax, Comments, Dynamic Typing, Mutability}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Write valid Python blocks using indentation
+    \item Use comments to make code readable
+    \item Explain \textbf{dynamic typing} and inspect values with \texttt{type()}
+    \item Distinguish \textbf{mutable} and \textbf{immutable} data types
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Syntax Rule \#1: Indentation}
+  \begin{itemize}[<+->]
+    \item Python uses indentation to define blocks (no \{ \})
+    \item A colon \texttt{:} starts a block (if/for/while/def)
+    \item Consistent indentation matters (use 4 spaces)
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+if 10 > 5:
+    print("Yes")
+    print("Still inside if")
+print("Outside if")
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Comments}
+  \begin{itemize}[<+->]
+    \item Single-line comment: \texttt{\# ...}
+    \item Use comments to explain \textbf{why}, not obvious \textbf{what}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+rate = 0.08  # annual interest rate (8%)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Variables and Assignment}
+  \begin{itemize}[<+->]
+    \item Variables are created when you assign a value
+    \item You can reassign anytime (dynamic typing)
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+x = 10
+x = "ten"      # allowed
+print(type(x)) # <class 'str'>
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Dynamic Typing (What it Means)}
+  \begin{itemize}[<+->]
+    \item The \textbf{value} has a type, not the variable name
+    \item \texttt{type(x)} checks the current type of the value stored in \texttt{x}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+x = 5
+print(type(x))  # int
+x = 5.0
+print(type(x))  # float
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Mutable vs Immutable}
+  \small
+  \begin{tabular}{ll}
+    \toprule
+    Type & Mutability \\
+    \midrule
+    \texttt{int}, \texttt{float}, \texttt{bool} & immutable \\
+    \texttt{str}, \texttt{tuple} & immutable \\
+    \texttt{list}, \texttt{dict}, \texttt{set} & mutable \\
+    \bottomrule
+  \end{tabular}
+  \normalsize
+  \vspace{0.6em}
+  \begin{itemize}[<+->]
+    \item Immutable: cannot change the object in place
+    \item Mutable: can change contents without creating a new object
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Example: Immutable String}
+  \begin{lstlisting}[language=Python]
+s = "python"
+s2 = s.upper()
+print(s)   # python (original unchanged)
+print(s2)  # PYTHON
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Example: Mutable List}
+  \begin{lstlisting}[language=Python]
+a = [1, 2, 3]
+a.append(99)
+print(a)  # [1, 2, 3, 99]
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Pitfall: Aliasing (Same List Object)}
+  \begin{lstlisting}[language=Python]
+a = [1, 2, 3]
+b = a          # b points to the same list
+b.append(10)
+print(a)       # [1, 2, 3, 10]
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item Fix: copy the list using \texttt{a.copy()} or \texttt{a[:]}
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Dynamic Typing and Mutability}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/dynamic\_typing\_and\_mutability.py}
+    \item Shows:
+      \begin{itemize}
+        \item reassignment changes type of a variable
+        \item \texttt{id()} intuition for objects
+        \item aliasing and safe copies
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} Identify the error and fix it.
+  \vspace{0.6em}
+  \begin{lstlisting}[language=Python]
+if 5 > 2
+    print("OK")
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} Predict the output.
+  \vspace{0.6em}
+  \begin{lstlisting}[language=Python]
+a = [10, 20]
+b = a
+b.append(30)
+print(a)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss with a partner:
+  \begin{itemize}
+    \item Why might immutable objects be safer in programs?
+    \item Give one example where mutation can cause a bug.
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Indentation defines blocks; \texttt{:} starts a block
+    \item Python is dynamically typed (types belong to values)
+    \item Mutable types can change in place; immutable types cannot
+    \item Aliasing can surprise you; use copies when needed
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Name one mutable type and one immutable type in Python.
+\end{frame}
+
+\end{document}
+

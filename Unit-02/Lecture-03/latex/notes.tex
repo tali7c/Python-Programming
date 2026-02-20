@@ -1,0 +1,628 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{../images/}}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 02 -- Lecture 03 Notes\\Sets and Dictionaries}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+This lecture covers two high-impact Python collections:
+\begin{itemize}
+  \item \textbf{Sets} (\texttt{set}): best for \emph{uniqueness} and \emph{membership checks}.
+  \item \textbf{Dictionaries} (\texttt{dict}): best for \emph{key--value modeling}, \emph{fast lookup}, and \emph{counting}.
+\end{itemize}
+If you remember only one idea:
+\begin{quote}
+Use a \textbf{set} when you care about ``is it present?'' and uniqueness.\newline
+Use a \textbf{dictionary} when you care about ``for this key, what value should I store?''
+\end{quote}
+
+\section{Part A: Sets}
+
+\subsection{What Is a Set? (Definition and Properties)}
+A \textbf{set} is an \textbf{unordered} collection of \textbf{unique} elements.
+Key properties:
+\begin{itemize}
+  \item \textbf{Unique:} duplicates are automatically removed.
+  \item \textbf{Unordered:} there is no stable index-based position.
+  \item \textbf{Mutable:} you can add and remove elements.
+  \item \textbf{Hashable-only elements:} elements must be immutable/hashable (e.g., \texttt{int}, \texttt{str}, \texttt{tuple}).
+\end{itemize}
+
+\subsection{Sets vs Lists vs Tuples (When to Use What)}
+\begin{center}
+\begin{tabular}{llll}
+  \toprule
+  Feature & List & Tuple & Set \\
+  \midrule
+  Order matters & Yes & Yes & No \\
+  Allows duplicates & Yes & Yes & No \\
+  Mutable container & Yes & No & Yes \\
+  Fast membership (\texttt{in}) & Slow for big lists & Slow & Fast \\
+  \bottomrule
+\end{tabular}
+\end{center}
+\textbf{Practical decision:}
+\begin{itemize}
+  \item If you need order (and indexing/slicing), use a \textbf{list} or \textbf{tuple}.
+  \item If you need uniqueness and fast membership, use a \textbf{set}.
+  \item If values should not change (fixed record), use a \textbf{tuple}.
+\end{itemize}
+
+\subsection{Set Initialization (Including Empty Sets)}
+Common ways to create sets:
+\begin{lstlisting}[language=Python]
+A = {1, 2, 2, 3}          # duplicates removed -> {1, 2, 3}
+B = set([3, 4, 4, 5])     # from an iterable
+C = set("mississippi")    # from a string
+empty = set()             # empty set
+\end{lstlisting}
+\textbf{Important:} \texttt{\{\}} creates an \emph{empty dictionary}, not an empty set.
+
+\subsection{Hashability Rule (Why Lists Cannot Be in Sets)}
+Because a set uses hashing internally, elements must be hashable:
+\begin{lstlisting}[language=Python]
+ok = {(1, 2), (3, 4)}     # tuples are hashable if elements are hashable
+# bad = {[1, 2], [3, 4]}  # ERROR: list is not hashable
+\end{lstlisting}
+
+\subsection{Core Set Methods}
+Sets support a small set of methods that cover most real use cases.
+
+\subsubsection*{Adding Elements: \texttt{add} and \texttt{update}}
+\begin{lstlisting}[language=Python]
+s = {1, 2}
+s.add(3)                 # add one element
+s.update([4, 5, 5])      # add many (duplicates ignored)
+\end{lstlisting}
+
+\subsubsection*{Removing Elements: \texttt{remove} vs \texttt{discard}}
+\begin{lstlisting}[language=Python]
+s = {1, 2, 3}
+s.remove(2)              # removes 2
+# s.remove(99)           # KeyError if missing
+s.discard(99)            # safe: no error if missing
+\end{lstlisting}
+\textbf{Rule of thumb:}
+\begin{itemize}
+  \item Use \texttt{remove} when missing items are a true error.
+  \item Use \texttt{discard} when missing items are expected.
+\end{itemize}
+
+\subsubsection*{Other Useful Methods: \texttt{pop}, \texttt{clear}, \texttt{copy}}
+\begin{lstlisting}[language=Python]
+s = {10, 20, 30}
+item = s.pop()           # removes an arbitrary element (not "first")
+s.clear()                # empties the set
+t = s.copy()             # copy of a set
+\end{lstlisting}
+
+\subsection{Set Operations (Operators and Methods)}
+Set operations are used to compare groups of items.
+Let \texttt{A} and \texttt{B} be sets:
+\begin{itemize}
+  \item \textbf{Union:} elements in either set \quad \texttt{A | B}
+  \item \textbf{Intersection:} elements common to both \quad \texttt{A \& B}
+  \item \textbf{Difference:} elements in \texttt{A} but not in \texttt{B} \quad \texttt{A - B}
+  \item \textbf{Symmetric difference:} elements in exactly one set \quad \texttt{A \string^ B}
+\end{itemize}
+Example:
+\begin{lstlisting}[language=Python]
+A = {1, 2, 3}
+B = {2, 3, 4}
+print(A | B)   # {1, 2, 3, 4}
+print(A & B)   # {2, 3}
+print(A - B)   # {1}
+print(A ^ B)   # {1, 4}
+\end{lstlisting}
+Each operation also has a method form such as \texttt{A.union(B)}.
+
+\subsection{Set Comparisons (Subset, Superset, Disjoint)}
+Sometimes you want logical comparisons:
+\begin{lstlisting}[language=Python]
+A = {1, 2}
+B = {1, 2, 3}
+
+print(A <= B)              # True (A is subset of B)
+print(B >= A)              # True (B is superset of A)
+print(A.isdisjoint({9}))   # True (no common elements)
+\end{lstlisting}
+
+\subsection{Mini Use Cases for Sets}
+\begin{itemize}
+  \item \textbf{Remove duplicates:} unique IDs/emails.
+  \item \textbf{Seen-before logic:} track visited items.
+  \item \textbf{Compare groups:} students in two clubs, common tags, etc.
+\end{itemize}
+
+\section{Part B: Dictionaries}
+
+\subsection{What Is a Dictionary? (Definition and Key Rules)}
+A \textbf{dictionary} stores \textbf{key--value pairs}. You access values by key,
+not by position:
+\begin{lstlisting}[language=Python]
+student = {"name": "Asha", "marks": 88}
+print(student["name"])
+\end{lstlisting}
+Key rules:
+\begin{itemize}
+  \item Keys must be \textbf{unique} (a duplicate key overwrites the old value).
+  \item Keys must be \textbf{hashable} (immutable), e.g., \texttt{str}, \texttt{int}, \texttt{tuple}.
+  \item Values can be any type (including lists/dicts for nested structures).
+\end{itemize}
+\textbf{Ordering note:} In modern Python (3.7+), dictionaries preserve insertion order.
+Conceptually, still treat a dictionary as a \emph{mapping} rather than a positional sequence.
+
+\subsection{Ways to Create Dictionaries}
+\begin{lstlisting}[language=Python]
+d1 = {"a": 1, "b": 2}
+d2 = dict(a=1, b=2)
+d3 = dict([("a", 1), ("b", 2)])    # list of tuples (pairs)
+d4 = {}                             # empty dictionary
+\end{lstlisting}
+
+\subsection{Essential Dictionary Views: \texttt{keys}, \texttt{values}, \texttt{items}}
+\begin{lstlisting}[language=Python]
+d = {"a": 1, "b": 2}
+print(d.keys())    # keys view
+print(d.values())  # values view
+print(d.items())   # (key, value) pairs
+\end{lstlisting}
+These are \emph{views}, not lists. Convert if you need a list:
+\begin{lstlisting}[language=Python]
+keys_list = list(d.keys())
+\end{lstlisting}
+
+\subsection{Safe Access: \texttt{d[key]} vs \texttt{d.get(key)}}
+\texttt{d[key]} raises \texttt{KeyError} if the key is missing.
+\texttt{d.get(key, default)} avoids that by returning a default.
+\begin{lstlisting}[language=Python]
+d = {"a": 1}
+# d["b"]           # KeyError
+print(d.get("b"))          # None
+print(d.get("b", 0))       # 0
+\end{lstlisting}
+\textbf{Rule of thumb:}
+\begin{itemize}
+  \item Use \texttt{d[key]} when missing keys indicate a bug.
+  \item Use \texttt{get} when missing keys are expected.
+\end{itemize}
+
+\subsection{Updating and Removing Data}
+\subsubsection*{\texttt{update} for merging}
+\begin{lstlisting}[language=Python]
+d = {"a": 1, "b": 2}
+d.update({"b": 3, "c": 4})
+print(d)   # {"a": 1, "b": 3, "c": 4}
+\end{lstlisting}
+
+\subsubsection*{\texttt{pop} and \texttt{clear}}
+\begin{lstlisting}[language=Python]
+d = {"a": 1, "b": 2}
+val = d.pop("a")     # removes key "a" and returns its value
+d.clear()            # empties the dict
+\end{lstlisting}
+
+\subsection{Classic Pattern: Frequency Counting}
+Counting occurrences is one of the most common dictionary patterns.
+\begin{lstlisting}[language=Python]
+text = "to be or not to be"
+freq = {}
+for w in text.split():
+    freq[w] = freq.get(w, 0) + 1
+\end{lstlisting}
+The key idea: \texttt{get(w, 0)} gives \texttt{0} for unseen keys.
+
+\subsection{Nested Dictionaries and Lists (JSON-like Data)}
+Nested structures appear everywhere: API responses, configuration files, records.
+\begin{lstlisting}[language=Python]
+students = {
+    101: {"name": "Anu", "marks": 85},
+    102: {"name": "Raj", "marks": 91},
+}
+print(students[101]["marks"])   # 85
+\end{lstlisting}
+List of dictionaries is also common:
+\begin{lstlisting}[language=Python]
+rows = [
+    {"name": "Asha", "cgpa": 9.1},
+    {"name": "Bilal", "cgpa": 8.3},
+]
+top = max(rows, key=lambda r: r["cgpa"])
+\end{lstlisting}
+
+\subsection{Sorting and Ranking with Dictionaries}
+Sorting a dictionary usually means sorting its \texttt{items()} (pairs).
+\begin{lstlisting}[language=Python]
+counts = {"a": 3, "b": 1, "c": 2}
+by_key = sorted(counts.items())  # sorts by key
+by_value_desc = sorted(counts.items(), key=lambda kv: kv[1], reverse=True)
+top2 = by_value_desc[:2]
+\end{lstlisting}
+Note: \texttt{sorted(...)} returns a \emph{list}. This is often exactly what you want for reporting.
+
+\section{Typecasting and Converting Between Collections}
+Converting collection types is common in real work (data cleaning, compatibility, restructuring).
+
+\subsection{Common Conversions}
+\begin{lstlisting}[language=Python]
+L = [1, 2, 2, 3]
+S = set(L)          # list -> set (unique)
+L2 = list(S)        # set -> list (order may change)
+
+T = (10, 20, 30)
+L3 = list(T)        # tuple -> list (to modify)
+T2 = tuple(L3)      # list -> tuple
+
+pairs = [("a", 1), ("b", 2)]
+d = dict(pairs)     # list of tuples -> dict
+\end{lstlisting}
+
+\subsection{Why Convert? (Typical Reasons)}
+\begin{itemize}
+  \item \textbf{Remove duplicates:} list $\rightarrow$ set $\rightarrow$ list.
+  \item \textbf{Enable updates:} tuple $\rightarrow$ list (edit) $\rightarrow$ tuple.
+  \item \textbf{Prepare inputs:} some APIs expect a specific type.
+  \item \textbf{Data restructuring:} pairs $\rightarrow$ dictionary for fast lookup.
+\end{itemize}
+
+\section{Demo Walkthrough: Word Frequency and Unique Words}
+\textbf{Script:} \texttt{demo/word\_frequency.py}
+
+\subsection{What the Demo Teaches}
+\begin{itemize}
+  \item Use a set for unique vocabulary (de-duplication).
+  \item Use a dictionary for counting occurrences.
+  \item Sort results to generate a ``top-k'' list.
+\end{itemize}
+
+\subsection{Suggested Run Steps}
+\begin{lstlisting}
+python demo/word_frequency.py
+\end{lstlisting}
+In class: ask students to \emph{predict} the frequency dictionary before running.
+
+\section{Quiz and Solutions}
+This section includes slide checkpoints plus additional quick checks.
+
+\subsection{Checkpoint 1 (Empty Set)}
+\textbf{Question.} Which code correctly creates an empty set: \texttt{s = \{\}} or \texttt{s = set()}?
+
+\textbf{Solution.} \texttt{s = set()} creates an empty set. \texttt{\{\}} creates an empty dictionary.
+
+\subsection{Checkpoint 2 (\texttt{remove} vs \texttt{discard})}
+\textbf{Question.} What is the difference between \texttt{s.remove(x)} and \texttt{s.discard(x)}?
+
+\textbf{Solution.} Both remove \texttt{x} if present. If \texttt{x} is missing,
+\texttt{remove} raises \texttt{KeyError} but \texttt{discard} does nothing.
+
+\subsection{Checkpoint 3 (Nested Access)}
+\textbf{Question.} Given:
+\begin{lstlisting}[language=Python]
+response = {"user": {"profile": {"email": "k@gmail.com"}}}
+\end{lstlisting}
+How do you access the email value?
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+email = response["user"]["profile"]["email"]
+\end{lstlisting}
+
+\subsection{Additional Knowledge Checks (With Answers)}
+\textbf{Q1.} Which operation returns elements present in either set, but not both?\newline
+\textbf{A.} Symmetric difference: \texttt{A \string^ B}.
+
+\textbf{Q2.} Which method adds multiple elements to a set at once?\newline
+\textbf{A.} \texttt{update(...)}.
+
+\textbf{Q3.} Which method safely retrieves a value from a dictionary without raising an error for missing keys?\newline
+\textbf{A.} \texttt{get(key, default)}.
+
+\section{Practice Exercises (With Solutions)}
+These exercises mirror real tasks: data cleaning, membership checks, counting, and reporting.
+
+\subsection{Exercise 1: Remove Duplicate Emails}
+\textbf{Task.} Given a list of emails, remove duplicates.
+
+\textbf{Solution (order not guaranteed).}
+\begin{lstlisting}[language=Python]
+emails = ["a@x.com", "b@x.com", "a@x.com"]
+unique = list(set(emails))
+\end{lstlisting}
+\textbf{Better (preserve first-occurrence order).}
+\begin{lstlisting}[language=Python]
+def unique_keep_order(items):
+    seen = set()
+    out = []
+    for x in items:
+        if x not in seen:
+            seen.add(x)
+            out.append(x)
+    return out
+\end{lstlisting}
+
+\subsection{Exercise 2: Common Students in Two Clubs}
+\textbf{Task.} Given two sets of roll numbers, print students in both clubs.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+club_a = {101, 102, 103}
+club_b = {102, 104}
+common = club_a & club_b
+print(common)  # {102}
+\end{lstlisting}
+
+\subsection{Exercise 3: Shopping Cart (Dictionary Case Study)}
+\textbf{Task.} Model a shopping cart as a dictionary \texttt{item -> quantity}.
+Implement add, remove, and total items.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def add_item(cart, item, qty=1):
+    cart[item] = cart.get(item, 0) + qty
+
+def remove_item(cart, item):
+    cart.pop(item, None)   # safe removal
+
+def total_items(cart):
+    return sum(cart.values())
+
+cart = {}
+add_item(cart, "pen", 2)
+add_item(cart, "book", 1)
+remove_item(cart, "pen")
+print(cart, total_items(cart))
+\end{lstlisting}
+
+\subsection{Exercise 4: Sort a Dictionary by Values}
+\textbf{Task.} Sort a dictionary by value descending and print top 3 pairs.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+d = {"a": 3, "b": 1, "c": 2, "d": 5}
+top3 = sorted(d.items(), key=lambda kv: kv[1], reverse=True)[:3]
+print(top3)
+\end{lstlisting}
+
+\subsection{Exercise 5: Nested Dictionary Safe Access}
+\textbf{Task.} Given nested dict \texttt{students}, safely read marks of roll 101.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+students = {101: {"name": "Anu", "marks": 85}}
+marks = students.get(101, {}).get("marks")
+print(marks)  # 85
+\end{lstlisting}
+
+\section{Mini-Project Ideas (Optional)}
+\begin{itemize}
+  \item \textbf{Student Record Manager:} store student profiles in a nested dictionary, compute averages, find toppers.
+  \item \textbf{Email Deduplication Tool:} read emails, remove duplicates, report unique counts (set + list).
+  \item \textbf{Library Inventory:} map book title to available copies; update on issue/return.
+  \item \textbf{Shopping Cart Simulator:} add/remove items, compute totals, and generate receipts.
+\end{itemize}
+
+\section{Further Reading}
+\begin{itemize}
+  \item \url{https://docs.python.org/3/tutorial/datastructures.html#sets}
+  \item \url{https://docs.python.org/3/tutorial/datastructures.html#dictionaries}
+\end{itemize}
+
+% BEGIN SLIDE APPENDIX (AUTO-GENERATED)
+\clearpage
+\section*{Appendix: Slide Deck Content (Reference)}
+\noindent The material below is a reference copy of the slide deck content. Exercise solutions are explained in the main notes where applicable.
+
+\subsection*{Title Slide}
+\titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\subsection*{Quick Links}
+\centering
+  \textbf{Core Concepts}\hspace{1em}
+  \textbf{Demo}\hspace{1em}
+  \textbf{Interactive}\hspace{1em}
+  \textbf{Summary}
+\subsection*{Agenda}
+\begin{itemize}
+  \item Overview
+  \item Core Concepts
+  \item Demo
+  \item Interactive
+  \item Summary
+\end{itemize}
+\subsection*{Learning Outcomes}
+\begin{itemize}
+    \item Explain why sets guarantee uniqueness and why they do not support indexing
+    \item Apply set methods (\texttt{add/update/remove/discard}) and set operations (union, intersection, etc.)
+    \item Build dictionaries for real-world key--value modeling and safe lookup
+    \item Work with nested dictionaries/lists and sort dictionary items by key/value
+    \item Use typecasting (list/tuple/set/dict) for data cleaning and restructuring
+  \end{itemize}
+\subsection*{Sets: Definition and Properties}
+\begin{itemize}
+    \item Unordered collection of \textbf{unique} elements
+    \item Fast membership testing: \texttt{x in s}
+    \item Mutable (you can add/remove elements)
+    \item Elements must be \textbf{hashable} (e.g., int/str/tuple, not list)
+  \end{itemize}
+\subsection*{Creating Sets (Including Empty Sets)}
+\begin{itemize}
+    \item Use braces for non-empty sets: \texttt{\{1, 2, 3\}}
+    \item Use \texttt{set(...)} to convert from any iterable
+    \item \texttt{\{\}} is an empty dictionary, so use \texttt{set()} for an empty set
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+A = {1, 2, 2, 3}          # duplicates removed
+B = set([3, 4, 4, 5])     # from list
+empty = set()             # NOT {}
+  \end{lstlisting}
+\subsection*{Set Methods (Add/Remove/Clear/Copy)}
+\small
+  \begin{tabular}{ll}
+    \toprule
+    Method & What it does \\
+    \midrule
+    \texttt{add(x)} & add one element \\
+    \texttt{update(iter)} & add many elements \\
+    \texttt{remove(x)} & remove; error if missing \\
+    \texttt{discard(x)} & remove; no error if missing \\
+    \texttt{pop()} & remove and return an arbitrary element \\
+    \texttt{clear()} & remove all elements \\
+    \texttt{copy()} & shallow copy \\
+    \bottomrule
+  \end{tabular}
+  \normalsize
+\subsection*{Set Operations: Operators vs Methods}
+\begin{itemize}
+    \item Union: \texttt{A | B} \hspace{1em} or \hspace{1em} \texttt{A.union(B)}
+    \item Intersection: \texttt{A \& B} \hspace{0.75em} or \hspace{0.75em} \texttt{A.intersection(B)}
+    \item Difference: \texttt{A - B} \hspace{1em} or \hspace{1em} \texttt{A.difference(B)}
+    \item Symmetric difference: \texttt{A \string^ B} \hspace{0.35em} or \hspace{0.35em} \texttt{A.symmetric\_difference(B)}
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+A = {1, 2, 3}
+B = {2, 3, 4}
+print(A & B)   # {2, 3}
+  \end{lstlisting}
+\subsection*{Set Comparisons (Subset/Superset/Disjoint)}
+\begin{itemize}
+    \item Subset: \texttt{A <= B} or \texttt{A.issubset(B)}
+    \item Superset: \texttt{A >= B} or \texttt{A.issuperset(B)}
+    \item Disjoint: \texttt{A.isdisjoint(B)} (no common elements)
+  \end{itemize}
+\subsection*{Dictionaries: Key--Value Model}
+\begin{itemize}
+    \item Map keys to values (fast lookup by key)
+    \item Keys must be unique and hashable (immutable)
+    \item Values can be any type (including lists/dicts)
+    \item In modern Python, dictionaries preserve insertion order (but think ``mapping'')
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+student = {"name": "Asha", "marks": 88}
+print(student["name"])
+  \end{lstlisting}
+\subsection*{Creating Dictionaries (Common Ways)}
+\begin{itemize}
+    \item Curly braces: \texttt{\{"a": 1, "b": 2\}}
+    \item \texttt{dict()} constructor: \texttt{dict(a=1, b=2)}
+    \item From a list of pairs: \texttt{dict([("a", 1), ("b", 2)])}
+  \end{itemize}
+\subsection*{Essential Dictionary Methods}
+\begin{itemize}
+    \item Views: \texttt{d.keys()}, \texttt{d.values()}, \texttt{d.items()}
+    \item Safe access: \texttt{d.get(key, default)}
+    \item Update/merge: \texttt{d.update(other)}
+    \item Removal: \texttt{d.pop(key)}, \texttt{d.popitem()}
+    \item Cleanup: \texttt{d.clear()}
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+freq = {}
+word = "python"
+freq[word] = freq.get(word, 0) + 1
+  \end{lstlisting}
+\subsection*{Nested Dictionaries and Lists}
+\begin{itemize}
+    \item Real data is often nested (JSON-like)
+    \item Access step-by-step using keys and indices
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+response = {"user": {"profile": {"email": "k@gmail.com"}}}
+email = response["user"]["profile"]["email"]
+  \end{lstlisting}
+\subsection*{Sorting Dictionary Data}
+\begin{itemize}
+    \item Sort by key: \texttt{sorted(d.items())}
+    \item Sort by value: \texttt{sorted(d.items(), key=lambda kv: kv[1])}
+    \item Ranking (top-k): sort then slice
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+counts = {"a": 3, "b": 1, "c": 2}
+top = sorted(counts.items(), key=lambda kv: kv[1], reverse=True)[:2]
+  \end{lstlisting}
+\subsection*{Typecasting Between Collections (Data Cleaning)}
+\begin{itemize}
+    \item Remove duplicates: \texttt{list(set(data))} (order may change)
+    \item Modify an immutable tuple: \texttt{tuple -> list -> tuple}
+    \item Build dict from pairs: \texttt{dict([("a", 1), ("b", 2)])}
+  \end{itemize}
+\subsection*{Where Sets and Dictionaries Shine}
+\begin{itemize}
+    \item Sets: unique email addresses, fast membership checks, comparing groups
+    \item Dictionaries: student records, inventory, shopping carts, frequency counts
+    \item Both: building reliable, structured data models for programs
+  \end{itemize}
+\subsection*{Demo: Word Frequency and Unique Words}
+\begin{itemize}
+    \item Split a sentence into words
+    \item Build a frequency dictionary (\texttt{get(..., 0)} pattern)
+    \item Build a set of unique words
+    \item Extension: print top 3 most frequent words
+  \end{itemize}
+  \vspace{0.4em}
+  \textbf{Script:} \texttt{demo/word\_frequency.py}
+\subsection*{Checkpoint 1}
+Which code correctly creates an empty set?
+  \begin{enumerate}
+    \item \texttt{s = \{\}}
+    \item \texttt{s = set()}
+  \end{enumerate}
+\subsection*{Checkpoint 2}
+What is the difference between \texttt{s.remove(x)} and \texttt{s.discard(x)}?
+\subsection*{Checkpoint 3}
+Given \texttt{response = \{"user": \{"profile": \{"email": "k@gmail.com"\}\}\}},\\
+  write the expression to access the email value.
+\subsection*{Think-Pair-Share}
+Choose the right collection type (list/tuple/set/dict) for:
+  \begin{itemize}
+    \item unique roll numbers in a class
+    \item a fixed (x, y) coordinate
+    \item a student's profile (name, roll, marks)
+  \end{itemize}
+\subsection*{Summary}
+\begin{itemize}
+    \item Sets store unique, unordered values and support set algebra
+    \item Dictionaries map keys to values for fast lookup and counting
+    \item Nested structures are common in real data (JSON-like)
+    \item Sorting and typecasting help with analytics and data cleaning
+  \end{itemize}
+\subsection*{Exit Question}
+Write one line to sort dictionary items by value in descending order.
+% END SLIDE APPENDIX (AUTO-GENERATED)
+
+\end{document}
+

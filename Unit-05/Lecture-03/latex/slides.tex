@@ -1,0 +1,150 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 05 -- Lecture 03: Inheritance and Types of Inheritance}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Explain inheritance and its purpose
+    \item Create subclasses and reuse parent methods/attributes
+    \item Use \texttt{super()} to call parent constructor/methods
+    \item Identify types of inheritance (single, multilevel, multiple, hierarchical)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{What is Inheritance?}
+  \begin{itemize}[<+->]
+    \item Create a new class from an existing class
+    \item Reuse common code and extend behavior
+    \item ``is-a'' relationship (Student is a Person)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Basic Syntax}
+  \begin{lstlisting}[language=Python]
+class Person:
+    def __init__(self, name):
+        self.name = name
+
+class Student(Person):
+    def __init__(self, name, sapid):
+        super().__init__(name)
+        self.sapid = sapid
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Types of Inheritance}
+  \begin{itemize}[<+->]
+    \item Single: A $\rightarrow$ B
+    \item Multilevel: A $\rightarrow$ B $\rightarrow$ C
+    \item Hierarchical: A $\rightarrow$ (B, C, D)
+    \item Multiple: (A, B) $\rightarrow$ C
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Why \texttt{super()}?}
+  \begin{itemize}[<+->]
+    \item Calls parent class methods safely
+    \item Avoids duplicating parent initialization code
+    \item Important in multiple inheritance (method resolution order)
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Person $\rightarrow$ Student $\rightarrow$ PlacementStudent}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/inheritance\_demo.py}
+    \item Demonstrates:
+      \begin{itemize}
+        \item single and multilevel inheritance
+        \item use of \texttt{super()}
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} What does \texttt{super()} do in a subclass constructor?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} Give one real-world example of inheritance.
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item Should \texttt{Car} inherit from \texttt{Engine}? Why or why not?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Inheritance reuses and extends code
+    \item Subclasses can add new attributes and methods
+    \item \texttt{super()} helps call parent logic correctly
+    \item Multiple inheritance exists, but use it carefully
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  What type of inheritance is: A $\rightarrow$ (B, C)?
+\end{frame}
+
+\end{document}
+

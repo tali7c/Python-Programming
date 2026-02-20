@@ -1,0 +1,154 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 06 -- Lecture 02: NumPy Functions (Stats, Sorting, Searching)}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Use important NumPy functions: \texttt{reshape}, \texttt{sum}, \texttt{mean}, \texttt{std}
+    \item Generate arrays using \texttt{random}, \texttt{zeros}, \texttt{ones}, \texttt{empty}
+    \item Sort and search arrays
+    \item Compute dot products and matrix multiplication
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Reshaping Arrays}
+  \begin{lstlisting}[language=Python]
+a = np.arange(1, 10)
+m = a.reshape((3, 3))
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item Total elements must match (size stays same)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Statistics}
+  \begin{itemize}[<+->]
+    \item \texttt{sum}, \texttt{mean}, \texttt{std}, \texttt{min}, \texttt{max}
+    \item Use \texttt{axis=} for row/column-wise operations
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+print(m.sum(axis=0))  # column sums
+print(m.sum(axis=1))  # row sums
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Sorting and Searching}
+  \begin{itemize}[<+->]
+    \item \texttt{np.sort}, \texttt{np.argsort}
+    \item \texttt{np.max}, \texttt{np.argmax}
+    \item \texttt{np.where(condition)}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Dot Product / Matrix Multiplication}
+  \begin{lstlisting}[language=Python]
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+print(a.dot(b))
+
+M = np.arange(1, 10).reshape((3, 3))
+print(M @ M)
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: NumPy Functions}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/numpy\_functions\_demo.py}
+    \item Demonstrates:
+      \begin{itemize}
+        \item random arrays
+        \item reshape and axis-based sums
+        \item sorting and searching
+        \item dot product and matrix multiplication
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} What does \texttt{axis=0} mean in \texttt{sum(axis=0)} for a 2D array?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} What is the difference between \texttt{np.sort(a)} and \texttt{a.sort()}?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item When should you use \texttt{reshape} in data analysis?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item \texttt{reshape} changes shape without changing data
+    \item Axis-based operations compute row/column stats
+    \item NumPy supports fast sorting/searching and linear algebra operations
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Name one NumPy function to generate a sequence of numbers.
+\end{frame}
+
+\end{document}
+

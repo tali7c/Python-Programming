@@ -1,0 +1,37 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\geometry{margin=1in}
+
+\title{Experiment 02 - Exercise 05: Quadratic Equation Roots}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Objective}
+Check whether a quadratic equation has real or imaginary roots and display the roots.
+
+\section*{Input}
+Coefficients \texttt{a}, \texttt{b}, \texttt{c} for $ax^2 + bx + c = 0$.
+
+\section*{Output}
+Roots of the equation, and whether they are real/imaginary.
+
+\section*{Approach}
+\begin{itemize}
+  \item If $a = 0$, it is not a quadratic equation.
+  \item Compute discriminant $D = b^2 - 4ac$.
+  \item If $D > 0$: two real distinct roots.
+  \item If $D = 0$: two real equal roots.
+  \item If $D < 0$: imaginary roots.
+\end{itemize}
+
+\section*{Time Complexity}
+\texttt{O(1)}.
+
+\end{document}
+

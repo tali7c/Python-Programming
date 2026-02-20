@@ -1,0 +1,692 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{../images/}}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 02 -- Lecture 05 Notes\\Advanced Functions and Functional Patterns}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+This lecture moves from basic function syntax to advanced usage patterns that
+appear in real codebases:
+\begin{itemize}
+  \item passing collections safely (mutation vs copying),
+  \item recursion (and how to avoid infinite recursion),
+  \item functional tools: \texttt{map}, \texttt{filter}, and \texttt{lambda},
+  \item closures (functions defined inside functions), and
+  \item pure functions vs side effects.
+\end{itemize}
+
+\section{Types of Functions in Python (and When to Use Them)}
+In Python, a \textbf{function is an object}. That means you can store a function
+in a variable, pass it into another function, and return it from a function.
+This idea is the foundation of \textbf{functional patterns} such as
+\texttt{map}/\texttt{filter} and closures.
+
+\subsection{Built-in Functions (Provided by Python)}
+Python already includes many reliable, well-tested functions. Prefer built-ins
+when they solve the problem clearly and directly.
+\begin{itemize}
+  \item \textbf{Numeric/aggregation:} \texttt{sum}, \texttt{min}, \texttt{max}
+  \item \textbf{Sizes and membership:} \texttt{len}, \texttt{any}, \texttt{all}
+  \item \textbf{Ordering:} \texttt{sorted} (returns a new list)
+  \item \textbf{Type conversion:} \texttt{int}, \texttt{float}, \texttt{str}, \texttt{list}
+\end{itemize}
+\textbf{Use case example:} reporting a quick summary without writing a loop:
+\begin{lstlisting}[language=Python]
+marks = [72, 81, 65, 90]
+print(min(marks), max(marks), sum(marks) / len(marks))
+\end{lstlisting}
+
+\subsection{User-Defined Functions (\texttt{def})}
+You write a function when you want to \textbf{reuse logic}, \textbf{name an idea},
+and \textbf{reduce repetition}. A good function usually does one job and has a
+clear input/output contract.
+\begin{itemize}
+  \item \textbf{Prefer returning values} instead of printing inside the function.
+  \item \textbf{Document side effects} (e.g., mutating a list argument).
+\end{itemize}
+\begin{lstlisting}[language=Python]
+def average(nums):
+    return sum(nums) / len(nums)
+\end{lstlisting}
+
+\subsection{Functions by Arguments and Return Value (Common academic view)}
+You may see functions classified as ``types'' based on whether they take input
+arguments and whether they return a value. This is a useful mental model.
+Important Python detail: \textbf{every function returns something}. If you do
+not write \texttt{return}, Python returns \texttt{None} automatically.
+\begin{itemize}
+  \item \textbf{No arguments, no (useful) return:} often used for side effects (printing).
+  \item \textbf{Arguments, no (useful) return:} often used to update something (mutating a list, writing a file).
+  \item \textbf{No arguments, returns a value:} usually reads from elsewhere (global state, user input). Use carefully.
+  \item \textbf{Arguments, returns a value:} most reusable style; can be pure and easy to test.
+\end{itemize}
+\begin{lstlisting}[language=Python]
+def greet():
+    print("Hello")        # returns None
+
+def add_item(lst, x):
+    lst.append(x)         # returns None (mutates input)
+
+def get_pi():
+    return 3.14159
+
+def area_circle(r):
+    return 3.14159 * r * r
+\end{lstlisting}
+
+\subsection{Function Parameter Styles (Practical Python)}
+Real Python code often uses different parameter styles to make APIs flexible and readable.
+\begin{itemize}
+  \item \textbf{Positional arguments:} simplest and most common.
+  \item \textbf{Keyword arguments:} improve readability and reduce ordering mistakes.
+  \item \textbf{Default values:} make parameters optional (configuration-style).
+  \item \textbf{Variable-length arguments:} \texttt{*args} (many positional) and \texttt{**kwargs} (many keyword).
+  \item \textbf{Keyword-only arguments:} force clarity (parameters after \texttt{*} must be named).
+\end{itemize}
+\begin{lstlisting}[language=Python]
+def power(base, exp=2):
+    return base ** exp
+
+print(power(5))            # 25 (default exp=2)
+print(power(base=2, exp=5))# 32 (keyword arguments)
+
+def mean(*nums):
+    return sum(nums) / len(nums)
+
+def clip(x, *, lo=0, hi=100):
+    return max(lo, min(x, hi))
+\end{lstlisting}
+
+\subsection{Anonymous Functions (\texttt{lambda})}
+\texttt{lambda} creates a small function without a name. It is best when the
+function is \textbf{short}, \textbf{used once}, and the meaning is obvious from
+context.
+\begin{itemize}
+  \item \textbf{Good use case:} \texttt{key=} in \texttt{sorted}, small transforms in \texttt{map}
+  \item \textbf{Avoid when:} logic becomes complex (use \texttt{def} for readability)
+\end{itemize}
+\begin{lstlisting}[language=Python]
+words = ["pear", "banana", "fig"]
+print(sorted(words, key=lambda w: len(w)))  # key function
+\end{lstlisting}
+
+\subsection{Higher-Order Functions (Functions that take/return functions)}
+A \textbf{higher-order function} either:
+\begin{itemize}
+  \item takes a function as input (e.g., \texttt{map}, \texttt{filter}, \texttt{sorted(key=...)}), or
+  \item returns a function as output (a function factory / closure).
+\end{itemize}
+\textbf{Use case:} customize behavior without rewriting the whole algorithm.
+\begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4]
+sq = list(map(lambda x: x * x, nums))           # transform
+ev = list(filter(lambda x: x % 2 == 0, nums))   # select
+\end{lstlisting}
+\textbf{Use case (returning a function):} create a specialized function:
+\begin{lstlisting}[language=Python]
+def make_multiplier(k):
+    def mult(x):
+        return x * k
+    return mult
+\end{lstlisting}
+
+\subsection{Predicate Functions (Return \texttt{True}/\texttt{False})}
+Predicates are commonly used with \texttt{filter}, \texttt{any}, and \texttt{all}.
+Their job is to \textbf{decide}, not to compute a numeric result.
+\begin{lstlisting}[language=Python]
+def is_valid_mark(x):
+    return isinstance(x, int) and 0 <= x <= 100
+
+marks = [95, None, 120, 70]
+valid = list(filter(is_valid_mark, marks))
+\end{lstlisting}
+
+\subsection{Key Functions (Used for Sorting/Ranking)}
+Key functions are used by \texttt{sorted}, \texttt{min}, and \texttt{max}. They
+define what ``comparison'' should mean in your problem.
+\begin{lstlisting}[language=Python]
+students = [("A", 9.1), ("B", 8.3), ("C", 9.4)]
+top = max(students, key=lambda t: t[1])  # compare by CGPA
+\end{lstlisting}
+
+\subsection{Recursive Functions (Define a problem in terms of itself)}
+Recursion is a natural fit when a problem breaks into smaller subproblems of the
+same shape.
+\begin{itemize}
+  \item \textbf{Good use cases:} tree traversal, nested structures, divide-and-conquer
+  \item \textbf{Be careful:} recursion depth limit, call overhead in Python
+\end{itemize}
+For simple loops, prefer iteration (clearer + faster in Python).
+
+\subsection{Generator Functions (\texttt{yield}) (Lazy computation)}
+Generators produce values one at a time instead of building a full list in memory.
+\textbf{Use case:} large data, streaming, pipelines.
+\begin{lstlisting}[language=Python]
+def count_up_to(n):
+    i = 1
+    while i <= n:
+        yield i
+        i += 1
+
+for x in count_up_to(3):
+    print(x)
+\end{lstlisting}
+
+\subsection{Pure vs Side-Effect Functions (Engineering viewpoint)}
+\begin{itemize}
+  \item \textbf{Pure:} no external changes; easy to test; good for reuse and composition
+  \item \textbf{Side effects:} printing, file I/O, mutating arguments; necessary but should be controlled
+\end{itemize}
+In practice, aim for \textbf{pure core logic} and keep side effects at the edges
+(input/output layer).
+
+\subsection{Mutating vs Non-Mutating APIs (Important for Lists/Dicts)}
+Some operations \textbf{modify objects in place} (side effect), while others
+return a \textbf{new object}.
+\begin{itemize}
+  \item \texttt{items.sort()} mutates the list
+  \item \texttt{sorted(items)} returns a new list (original is unchanged)
+\end{itemize}
+This lecture's next section shows why this distinction matters when passing
+collections into functions.
+
+\section{Passing Collections: Mutation and Side Effects}
+Lists and dictionaries are mutable. When you pass them into a function, you pass
+\emph{a reference to the same object}. That means the function can change the
+caller-visible object.
+
+\subsection{In-place Mutation (Sometimes Useful)}
+\begin{lstlisting}[language=Python]
+def add_item(lst, item):
+    lst.append(item)
+
+data = [1, 2]
+add_item(data, 99)
+print(data)  # [1, 2, 99]
+\end{lstlisting}
+This can be efficient, but it is also a side effect. If a function mutates its
+inputs, it should be clearly documented (and ideally reflected in the name).
+
+\subsection{Avoiding Unintended Mutation (Copying)}
+If you want a function that behaves like ``input in, output out'' without
+changing input, copy first:
+\begin{lstlisting}[language=Python]
+def sort_copy(items):
+    tmp = items.copy()
+    tmp.sort()
+    return tmp
+\end{lstlisting}
+This pattern is a stepping stone to writing \textbf{pure functions}.
+
+\section{Recursion}
+
+\subsection{What Is Recursion?}
+A recursive function calls itself to solve a smaller version of the same
+problem.
+Two required parts:
+\begin{itemize}
+  \item \textbf{Base case:} stops recursion.
+  \item \textbf{Progress step:} reduces the problem size each call.
+\end{itemize}
+
+\subsection{Example: Factorial}
+\begin{lstlisting}[language=Python]
+def factorial(n):
+    if n == 1:
+        return 1
+    return n * factorial(n - 1)
+\end{lstlisting}
+If the base case is missing or never reached, Python raises a
+\texttt{RecursionError} after hitting the recursion depth limit.
+
+\subsection{When to Avoid Recursion in Python}
+Recursion is sometimes the clearest solution (trees, divide-and-conquer), but
+for simple loops Python iteration is usually:
+\begin{itemize}
+  \item faster (less call overhead),
+  \item safer (no recursion depth risk), and
+  \item easier to debug.
+\end{itemize}
+
+\section{Functional Tools: \texttt{map}, \texttt{filter}, \texttt{lambda}}
+
+\subsection{\texttt{map}: Transform Each Item}
+\texttt{map(f, iterable)} applies \texttt{f} to each item.
+\begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4]
+squares = list(map(lambda x: x * x, nums))
+\end{lstlisting}
+
+\subsection{\texttt{filter}: Keep Items That Match a Condition}
+\texttt{filter(pred, iterable)} keeps items where \texttt{pred(item)} is true.
+\begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4]
+evens = list(filter(lambda x: x % 2 == 0, nums))
+\end{lstlisting}
+
+\subsection{Pitfall: Iterators in Python 3}
+In Python 3, \texttt{map} and \texttt{filter} return \textbf{iterators}, not
+lists. That is why we wrap them in \texttt{list(...)} when printing or reusing.
+
+\subsection{\texttt{lambda}: Small Anonymous Functions}
+\texttt{lambda} is useful for short functions used once, often as a \texttt{key}
+for sorting or as a mapping function.
+Example (sorting by length):
+\begin{lstlisting}[language=Python]
+words = ["pear", "banana", "fig"]
+print(sorted(words, key=lambda w: len(w)))
+\end{lstlisting}
+If the lambda becomes complex, define a normal named function instead.
+
+\subsection{Inner Functions and Closures}
+An inner function can capture variables from the outer function.
+\begin{lstlisting}[language=Python]
+def make_multiplier(k):
+    def mult(x):
+        return x * k
+    return mult
+
+triple = make_multiplier(3)
+print(triple(10))  # 30
+\end{lstlisting}
+This is a closure: \texttt{mult} ``remembers'' \texttt{k}.
+
+\subsubsection*{Encapsulation with Inner Functions}
+Inner functions are also useful for \textbf{encapsulation}: keeping helper logic
+private so it cannot be called incorrectly from outside.
+\begin{lstlisting}[language=Python]
+def normalize_marks(marks):
+    def clip(x):
+        return max(0, min(x, 100))
+    return [clip(m) for m in marks]
+\end{lstlisting}
+Here, \texttt{clip} is an internal helper used only inside
+\texttt{normalize\_marks}. This keeps the public API small and focused.
+
+\section{Pure Functions vs Side Effects}
+\textbf{Pure function:}
+\begin{itemize}
+  \item same input always gives same output, and
+  \item no changes to external state (no mutation of input, no global writes).
+\end{itemize}
+Pure functions are easier to test and reason about. Side effects are sometimes
+necessary (writing a file, printing, updating a database), but should be kept
+controlled.
+
+\section{Demo Walkthrough: Cleaning Data with \texttt{map/filter}}
+\textbf{Script:} \texttt{demo/functional\_tools.py}
+
+\subsection{What the Demo Is Teaching}
+\begin{itemize}
+  \item filter invalid values before processing,
+  \item map a transformation across data,
+  \item compare recursion vs iteration for summation.
+\end{itemize}
+
+\subsection{Suggested Run Steps}
+\begin{lstlisting}
+python demo/functional_tools.py
+\end{lstlisting}
+Extension idea: rewrite the \texttt{map/filter} part using list comprehensions
+and compare which version reads better.
+
+\section{Quiz and Solutions}
+
+\subsection{Checkpoint 1 (Base Case)}
+\textbf{Question.} Identify the base case in a recursive function. Why is it
+necessary?
+
+\textbf{Solution.} The base case is the condition that stops recursion (e.g.,
+\texttt{if n == 1: return 1} in factorial). Without it, the function would call
+itself forever (until Python raises \texttt{RecursionError}).
+
+\subsection{Checkpoint 2 (Replace Loop with \texttt{map})}
+\textbf{Question.} Replace this loop with \texttt{map}:
+\begin{lstlisting}[language=Python]
+nums = [1,2,3,4,5]
+squares = []
+for n in nums:
+    squares.append(n*n)
+\end{lstlisting}
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4, 5]
+squares = list(map(lambda x: x * x, nums))
+\end{lstlisting}
+
+\subsection{Think-Pair-Share (Avoiding Recursion)}
+\textbf{Prompt.} When should you avoid recursion in Python? Provide one reason
+and one example.
+
+\textbf{Sample response.} Avoid recursion for simple counting/accumulation loops
+because recursion is slower and can hit recursion depth limits. Example:
+summing a list is clearer and safer with a \texttt{for} loop than with recursion.
+
+\subsection{Exit Question (Mutation Visibility)}
+\textbf{Question.} If a function appends to a list passed as an argument, does
+the caller see the change? Why?
+
+\textbf{Solution.} Yes. The function receives a reference to the same list
+object, so mutating it (append/remove) changes the object the caller holds.
+
+\section{Practice Exercises (With Solutions)}
+
+\subsection{Exercise 1: Pure vs In-place}
+\textbf{Task.} Write two functions: one that sorts a list in place, and one that
+returns a sorted copy.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def sort_in_place(items):
+    items.sort()
+    return items
+
+def sorted_copy(items):
+    return sorted(items)
+\end{lstlisting}
+
+\subsection{Exercise 2: Recursive Sum}
+\textbf{Task.} Write a recursive function \texttt{sum\_list(nums)}.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+def sum_list(nums):
+    if not nums:
+        return 0
+    return nums[0] + sum_list(nums[1:])
+\end{lstlisting}
+Note: slicing creates new lists; for very large lists, an iterative approach is
+more efficient.
+
+\subsection{Exercise 3: Rewrite \texttt{map/filter} as a Comprehension}
+\textbf{Task.} Given \texttt{nums}, build a list of squares of even numbers.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4, 5]
+even_squares = [n*n for n in nums if n % 2 == 0]
+\end{lstlisting}
+
+\subsection{Exercise 4: Closure Practice}
+\textbf{Task.} Use \texttt{make\_multiplier} to create a function that multiplies
+by 5.
+
+\textbf{Solution.}
+\begin{lstlisting}[language=Python]
+five_x = make_multiplier(5)
+print(five_x(7))  # 35
+\end{lstlisting}
+
+\section{Further Reading}
+\begin{itemize}
+  \item \url{https://docs.python.org/3/library/functions.html#map}
+  \item \url{https://docs.python.org/3/library/functions.html#filter}
+\end{itemize}
+
+
+
+
+
+
+% BEGIN SLIDE APPENDIX (AUTO-GENERATED)
+\clearpage
+\section*{Appendix: Slide Deck Content (Reference)}
+\noindent The material below is a reference copy of the slide deck content. Exercise solutions are explained in the main notes where applicable.
+
+\subsection*{Title Slide}
+\titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\subsection*{Quick Links}
+\centering
+  \textbf{Core Concepts}\hspace{1em}
+  \textbf{Demo}\hspace{1em}
+  \textbf{Interactive}\hspace{1em}
+  \textbf{Summary}
+\subsection*{Agenda}
+\begin{itemize}
+  \item Overview
+  \item Core Concepts
+  \item Demo
+  \item Interactive
+  \item Summary
+\end{itemize}
+\subsection*{Learning Outcomes}
+\begin{itemize}
+    \item Differentiate common function types and choose by use case
+    \item Pass collections safely and reason about mutation
+    \item Apply recursion with a correct base case
+    \item Use \texttt{map}, \texttt{filter}, and \texttt{lambda}
+    \item Recognize side effects in functions
+  \end{itemize}
+\subsection*{Functions Are Objects (First-class)}
+\begin{itemize}
+    \item You can store a function in a variable
+    \item You can pass a function into another function (\textit{higher-order})
+    \item You can return a function from a function (closure / factory)
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def square(x):
+    return x * x
+
+f = square
+print(f(5))  # 25
+  \end{lstlisting}
+\subsection*{Function Types and Typical Use Cases}
+\footnotesize
+  \setlength{\tabcolsep}{3pt}
+  \begin{tabular}{p{0.27\linewidth}p{0.66\linewidth}}
+    \toprule
+    Type & When you typically use it \\
+    \midrule
+    Built-in & fast + readable (\texttt{len}, \texttt{sum}, \texttt{sorted}) \\
+    User-defined (\texttt{def}) & reuse and name logic; easiest to test \\
+    Anonymous (\texttt{lambda}) & small one-off function for \texttt{key=} / \texttt{map} \\
+    Higher-order & take/return functions (customizable pipelines) \\
+    Generator (\texttt{yield}) & produce values lazily for large/streaming data \\
+    Recursive & natural fit for trees / nested structures (use carefully) \\
+    \bottomrule
+  \end{tabular}
+\subsection*{Predicate Functions (for \texttt{filter})}
+\begin{itemize}
+    \item A predicate returns \texttt{True/False}
+    \item Use it to keep only valid items
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+marks = [95, None, 120, 70]
+
+def is_valid(x):
+    return (
+        isinstance(x, int)
+        and 0 <= x <= 100
+    )
+
+valid = list(filter(is_valid, marks))
+  \end{lstlisting}
+\subsection*{Key Functions (for \texttt{sorted}/\texttt{min}/\texttt{max})}
+\begin{itemize}
+    \item A key function returns a value used for comparison
+    \item Use it to sort/rank complex records (tuples, dicts, objects)
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+students = [
+    ("A", 9.1),
+    ("B", 8.3),
+    ("C", 9.4),
+]
+
+top = max(students, key=lambda t: t[1])
+  \end{lstlisting}
+\subsection*{Passing Collections}
+\begin{itemize}
+    \item Lists and dicts are mutable
+    \item Functions can modify them in place
+    \item Use copies when you want to preserve input
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def add_item(lst, item):
+    lst.append(item)
+  \end{lstlisting}
+\subsection*{Worked Example: Avoid Unintended Mutation}
+\begin{lstlisting}[language=Python]
+def sort_copy(items):
+    tmp = items.copy()
+    tmp.sort()
+    return tmp
+
+data = [3, 1, 2]
+print(sort_copy(data))  # [1, 2, 3]
+print(data)             # [3, 1, 2]
+  \end{lstlisting}
+  \begin{itemize}
+    \item Copy when you want a function without side effects
+  \end{itemize}
+\subsection*{Recursion Basics}
+\begin{itemize}
+    \item A function calls itself
+    \item Needs a base case to stop
+    \item Each call reduces the problem size
+  \end{itemize}
+\subsection*{Recursive Example}
+\begin{lstlisting}[language=Python]
+def factorial(n):
+    if n == 1:
+        return 1
+    return n * factorial(n - 1)
+  \end{lstlisting}
+\subsection*{Pitfall: Recursion in Python}
+\begin{itemize}
+    \item Missing base case leads to infinite recursion
+    \item Deep recursion can hit recursion limits
+    \item Prefer iteration for simple loops in Python
+  \end{itemize}
+\subsection*{map and filter}
+\begin{itemize}
+    \item \texttt{map} applies a function to each item
+    \item \texttt{filter} keeps items that satisfy a condition
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+nums = [1, 2, 3, 4]
+print(list(map(lambda x: x*x, nums)))
+print(list(filter(lambda x: x%2==0, nums)))
+  \end{lstlisting}
+\subsection*{Pitfall: map/filter Return Iterators}
+\begin{itemize}
+    \item In Python 3, \texttt{map} and \texttt{filter} return iterators
+    \item Wrap with \texttt{list(...)} to materialize results
+  \end{itemize}
+\subsection*{Generator Functions (\texttt{yield})}
+\begin{itemize}
+    \item Generates values one-by-one (lazy) instead of building a full list
+    \item Saves memory and works well for large/streaming data
+    \item Often used in pipelines and file processing
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def count_up_to(n):
+    i = 1
+    while i <= n:
+        yield i
+        i += 1
+
+print(list(count_up_to(5)))
+  \end{lstlisting}
+\subsection*{Lambda and Inner Functions}
+\begin{itemize}
+    \item \texttt{lambda} creates small anonymous functions
+    \item Inner functions can capture variables (closures)
+    \item Inner functions can hide helper logic (encapsulation)
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def make_multiplier(k):
+    def mult(x):
+        return x * k
+    return mult
+  \end{lstlisting}
+\subsection*{Encapsulation Example (Helper Inside a Function)}
+\begin{lstlisting}[language=Python]
+def normalize_marks(marks):
+    def clip(x):
+        return max(0, min(x, 100))
+    return [clip(m) for m in marks]
+  \end{lstlisting}
+  \begin{itemize}
+    \item \texttt{clip} is used internally and not exposed outside
+    \item Keeps implementation details private and focused
+  \end{itemize}
+\subsection*{Side Effects vs Pure Functions}
+\begin{itemize}
+    \item Pure functions do not change external state
+    \item Side effects can make debugging harder
+    \item Prefer pure functions when possible
+  \end{itemize}
+\subsection*{Demo: Cleaning Data with map/filter}
+\begin{itemize}
+    \item Remove invalid values
+    \item Transform items with \texttt{map}
+    \item Compute recursive sum
+    \item Extension: rewrite using comprehensions and compare readability
+  \end{itemize}
+  \vspace{0.4em}
+  \textbf{Script:} \texttt{demo/functional\_tools.py}
+\subsection*{Checkpoint 1}
+Identify the base case in a recursive function. Why is it necessary?
+\subsection*{Checkpoint 2}
+Replace this loop with \texttt{map}:
+  \begin{lstlisting}[language=Python]
+nums = [1,2,3,4,5]
+squares = []
+for n in nums:
+    squares.append(n*n)
+  \end{lstlisting}
+\subsection*{Think-Pair-Share}
+When should you avoid recursion in Python?
+  Provide one reason and one example.
+\subsection*{Summary}
+\begin{itemize}
+    \item Passing collections can mutate inputs
+    \item Recursion needs a base case
+    \item \texttt{map/filter/lambda} support functional style
+    \item Prefer pure functions for clarity and testing
+  \end{itemize}
+\subsection*{Exit Question}
+If a function appends to a list passed as argument, does the caller see the change? Why?
+% END SLIDE APPENDIX (AUTO-GENERATED)
+
+\end{document}

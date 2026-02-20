@@ -1,0 +1,277 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 02 -- Lecture 03: Sets and Dictionaries}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Overview}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Explain why sets guarantee uniqueness and why they do not support indexing
+    \item Apply set methods (\texttt{add/update/remove/discard}) and set operations (union, intersection, etc.)
+    \item Build dictionaries for real-world key--value modeling and safe lookup
+    \item Work with nested dictionaries/lists and sort dictionary items by key/value
+    \item Use typecasting (list/tuple/set/dict) for data cleaning and restructuring
+  \end{itemize}
+\end{frame}
+
+% ----------------------
+% Sets
+% ----------------------
+
+\begin{frame}[fragile]{Sets: Definition and Properties}
+  \begin{itemize}[<+->]
+    \item Unordered collection of \textbf{unique} elements
+    \item Fast membership testing: \texttt{x in s}
+    \item Mutable (you can add/remove elements)
+    \item Elements must be \textbf{hashable} (e.g., int/str/tuple, not list)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Creating Sets (Including Empty Sets)}
+  \begin{itemize}[<+->]
+    \item Use braces for non-empty sets: \texttt{\{1, 2, 3\}}
+    \item Use \texttt{set(...)} to convert from any iterable
+    \item \texttt{\{\}} is an empty dictionary, so use \texttt{set()} for an empty set
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+A = {1, 2, 2, 3}          # duplicates removed
+B = set([3, 4, 4, 5])     # from list
+empty = set()             # NOT {}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Set Methods (Add/Remove/Clear/Copy)}
+  \small
+  \begin{tabular}{ll}
+    \toprule
+    Method & What it does \\
+    \midrule
+    \texttt{add(x)} & add one element \\
+    \texttt{update(iter)} & add many elements \\
+    \texttt{remove(x)} & remove; error if missing \\
+    \texttt{discard(x)} & remove; no error if missing \\
+    \texttt{pop()} & remove and return an arbitrary element \\
+    \texttt{clear()} & remove all elements \\
+    \texttt{copy()} & shallow copy \\
+    \bottomrule
+  \end{tabular}
+  \normalsize
+\end{frame}
+
+\begin{frame}[fragile]{Set Operations: Operators vs Methods}
+  \begin{itemize}[<+->]
+    \item Union: \texttt{A | B} \hspace{1em} or \hspace{1em} \texttt{A.union(B)}
+    \item Intersection: \texttt{A \& B} \hspace{0.75em} or \hspace{0.75em} \texttt{A.intersection(B)}
+    \item Difference: \texttt{A - B} \hspace{1em} or \hspace{1em} \texttt{A.difference(B)}
+    \item Symmetric difference: \texttt{A \string^ B} \hspace{0.35em} or \hspace{0.35em} \texttt{A.symmetric\_difference(B)}
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+A = {1, 2, 3}
+B = {2, 3, 4}
+print(A & B)   # {2, 3}
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Set Comparisons (Subset/Superset/Disjoint)}
+  \begin{itemize}[<+->]
+    \item Subset: \texttt{A <= B} or \texttt{A.issubset(B)}
+    \item Superset: \texttt{A >= B} or \texttt{A.issuperset(B)}
+    \item Disjoint: \texttt{A.isdisjoint(B)} (no common elements)
+  \end{itemize}
+\end{frame}
+
+% ----------------------
+% Dictionaries
+% ----------------------
+
+\begin{frame}[fragile]{Dictionaries: Key--Value Model}
+  \begin{itemize}[<+->]
+    \item Map keys to values (fast lookup by key)
+    \item Keys must be unique and hashable (immutable)
+    \item Values can be any type (including lists/dicts)
+    \item In modern Python, dictionaries preserve insertion order (but think ``mapping'')
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+student = {"name": "Asha", "marks": 88}
+print(student["name"])
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Creating Dictionaries (Common Ways)}
+  \begin{itemize}[<+->]
+    \item Curly braces: \texttt{\{"a": 1, "b": 2\}}
+    \item \texttt{dict()} constructor: \texttt{dict(a=1, b=2)}
+    \item From a list of pairs: \texttt{dict([("a", 1), ("b", 2)])}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Essential Dictionary Methods}
+  \begin{itemize}[<+->]
+    \item Views: \texttt{d.keys()}, \texttt{d.values()}, \texttt{d.items()}
+    \item Safe access: \texttt{d.get(key, default)}
+    \item Update/merge: \texttt{d.update(other)}
+    \item Removal: \texttt{d.pop(key)}, \texttt{d.popitem()}
+    \item Cleanup: \texttt{d.clear()}
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+freq = {}
+word = "python"
+freq[word] = freq.get(word, 0) + 1
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Nested Dictionaries and Lists}
+  \begin{itemize}[<+->]
+    \item Real data is often nested (JSON-like)
+    \item Access step-by-step using keys and indices
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+response = {"user": {"profile": {"email": "k@gmail.com"}}}
+email = response["user"]["profile"]["email"]
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Sorting Dictionary Data}
+  \begin{itemize}[<+->]
+    \item Sort by key: \texttt{sorted(d.items())}
+    \item Sort by value: \texttt{sorted(d.items(), key=lambda kv: kv[1])}
+    \item Ranking (top-k): sort then slice
+  \end{itemize}
+  \vspace{0.3em}
+  \begin{lstlisting}[language=Python]
+counts = {"a": 3, "b": 1, "c": 2}
+top = sorted(counts.items(), key=lambda kv: kv[1], reverse=True)[:2]
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Typecasting Between Collections (Data Cleaning)}
+  \begin{itemize}[<+->]
+    \item Remove duplicates: \texttt{list(set(data))} (order may change)
+    \item Modify an immutable tuple: \texttt{tuple -> list -> tuple}
+    \item Build dict from pairs: \texttt{dict([("a", 1), ("b", 2)])}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Where Sets and Dictionaries Shine}
+  \begin{itemize}[<+->]
+    \item Sets: unique email addresses, fast membership checks, comparing groups
+    \item Dictionaries: student records, inventory, shopping carts, frequency counts
+    \item Both: building reliable, structured data models for programs
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Word Frequency and Unique Words}
+  \begin{itemize}[<+->]
+    \item Split a sentence into words
+    \item Build a frequency dictionary (\texttt{get(..., 0)} pattern)
+    \item Build a set of unique words
+    \item Extension: print top 3 most frequent words
+  \end{itemize}
+  \vspace{0.4em}
+  \textbf{Script:} \texttt{demo/word\_frequency.py}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  Which code correctly creates an empty set?
+  \begin{enumerate}[<+->]
+    \item \texttt{s = \{\}}
+    \item \texttt{s = set()}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  What is the difference between \texttt{s.remove(x)} and \texttt{s.discard(x)}?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 3}
+  Given \texttt{response = \{"user": \{"profile": \{"email": "k@gmail.com"\}\}\}},\\
+  write the expression to access the email value.
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Choose the right collection type (list/tuple/set/dict) for:
+  \begin{itemize}[<+->]
+    \item unique roll numbers in a class
+    \item a fixed (x, y) coordinate
+    \item a student's profile (name, roll, marks)
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Summary}
+  \begin{itemize}[<+->]
+    \item Sets store unique, unordered values and support set algebra
+    \item Dictionaries map keys to values for fast lookup and counting
+    \item Nested structures are common in real data (JSON-like)
+    \item Sorting and typecasting help with analytics and data cleaning
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write one line to sort dictionary items by value in descending order.
+\end{frame}
+
+\end{document}
+

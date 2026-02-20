@@ -1,0 +1,165 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 04 -- Lecture 03: Event Handling and Input Validation}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Handle button clicks using callbacks
+    \item Bind keyboard/mouse events using \texttt{bind}
+    \item Validate user input (required fields, numeric, email pattern)
+    \item Provide user-friendly feedback (labels, message boxes)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{What is an Event?}
+  \begin{itemize}[<+->]
+    \item An event is a user action: click, key press, mouse move, window close
+    \item Tkinter runs an event loop and calls your functions when events occur
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Button Callback (\texttt{command=...})}
+  \begin{lstlisting}[language=Python]
+def submit():
+    print("Submitted")
+
+tk.Button(root, text="Submit", command=submit).pack()
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Binding Events (\texttt{widget.bind})}
+  \begin{itemize}[<+->]
+    \item \texttt{bind} provides an event object with details
+    \item Useful for live validation and shortcuts
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+def on_key(event):
+    print("Key:", event.keysym)
+
+entry.bind("<KeyRelease>", on_key)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Validation Strategies}
+  \begin{itemize}[<+->]
+    \item Validate on submit (simplest)
+    \item Validate while typing (better UX)
+    \item Validation types:
+      \begin{itemize}
+        \item required field (non-empty)
+        \item numeric range (age)
+        \item format (email using regex)
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Good Validation Feedback}
+  \begin{itemize}[<+->]
+    \item Show clear messages: what is wrong and how to fix it
+    \item Avoid technical tracebacks for end users
+    \item Highlight the field or show a status label
+  \end{itemize}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Registration Form with Validation}
+  \begin{itemize}[<+->]
+    \item File: \texttt{demo/event\_validation\_demo.py}
+    \item Demonstrates:
+      \begin{itemize}
+        \item button callback for submit
+        \item live validation using \texttt{bind}
+        \item email validation using regex
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} When would you use \texttt{command=} vs \texttt{bind()}?
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} Why is input validation important in GUI applications?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item What is a good error message for an invalid email?
+    \item What is a bad error message?
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Events drive GUI behavior
+    \item \texttt{command=} is great for buttons; \texttt{bind} is great for key/mouse events
+    \item Validation improves correctness and user experience
+    \item Always provide clear feedback to the user
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write one validation rule for Age input in a registration form.
+\end{frame}
+
+\end{document}
+

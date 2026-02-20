@@ -1,0 +1,197 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\graphicspath{{../images/}}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 06 -- Lecture 06 Notes\\Plot Types and Subplots}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+Different plot types are used for different questions:
+\begin{itemize}
+  \item trends $\rightarrow$ line plots,
+  \item comparisons $\rightarrow$ bar charts,
+  \item distributions $\rightarrow$ histograms,
+  \item relationships $\rightarrow$ scatter plots.
+\end{itemize}
+Subplots help you combine multiple plots in one figure.
+
+\section{Core Concepts}
+
+\subsection{Line Plot}
+Good for trends (time series).
+\begin{lstlisting}[language=Python]
+plt.plot(x, y)
+\end{lstlisting}
+
+\subsection{Bar Chart}
+Good for category comparisons.
+\begin{lstlisting}[language=Python]
+plt.bar(categories, values)
+\end{lstlisting}
+
+\subsection{Histogram}
+Good for distributions.
+\begin{lstlisting}[language=Python]
+plt.hist(values, bins=10)
+\end{lstlisting}
+
+\subsection{Scatter Plot}
+Good for relationships between two numeric variables.
+\begin{lstlisting}[language=Python]
+plt.scatter(x, y)
+\end{lstlisting}
+
+\subsection{Pie Chart (Use Carefully)}
+Pie charts show proportions, but can be hard to compare precisely.
+\begin{lstlisting}[language=Python]
+plt.pie(values, labels=labels, autopct="%1.1f%%")
+\end{lstlisting}
+
+\subsection{Subplots}
+Create multiple axes in one figure:
+\begin{lstlisting}[language=Python]
+fig, ax = plt.subplots(2, 2, figsize=(8, 6))
+ax[0, 0].plot(x, y)
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/matplotlib\_plot\_types\_demo.py}
+
+The demo creates a 2x2 subplot figure and saves it into \texttt{images/}.
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} distribution of marks?
+
+\textbf{Answer:} Histogram.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} compare marks of 5 subjects?
+
+\textbf{Answer:} Bar chart.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Histogram of Random Numbers}
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.random.randn(1000)
+plt.hist(x, bins=20)
+plt.title("Histogram")
+plt.show()
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} function name used to create subplots?
+
+\textbf{Answer:} \texttt{subplots}
+
+
+
+
+
+
+% BEGIN SLIDE APPENDIX (AUTO-GENERATED)
+\clearpage
+\section*{Appendix: Slide Deck Content (Reference)}
+\noindent The material below is a reference copy of the slide deck content. Exercise solutions are explained in the main notes where applicable.
+
+\subsection*{Title Slide}
+\titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\subsection*{Quick Links}
+\centering
+  \textbf{Core Concepts}\hspace{1em}
+  \textbf{Demo}\hspace{1em}
+  \textbf{Interactive}\hspace{1em}
+  \textbf{Summary}
+\subsection*{Agenda}
+\begin{itemize}
+  \item Core Concepts
+  \item Demo
+  \item Interactive
+  \item Summary
+\end{itemize}
+\subsection*{Learning Outcomes}
+\begin{itemize}
+    \item Create different plot types: line, bar, histogram, scatter, pie
+    \item Build multi-plot figures using subplots
+    \item Choose the right plot type for the data story
+  \end{itemize}
+\subsection*{Common Plot Types}
+\begin{itemize}
+    \item Line plot: trend over time
+    \item Bar chart: compare categories
+    \item Histogram: distribution of values
+    \item Scatter plot: relationship between two variables
+    \item Pie chart: parts of a whole (use carefully)
+  \end{itemize}
+\subsection*{Subplots}
+\begin{itemize}
+    \item Subplots allow multiple plots in one figure
+    \item Use \texttt{plt.subplots(rows, cols)}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+fig, ax = plt.subplots(2, 2)
+ax[0, 0].plot(x, y)
+  \end{lstlisting}
+\subsection*{Demo: Multiple Plot Types in One Figure}
+\begin{itemize}
+    \item File: \texttt{demo/matplotlib\_plot\_types\_demo.py}
+    \item Generates a figure with subplots and saves it to \texttt{images/}
+  \end{itemize}
+\subsection*{Checkpoint 1}
+\textbf{Question:} Which plot type would you use to show distribution of marks of 100 students?
+\subsection*{Checkpoint 2}
+\textbf{Question:} Which plot type would you use to compare marks of 5 subjects?
+\subsection*{Think-Pair-Share}
+Discuss:
+  \begin{itemize}
+    \item Why can pie charts be misleading?
+  \end{itemize}
+\subsection*{Key Takeaways}
+\begin{itemize}
+    \item Different plot types answer different questions
+    \item Subplots help compare multiple views of data in one figure
+    \item Always label and choose scales carefully for honest visuals
+  \end{itemize}
+\subsection*{Exit Question}
+Write the function name used to create subplots in Matplotlib.
+% END SLIDE APPENDIX (AUTO-GENERATED)
+
+\end{document}
+

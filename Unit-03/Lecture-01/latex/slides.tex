@@ -1,0 +1,237 @@
+\documentclass{beamer}
+
+\usetheme{Berlin}
+\usecolortheme{Orchid}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false
+}
+
+\title[Python Programming]{Python Programming}
+\subtitle{Unit 03 -- Lecture 01: File Handling Fundamentals and Directories}
+\author{Tofik Ali}
+\institute{School of Computer Science, UPES Dehradun}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[fragile]
+  \titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Quick Links}
+  \centering
+  \hyperlink{sec:core}{\beamerbutton{Core Concepts}}\hspace{1em}
+  \hyperlink{sec:demo}{\beamerbutton{Demo}}\hspace{1em}
+  \hyperlink{sec:interactive}{\beamerbutton{Interactive}}\hspace{1em}
+  \hyperlink{sec:summary}{\beamerbutton{Summary}}
+\end{frame}
+
+\begin{frame}[fragile]{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Core Concepts}
+\label{sec:core}
+
+\begin{frame}[fragile]{Learning Outcomes}
+  \begin{itemize}[<+->]
+    \item Open files using correct access modes (read/write/append)
+    \item Read and write text data using common file methods
+    \item Use the \texttt{with} statement to manage file resources safely
+    \item Work with directories using \texttt{pathlib} / \texttt{os}
+    \item Apply file handling to simple real-world tasks (logs, reports, data)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Why File Handling?}
+  \begin{itemize}[<+->]
+    \item Data should \textbf{persist} after the program ends
+    \item Files help in: logs, configuration, reports, datasets
+    \item Working with files is a foundation for:
+      \begin{itemize}
+        \item CSV processing
+        \item data analysis pipelines
+        \item web and GUI apps that store data
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{The Basic Pattern}
+  \begin{lstlisting}[language=Python]
+with open("data.txt", "r", encoding="utf-8") as f:
+    for line in f:
+        print(line.strip())
+  \end{lstlisting}
+  \begin{itemize}[<+->]
+    \item \texttt{open()} returns a file object
+    \item Always close files (the \texttt{with} block does it automatically)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{File Modes (Text)}
+  \small
+  \begin{tabular}{ll}
+    \toprule
+    Mode & Meaning \\
+    \midrule
+    \texttt{r} & read (file must exist) \\
+    \texttt{w} & write (overwrite / create new) \\
+    \texttt{a} & append (write at end / create new) \\
+    \texttt{x} & exclusive create (fail if exists) \\
+    \texttt{t} & text mode (default) \\
+    \texttt{b} & binary mode (images, PDFs, etc.) \\
+    \texttt{+} & update (read + write) \\
+    \bottomrule
+  \end{tabular}
+  \normalsize
+\end{frame}
+
+\begin{frame}[fragile]{Reading from a File}
+  Common methods:
+  \begin{itemize}[<+->]
+    \item \texttt{read()} $\rightarrow$ whole file as one string
+    \item \texttt{readline()} $\rightarrow$ one line
+    \item \texttt{readlines()} $\rightarrow$ list of lines
+    \item Best practice: iterate line-by-line (memory friendly)
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+with open("names.txt", "r") as f:
+    for line in f:
+        name = line.strip()
+        print(name)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Writing to a File}
+  \begin{itemize}[<+->]
+    \item \texttt{write()} writes a string (you manage newlines)
+    \item \texttt{writelines()} writes a list of strings
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+lines = ["Alice\n", "Bob\n", "Charlie\n"]
+with open("names.txt", "w") as f:
+    f.writelines(lines)
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{The \texttt{with} Statement}
+  \begin{itemize}[<+->]
+    \item A \textbf{context manager} that guarantees closing the file
+    \item Even if an exception happens, the file is closed properly
+    \item Reduces resource leaks and locking issues
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{File Pointer: \texttt{tell()} and \texttt{seek()}}
+  \begin{itemize}[<+->]
+    \item \texttt{tell()} gives current position
+    \item \texttt{seek(pos)} moves to a position
+    \item Useful when you need to re-read or skip parts
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+with open("data.txt", "r") as f:
+    print(f.tell())
+    first = f.readline()
+    f.seek(0)
+    again = f.readline()
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Working with Directories}
+  \begin{itemize}[<+->]
+    \item Use \texttt{pathlib.Path} for readable path handling
+    \item Common tasks:
+      \begin{itemize}
+        \item list files in a folder
+        \item create directories
+        \item join paths safely
+      \end{itemize}
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+from pathlib import Path
+p = Path(".")
+for f in p.iterdir():
+    print(f)
+  \end{lstlisting}
+\end{frame}
+
+\section{Demo}
+\label{sec:demo}
+
+\begin{frame}[fragile]{Demo: Read/Write + Directory Listing}
+  \begin{itemize}[<+->]
+    \item \texttt{demo/file\_read\_write\_demo.py}
+      \begin{itemize}
+        \item writes a small file in \texttt{data/}
+        \item reads it back and computes simple stats
+      \end{itemize}
+    \item \texttt{demo/directory\_walk\_demo.py}
+      \begin{itemize}
+        \item lists files and folders under the lecture directory
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Interactive}
+\label{sec:interactive}
+
+\begin{frame}[fragile]{Checkpoint 1}
+  \textbf{Question:} What is the difference between modes \texttt{"w"} and \texttt{"a"}?
+
+  \vspace{0.6em}
+  Write one example for each.
+\end{frame}
+
+\begin{frame}[fragile]{Checkpoint 2}
+  \textbf{Question:} What happens if you open a non-existing file using \texttt{"r"}?
+\end{frame}
+
+\begin{frame}[fragile]{Think-Pair-Share}
+  Discuss:
+  \begin{itemize}
+    \item What should be stored in files vs kept only in memory?
+    \item Give 2 examples for each category.
+  \end{itemize}
+\end{frame}
+
+\section{Summary}
+\label{sec:summary}
+
+\begin{frame}[fragile]{Key Takeaways}
+  \begin{itemize}[<+->]
+    \item Choose correct file mode: \texttt{r/w/a/x} (text vs binary)
+    \item Prefer \texttt{with open(...)} to auto-close files safely
+    \item Read line-by-line for large files
+    \item Use \texttt{pathlib} for clean directory and path handling
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exit Question}
+  Write a code snippet to read all lines from \texttt{"names.txt"} safely
+  using \texttt{with open(...)} and print them without newline characters.
+\end{frame}
+
+\end{document}
+

@@ -1,0 +1,270 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\graphicspath{{../images/}}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+\geometry{margin=1in}
+
+\lstset{
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray},
+  stringstyle=\color{teal},
+  showstringspaces=false,
+  columns=fullflexible,
+  frame=single,
+  framerule=0.2pt
+}
+
+\title{Python Programming\\Unit 05 -- Lecture 02 Notes\\Members, Class Attributes, GC, Abstract Classes}
+\author{Tofik Ali}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Lecture Overview}
+This lecture covers three practical topics used in real code:
+\begin{itemize}
+  \item how Python represents ``public/private'' members (mostly conventions),
+  \item how to inspect classes using built-in attributes,
+  \item and how to design abstract classes using \texttt{abc}.
+\end{itemize}
+
+\section{Core Concepts}
+
+\subsection{Public and Private Members (Python Style)}
+Python does not enforce strict access modifiers like some languages.
+Instead it uses naming conventions:
+\begin{itemize}
+  \item \texttt{value}: public
+  \item \texttt{\_value}: internal use (``protected'' by convention)
+  \item \texttt{\_\_value}: name mangling (reduces accidental access)
+\end{itemize}
+
+\subsubsection*{Name Mangling}
+If a class defines \texttt{\_\_balance}, Python internally renames it to include
+the class name. This helps prevent accidental access from subclasses.
+
+\begin{lstlisting}[language=Python]
+class Account:
+    def __init__(self):
+        self.__balance = 0
+\end{lstlisting}
+
+Access is still possible (not truly private), but it is discouraged:
+\begin{lstlisting}[language=Python]
+a = Account()
+print(a._Account__balance)
+\end{lstlisting}
+
+\subsection{Built-in Class Attributes}
+Some useful built-in attributes:
+\begin{itemize}
+  \item \texttt{\_\_dict\_\_}: attribute dictionary (what the object/class contains)
+  \item \texttt{\_\_doc\_\_}: documentation string (docstring)
+  \item \texttt{\_\_class\_\_}: class of an object
+  \item \texttt{\_\_module\_\_}: module name
+\end{itemize}
+
+\begin{lstlisting}[language=Python]
+class A:
+    """Example class"""
+    x = 10
+
+print(A.__doc__)
+print(A.__dict__)
+\end{lstlisting}
+
+\subsection{Garbage Collection (High-Level)}
+Python manages memory automatically:
+\begin{itemize}
+  \item reference counting frees objects when reference count becomes 0,
+  \item cycle detector handles circular references.
+\end{itemize}
+
+In most cases, you do not need to manually free memory.
+Avoid relying on \texttt{\_\_del\_\_} for critical logic, because its timing is not guaranteed.
+
+\subsection{Abstract Classes (ABC)}
+An abstract class defines an interface.
+Subclasses must implement abstract methods.
+
+\begin{lstlisting}[language=Python]
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self) -> float:
+        pass
+\end{lstlisting}
+
+\section{Demo Walkthrough}
+\textbf{File:} \texttt{demo/abstract\_shape\_demo.py}
+
+The demo shows:
+\begin{itemize}
+  \item \texttt{Shape} cannot be instantiated (because \texttt{area} is abstract),
+  \item \texttt{Circle} and \texttt{Rectangle} implement \texttt{area()}.
+\end{itemize}
+
+\section{Interactive Checkpoints (with Solutions)}
+
+\subsection*{Checkpoint 1 Solution}
+\textbf{Question:} what does name mangling do?
+
+\textbf{Answer:} It renames \texttt{\_\_attr} internally to include the class name,
+reducing accidental access and collisions in subclasses.
+
+\subsection*{Checkpoint 2 Solution}
+\textbf{Question:} why use abstract classes?
+
+\textbf{Answer:} To enforce that subclasses implement required methods and to define a clean interface.
+
+\section{Practice Exercises (with Solutions)}
+
+\subsection*{Exercise 1: Private Balance}
+\textbf{Task:} Create an \texttt{Account} class with \texttt{\_\_balance} and methods \texttt{deposit} and \texttt{get\_balance}.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+class Account:
+    def __init__(self):
+        self.__balance = 0
+
+    def deposit(self, amount):
+        if amount > 0:
+            self.__balance += amount
+
+    def get_balance(self):
+        return self.__balance
+\end{lstlisting}
+
+\subsection*{Exercise 2: Abstract Class}
+\textbf{Task:} Create abstract class \texttt{Vehicle} with abstract method \texttt{start()}.
+
+\textbf{Solution:}
+\begin{lstlisting}[language=Python]
+from abc import ABC, abstractmethod
+
+class Vehicle(ABC):
+    @abstractmethod
+    def start(self):
+        pass
+\end{lstlisting}
+
+\section{Exit Question (with Solution)}
+\textbf{Question:} which module is used for abstract base classes?
+
+\textbf{Answer:} \texttt{abc}
+
+
+
+
+
+
+% BEGIN SLIDE APPENDIX (AUTO-GENERATED)
+\clearpage
+\section*{Appendix: Slide Deck Content (Reference)}
+\noindent The material below is a reference copy of the slide deck content. Exercise solutions are explained in the main notes where applicable.
+
+\subsection*{Title Slide}
+\titlepage
+  \vspace{0.5em}
+  \begin{center}
+  \footnotesize Repository: \texttt{https://github.com/tali7c/Python-Programming}
+  \end{center}
+\subsection*{Quick Links}
+\centering
+  \textbf{Core Concepts}\hspace{1em}
+  \textbf{Demo}\hspace{1em}
+  \textbf{Interactive}\hspace{1em}
+  \textbf{Summary}
+\subsection*{Agenda}
+\begin{itemize}
+  \item Core Concepts
+  \item Demo
+  \item Interactive
+  \item Summary
+\end{itemize}
+\subsection*{Learning Outcomes}
+\begin{itemize}
+    \item Use public/private naming conventions in Python classes
+    \item Inspect built-in class attributes like \texttt{\_\_dict\_\_} and \texttt{\_\_doc\_\_}
+    \item Explain garbage collection at a high level
+    \item Create abstract classes using the \texttt{abc} module
+  \end{itemize}
+\subsection*{Public vs Private in Python}
+\begin{itemize}
+    \item Python uses conventions (not strict access control)
+    \item \texttt{name}: public
+    \item \texttt{\_name}: internal (``protected'' by convention)
+    \item \texttt{\_\_name}: name-mangled (harder to access accidentally)
+  \end{itemize}
+\subsection*{Built-in Class Attributes}
+\begin{itemize}
+    \item \texttt{\_\_dict\_\_}: attributes dictionary
+    \item \texttt{\_\_doc\_\_}: documentation string
+    \item \texttt{\_\_class\_\_}: object's class
+    \item \texttt{\_\_module\_\_}: module name where class is defined
+  \end{itemize}
+\subsection*{Garbage Collection (GC)}
+\begin{itemize}
+    \item Automatically frees memory of unreachable objects
+    \item Python uses reference counting + cycle detection
+    \item Usually you do not manually free memory
+  \end{itemize}
+\subsection*{Abstract Classes}
+\begin{itemize}
+    \item Abstract class defines an interface (methods to implement)
+    \item Prevents creating incomplete objects
+  \end{itemize}
+  \vspace{0.4em}
+  \begin{lstlisting}[language=Python]
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+  \end{lstlisting}
+\subsection*{Demo: Abstract Shape}
+\begin{itemize}
+    \item File: \texttt{demo/abstract\_shape\_demo.py}
+    \item Implements:
+      \begin{itemize}
+        \item abstract base class \texttt{Shape}
+        \item derived \texttt{Circle} and \texttt{Rectangle}
+      \end{itemize}
+  \end{itemize}
+\subsection*{Checkpoint 1}
+\textbf{Question:} What does name mangling mean for an attribute like \texttt{\_\_balance}?
+\subsection*{Checkpoint 2}
+\textbf{Question:} Why do we use abstract classes?
+\subsection*{Think-Pair-Share}
+Discuss:
+  \begin{itemize}
+    \item Create an abstract class \texttt{Vehicle} with method \texttt{start()}.
+    \item What subclasses can implement it?
+  \end{itemize}
+\subsection*{Key Takeaways}
+\begin{itemize}
+    \item ``Private'' in Python is mostly convention (\texttt{\_} and \texttt{\_\_})
+    \item Built-in attributes help introspection (\texttt{\_\_dict\_\_}, \texttt{\_\_doc\_\_})
+    \item GC manages memory automatically
+    \item Abstract classes define required methods for subclasses
+  \end{itemize}
+\subsection*{Exit Question}
+Which module is used for abstract base classes in Python?
+% END SLIDE APPENDIX (AUTO-GENERATED)
+
+\end{document}
+
